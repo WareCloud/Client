@@ -67,7 +67,7 @@ function connectServer()
         var json = JSON.parse(e.target.responseText);
 
         // Check callback
-        if (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))
+        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
             console.log('Error: Login failed.');
         else
         {
@@ -98,10 +98,10 @@ function downloadSoftware(id)
         var json = JSON.parse(e.target.responseText);
 
         // Check callback
-        if (json && json.hasOwnProperty('error'))
+        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
             console.log('Error: Download failed.');
         else
-            console.log('URL: ' + json[0].download_url);
+            console.log('URL: ' + json.data.download_url);
     }, false);
     xhr.send(null);
 }
@@ -122,8 +122,32 @@ function downloadConfiguration(id)
         var json = JSON.parse(e.target.responseText);
 
         // Check callback
-        if (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data')))
+        if (json && json.hasOwnProperty('error'))
             console.log('Error: Download failed.');
+        else
+            console.log('Content: ' + e.target.responseText);
+    }, false);
+    xhr.send(null);
+}
+
+function getSoftwares()
+{
+    if (user === null)
+        return;
+
+    var xhr = new xdr();
+    xhr.open("GET", "http://" + soft_endpoint);
+    xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
+    xhr.addEventListener("load", function(e)
+    {
+        console.log(e.target.responseText);
+
+        // Parse Request
+        var json = JSON.parse(e.target.responseText);
+
+        // Check callback
+        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
+            console.log('Error: Failed to get softwares.');
         else
             console.log('Content: ' + e.target.responseText);
     }, false);
