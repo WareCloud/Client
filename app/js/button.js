@@ -29,42 +29,103 @@ function connectAgent()
     };
 }
 
+var host = "192.168.1.105";
+
+var api_endpoint = host + "/api";
+var user_endpoint = api_endpoint + "/user";
+var login_endpoint = user_endpoint + "/login";
+var conf_endpoint = api_endpoint + "/configuration";
+var soft_endpoint = api_endpoint + "/software";
+
+var login = "admin";
+var password = "admin";
+
+var user = null;
+
 function xdr()
-  {
-      var xdr = null;
-      if (window.XDomainRequest)
-          xdr = new XDomainRequest();
-      else if (window.XMLHttpRequest)
-          xdr = new XMLHttpRequest();
-      else
-              console.log("Module non compatible");
-      return (xdr);
-  }
+{
+    var xdr = null;
+    if (window.XDomainRequest)
+        xdr = new XDomainRequest();
+    else if (window.XMLHttpRequest)
+        xdr = new XMLHttpRequest();
+    else
+        console.log("Module non compatible");
+    return (xdr);
+}
 
 function connectServer()
 {
-  console.log("Connection server....");
-  var login = "admin";
-  var password = "admin";
-  var xhr = new xdr();
-  xhr.open("POST", "http://192.168.1.105/api/user/login");
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function(e)
-  {
-      console.log(e.target.responseText);
+    var xhr = new xdr();
+    xhr.open("POST", "http://" + login_endpoint);
+    xhr.setRequestHeader("Content-type", "application/json");
+     xhr.addEventListener("load", function(e)
+    {
+        console.log(e.target.responseText);
 
-      // Parse Request
-      var json = JSON.parse(e.target.responseText);
+        // Parse Request
+        var json = JSON.parse(e.target.responseText);
 
-      // Check callback
-      if (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))
-          console.log('Login failed.');
-      else
-          console.log('Hello ' + json.data.login);
-  }, false);
-  xhr.send(JSON.stringify(
-  {
-      "login" : login,
-      "password" : password,
-  }));
+        // Check callback
+        if (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))
+            console.log('Error: Login failed.');
+        else
+        {
+            user = json;
+            console.log('Hello ' + user.data.login);
+        }
+    }, false);
+    xhr.send(JSON.stringify(
+    {
+        "login" : login,
+        "password" : password,
+    }));
+}
+
+function downloadSoftware(id)
+{
+    if (user === null)
+        return;
+
+    var xhr = new xdr();
+    xhr.open("GET", "http://" + soft_endpoint + "/" + id);
+    xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
+    xhr.addEventListener("load", function(e)
+    {
+        console.log(e.target.responseText);
+
+        // Parse Request
+        var json = JSON.parse(e.target.responseText);
+
+        // Check callback
+        if (json && json.hasOwnProperty('error'))
+            console.log('Error: Download failed.');
+        else
+            console.log('URL: ' + json[0].download_url);
+    }, false);
+    xhr.send(null);
+}
+
+function downloadConfiguration(id)
+{
+    if (user === null)
+        return;
+
+    var xhr = new xdr();
+    xhr.open("GET", "http://" + conf_endpoint + "/" + id);
+    xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
+    xhr.addEventListener("load", function(e)
+    {
+        console.log(e.target.responseText);
+
+        // Parse Request
+        var json = JSON.parse(e.target.responseText);
+
+        // Check callback
+        if (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data')))
+            console.log('Error: Download failed.');
+        else
+            console.log('Content: ' + e.target.responseText);
+    }, false);
+    xhr.send(null);
 }
