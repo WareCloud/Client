@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>WareCloud</title>
+	<link rel="stylesheet" href="style/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -14,54 +15,38 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
 
     <script src="js/button.js"></script>
 
   </head>
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"><font color="white">Logo</font></a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#"><font color="white">WareCloud</font></a></li>
-                    <li><a href="#"> <font color="white">Connect</font> </a></li>
-                    <li><a href="#"> <font color="white">Profile</font> </a></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <hr>
-    <hr>
-    <p> Il manque la découverte réseau on va admettre qu'on a trouvé un PC :p </p>
+	<header>
+        <a href="index.html"><h1><img src="assets/brand-transparent.png"></h1></a>
+    </header>
+      
+       <section>
+           <div class="corps">
+		       <p> Il manque la découverte réseau on va admettre qu'on a trouvé un PC :p </p>
     <p> Connection à l'agent</p>
-    <input type="button" id="btnEd" value="Connect" onclick="connectAgent()" />
-    <hr>
-    <hr>
-    <p> Connection au serveur</p>
-    <input type="button" id="btnEd" value="Connect" onclick="connectServer()" />
-    <input type="button" id="btnEd" value="Configuration" onclick="downloadConfiguration(1)" />
-    <input type="button" id="btnEd" value="Software" onclick="downloadSoftware(1)" />
-    <input type="button" id="btnEd" value="GetSoftwares" onclick="getSoftwares()" />
-    <hr>
 
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
+				<input class="button_a" type="button" id="btnEd" value="Connection à l'agent" onclick="connectAgent()" style="margin-bottom: 5%;"/>
+				<hr>
+				<input class="button_a" type="button" id="btnEd" value="Connection au serveur" onclick="connectServer()" style="margin-top: 5%;"/>
+				<br>
+				<input class="button_a" type="button" id="btnEd" value="Configuration" onclick="downloadConfiguration(1)" />
+				<br>
+				<input class="button_a" type="button" id="btnEd" value="Software" onclick="downloadSoftware(1)" />
+
+				<input type="button" id="btnEd" value="GetSoftwares" onclick="getSoftwares()" />
+
+           </div>
+       </section>
+	<footer>
+	We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+    </footer>
   </body>
 
   <script>
