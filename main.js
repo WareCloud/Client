@@ -17,7 +17,7 @@ function createWindow ()
 {
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1400, height: 1000})
+  mainWindow = new BrowserWindow({width: 1400, height: 1000, icon: __dirname + '/media/brand-small.png'})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'app/index.html'), protocol: 'file:', slashes: true }))
