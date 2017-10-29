@@ -10,6 +10,8 @@ let mainWindow = null
 const path = require('path')
 const url = require('url')
 
+
+
 const logger = require('electron-log')
 logger.transports.file.file = __dirname + '/log.txt';
 
