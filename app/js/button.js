@@ -101,9 +101,14 @@ function downloadSoftware(id)
         if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
             console.log('Error: Download failed.');
         else
+        {
             console.log('URL: ' + json.data.download_url);
+
+          }
     }, false);
     xhr.send(null);
+
+
 }
 
 function downloadConfiguration(id)
@@ -150,6 +155,19 @@ function getSoftwares()
             console.log('Error: Failed to get softwares.');
         else
             console.log('Content: ' + e.target.responseText);
+            var softwares = json.data;
+            console.log(softwares[0]);
+
+            var container=document.getElementById("softwares");
+            softwares.forEach(function(soft) {
+                var software = document.createElement('a');
+                software.innerHTML = soft.name; // Adds name
+                software.href = soft.download_url; // Edit href link
+                container.appendChild(software);
+                var br = document.createElement('br');
+                container.appendChild(br);
+            });
+
     }, false);
     xhr.send(null);
 }
