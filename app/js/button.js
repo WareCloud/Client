@@ -29,7 +29,7 @@ function connectAgent()
     };
 }
 
-var host = "192.168.1.105";
+var host = "163.5.84.202";
 
 var api_endpoint = host + "/api";
 var user_endpoint = api_endpoint + "/user";
