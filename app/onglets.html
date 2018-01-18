@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WareCloud</title>
+    <link rel="stylesheet" href="style/test.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+
+    <script src="js/button.js"></script>
+    <script type="text/javascript">
+        function change_onglet(name)
+        {
+            document.getElementById('onglet_'+anc_onglet).className = 'onglet_0 onglet';
+            document.getElementById('onglet_'+name).className = 'onglet_1 onglet';
+            document.getElementById('contenu_onglet_'+anc_onglet).style.display = 'none';
+            document.getElementById('contenu_onglet_'+name).style.display = 'block';
+            anc_onglet = name;
+        }
+    </script>
+
+</head>
+<body>
+<header>
+    <div id="mySidenav" class="sideNav">
+        <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+        <a href="#">Découverte réseau</a>
+        <a href="#">Configuration</a>
+        <a href="#">Paramètres</a>
+    </div>
+    <span id="menu" onclick="openNav()">&#9776; Menu</span>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    <a href="login.html"><h1><img src="assets/brand-transparent.png"></h1></a>
+</header>
+<section>
+    <div class="corps">
+        <div class="systeme_onglets">
+            <div class="onglets">
+                <span class="onglet_0 onglet" id="onglet_quoi" onclick="javascript:change_onglet('quoi');"><img class="icon" src="assets/icon.png">General</span>
+                <span class="onglet_0 onglet" id="onglet_qui" onclick="javascript:change_onglet('qui');"><img class="icon" src="assets/database.png">Softwares</span>
+                <span class="onglet_0 onglet" id="onglet_pourquoi" onclick="javascript:change_onglet('pourquoi');"><img class="icon" src="assets/cloud-computing.png">Network</span>
+                <span class="onglet_0 onglet" id="onglet_profile" onclick="javascript:change_onglet('profile');"><img class="icon" src="assets/avatar.png">Profil</span>
+            </div>
+            <div class="contenu_onglets">
+                <div class="contenu_onglet" id="contenu_onglet_quoi">
+                    <h1>General</h1>
+                    <br>
+                    Infos du réseaux depuis la dernière co,
+                    infos de l'utilisateurs,
+                    mises à jours requises etc<br />
+                </div>
+                <div class="contenu_onglet" id="contenu_onglet_qui">
+                    <h1>Softwares</h1>
+                    <br>
+                    Listes des logiciels disponibles sur notre serveur
+                </div>
+                <div class="contenu_onglet" id="contenu_onglet_pourquoi">
+                    <h1>Network</h1>
+                    <br>
+                    Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
+                </div>
+                <div class="contenu_onglet" id="contenu_onglet_profile">
+                    <h1>Profil</h1>
+                    <br>
+                    Profil détaillé de l'utilisateur
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var anc_onglet = 'quoi';
+            change_onglet(anc_onglet);
+        </script>
+    </div>
+</section>
+
+
+<footer style="text-align: center;margin-bottom: 3%;">
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+</footer>
+</body>
+
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    require('./js/button.js')
+</script>
+</html>

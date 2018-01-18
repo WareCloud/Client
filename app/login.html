@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WareCloud</title>
+    <link rel="stylesheet" href="style/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+
+    <script src="js/button.js"></script>
+
+</head>
+<body>
+<header>
+    <a href="login.html"><h1><img src="assets/brand-transparent.png"></h1></a>
+</header>
+<section>
+        <div style="width: 25%; margin: 0 auto; padding-top: 5%;">
+            <form action="#">
+                <label for="mail">Email</label>
+                <input type="text" id="mail" name="mail" placeholder="Your mail..">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Your password..">
+
+                <a href="index.html"><input class="button_a" type="submit" id="btnEd" value="Login" /></a>
+            </form>
+        </div>
+</section>
+</body>
+
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    require('./js/button.js')
+</script>
+</html>

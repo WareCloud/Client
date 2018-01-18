@@ -22,13 +22,27 @@
   </head>
   <body>
 	<header>
-        <a href="index.html"><h1><img src="assets/brand-transparent.png"></h1></a>
-    </header>
+        <div id="mySidenav" class="sideNav">
+            <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+            <a href="#">Découverte réseau</a>
+            <a href="#">Configuration</a>
+            <a href="#">Paramètres</a>
+        </div>
+        <span id="menu" onclick="openNav()">&#9776; Menu</span>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
 
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+        <a href="login.html"><h1><img src="assets/brand-transparent.png"></h1></a>
+    </header>
        <section>
            <div class="corps">
                 <div id="softwares"></div>
-				<p style="font-size: 27px; margin-bottom: 3%;"> Il manque la découverte réseau on va admettre qu'on a trouvé un PC :p </p>
 				<input class="button_a" type="button" id="btnEd" value="Connection à l'agent" onclick="connectAgent()" style="margin-bottom: 5%; margin-top 5%;"/>
 				<hr>
 				<input class="button_a" type="button" id="btnEd" value="Connection au serveur" onclick="connectServer()" style="margin-top: 5%;"/>
@@ -38,6 +52,8 @@
 				<input class="button_a" type="button" id="btnEd" value="Software" onclick="downloadSoftware(1)" />
 				<br>
 				<input class="button_a" type="button" id="btnEd" value="Get All Softwares" onclick="getSoftwares()" style="margin-bottom: 5%;"/>
+               <br>
+               <a href="onglets.html">NEW</a>
           </div>
        </section>
 
