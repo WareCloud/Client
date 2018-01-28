@@ -48,7 +48,7 @@
             document.getElementById("mySidenav").style.width = "0";
         }
     </script>
-    <a href="login.html"><h1><img src="assets/brand-transparent.png"></h1></a>
+    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
 </header>
 <section>
     <div class="corps">
@@ -71,6 +71,9 @@
                     <h1>Softwares</h1>
                     <br>
                     Listes des logiciels disponibles sur notre serveur
+                    <input class="button_a" style="margin-top: 3%;" type="button" id="btnEd" value="Software" onclick="downloadSoftware(1)" />
+                    <br>
+                    <input class="button_a" type="button" id="btnEd" value="Get All Softwares" onclick="getSoftwares()" style="margin-bottom: 5%;"/>
                 </div>
                 <div class="contenu_onglet" id="contenu_onglet_pourquoi">
                     <h1>Network</h1>

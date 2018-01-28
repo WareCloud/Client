@@ -50,7 +50,6 @@ li:hover {
 }
 
 h1{
-    display: flex;
     justify-content: center;
 }
 
@@ -72,7 +71,7 @@ iframe{
 .corps{
     width: 80%;
     background-image:url(../assets/back.jpg);
-    margin: 5% auto 0;
+    margin: 8% auto 0;
     color: #1F2023;
     min-height: 100vh;
     text-align: center;
