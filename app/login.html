@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html class="full_screen">
 <head>
     <meta charset="UTF-8">
-    <title>WareCloud</title>
-    <link rel="stylesheet" href="style/style.css" />
+    <title>LogIn</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -15,34 +15,42 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="style/login_style.css" />
 
+
+    <script src="js/apiManager.js"></script>
     <script src="js/button.js"></script>
 
 </head>
-<body>
-<header>
-    <a href="login.html"><h1><img style="margin: 0 auto;
-    display: block;" src="assets/brand-transparent.png"></h1></a>
-</header>
-<section>
-        <div style="width: 25%; margin: 0 auto; padding-top: 5%;">
-            <form action="#">
-                <label for="mail">Email</label>
-                <input type="text" id="mail" name="mail" placeholder="Your mail..">
-
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Your password..">
-
-                <a href="index.html"><input class="button_a" type="submit" id="btnEd" value="Login" /></a>
-            </form>
+<body class="full_screen back_log">
+<div class="login_space">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="assets/brand.png" class="login_brand"/>
+            </div>
         </div>
-</section>
+        </br>
+        <h4>Please log in</h4>
+        <!--<form>-->
+        <div class="form-group">
+            <input class="form-control" type="email" name="email" title="email" placeholder="email"></input>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="psswd" placeholder="password"></input>
+        </div>
+        <button type="button" class="btn ware_button" id="logbutton">Connect</button>
+        <!--</form>-->
+        <a>You forgot your password ?</a>
+    </div>
+</div>
 </body>
-
 <script>
     // You can also require other files to run in this process
     require('./renderer.js')
-    require('./js/button.js')
+    require('./js/log.js')
+    //require('./js/apiManager.js')
 </script>
 </html>

@@ -339,3 +339,15 @@ h1
 .icon{
     padding-right: 16px;
 }
+
+tr, th {
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table{
+    border-collapse: collapse;
+    box-shadow: 1px 1px 12px #555;
+    font-size: 25px;
+}

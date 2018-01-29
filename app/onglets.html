@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WareCloud</title>
-    <link rel="stylesheet" href="style/test.css" />
+    <link rel="stylesheet" href="style/new_style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -31,75 +31,107 @@
 
 </head>
 <body>
-<header>
-    <div id="mySidenav" class="sideNav">
-        <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
-        <a href="#">Découverte réseau</a>
-        <a href="#">Configuration</a>
-        <a href="#">Paramètres</a>
-    </div>
-    <span id="menu" onclick="openNav()">&#9776; Menu</span>
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-    </script>
-    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
-</header>
-<section>
-    <div class="corps">
-        <div class="systeme_onglets">
-            <div class="onglets">
-                <span class="onglet_0 onglet" id="onglet_quoi" onclick="javascript:change_onglet('quoi');"><img class="icon" src="assets/icon.png">General</span>
-                <span class="onglet_0 onglet" id="onglet_qui" onclick="javascript:change_onglet('qui');"><img class="icon" src="assets/database.png">Softwares</span>
-                <span class="onglet_0 onglet" id="onglet_pourquoi" onclick="javascript:change_onglet('pourquoi');"><img class="icon" src="assets/cloud-computing.png">Network</span>
-                <span class="onglet_0 onglet" id="onglet_profile" onclick="javascript:change_onglet('profile');"><img class="icon" src="assets/avatar.png">Profil</span>
-            </div>
-            <div class="contenu_onglets">
-                <div class="contenu_onglet" id="contenu_onglet_quoi">
-                    <h1>General</h1>
-                    <br>
-                    Infos du réseaux depuis la dernière co,
-                    infos de l'utilisateurs,
-                    mises à jours requises etc<br />
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_qui">
-                    <h1>Softwares</h1>
-                    <br>
-                    Listes des logiciels disponibles sur notre serveur
-                    <input class="button_a" style="margin-top: 3%;" type="button" id="btnEd" value="Software" onclick="downloadSoftware(1)" />
-                    <br>
-                    <input class="button_a" type="button" id="btnEd" value="Get All Softwares" onclick="getSoftwares()" style="margin-bottom: 5%;"/>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_pourquoi">
-                    <h1>Network</h1>
-                    <br>
-                    Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_profile">
-                    <h1>Profil</h1>
-                    <br>
-                    Profil détaillé de l'utilisateur
-                </div>
-            </div>
+    <header>
+        <div id="mySidenav" class="sideNav">
+            <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+            <a href="#">Découverte réseau</a>
+            <a href="#">Configuration</a>
+            <a href="#">Paramètres</a>
         </div>
-        <script type="text/javascript">
-            var anc_onglet = 'quoi';
-            change_onglet(anc_onglet);
+        <span id="menu" onclick="openNav()">&#9776; Menu</span>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
         </script>
-    </div>
-</section>
+        <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
+    </header>
+    <section>
+        <div class="corps">
+            <div class="systeme_onglets">
+                <div class="onglets">
+                    <span class="onglet_0 onglet" id="onglet_quoi" onclick="javascript:change_onglet('quoi');"><img class="icon" src="assets/icon.png">General</span>
+                    <span class="onglet_0 onglet" id="onglet_qui" onclick="javascript:change_onglet('qui');"><img class="icon" src="assets/database.png">Softwares</span>
+                    <span class="onglet_0 onglet" id="onglet_pourquoi" onclick="javascript:change_onglet('pourquoi');"><img class="icon" src="assets/cloud-computing.png">Network</span>
+                    <span class="onglet_0 onglet" id="onglet_profile" onclick="javascript:change_onglet('profile');"><img class="icon" src="assets/avatar.png">Profil</span>
+                </div>
+                <div class="contenu_onglets">
+                    <div class="contenu_onglet" id="contenu_onglet_quoi">
+                        <h1>General</h1>
+                        <br>
+                        Infos du réseaux depuis la dernière co,
+                        infos de l'utilisateurs,
+                        mises à jours requises etc<br />
+                    </div>
+                    <div class="contenu_onglet" id="contenu_onglet_qui">
+                        <h1>Softwares</h1>
+                        <br>
+                        Listes des logiciels disponibles sur notre serveur
+                        <div style="margin-top : 4%;">
+                            <table class="table" style="background-color: white; color: black; width: 100%;">
+                                <thead>
+                                <tr style="border-bottom: 2px solid #ddd;">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">System</th>
+                                    <th scope="col">Nbr</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>VLC</td>
+                                    <td>Windows</td>
+                                    <td>8</td>
+                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Skype</td>
+                                    <td>Windows</td>
+                                    <td>1</td>
+                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Notepad++</td>
+                                    <td>Linux</td>
+                                    <td>1</td>
+                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="contenu_onglet" id="contenu_onglet_pourquoi">
+                        <h1>Network</h1>
+                        <br>
+                        Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
+                    </div>
+                    <div class="contenu_onglet" id="contenu_onglet_profile">
+                        <h1>Profil</h1>
+                        <br>
+                        Profil détaillé de l'utilisateur
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var anc_onglet = 'quoi';
+                change_onglet(anc_onglet);
+            </script>
+        </div>
+    </section>
 
-
-<footer style="text-align: center;margin-bottom: 3%;">
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-</footer>
+    <footer style="text-align: center;margin-bottom: 3%;">
+        We are using Node.js <script>document.write(process.versions.node)</script>,
+        Chromium <script>document.write(process.versions.chrome)</script>,
+        and Electron <script>document.write(process.versions.electron)</script>.
+    </footer>
 </body>
 
 <script>
