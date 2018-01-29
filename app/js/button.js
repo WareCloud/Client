@@ -60,6 +60,7 @@ function connectServer(login, password)
     var xhr = new xdr();
     xhr.open("POST", "http://" + login_endpoint, false);
     xhr.setRequestHeader("Content-type", "application/json");
+    xhr.setRequestHeader("Accept", "application/json");
     xhr.addEventListener("load", function(e)
     {
         console.log(e.target.responseText);
@@ -70,8 +71,15 @@ function connectServer(login, password)
         // Check callback
         if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
         {
+            var error = "";
+            if (json.errors !== undefined)
+                for (var key in json.errors)
+                    error += json.errors[key] + '<br>';
+            else
+                error = json.error;
+
             var loginError = document.getElementById('login-error');
-            loginError.innerHTML = "<strong>Error ! </strong>" + json.error;
+            loginError.innerHTML = "<strong>Error ! </strong>" + error;
             loginError.hidden = false;
             console.log('Error: Login failed.');
         }
