@@ -159,7 +159,6 @@ function getSoftwares()
             console.log(softwares[0]);
 
             var container=document.getElementById('softwaresTable');
-            console.log(container);
             var i = 1;
             softwares.forEach(function(soft) {
                 var row = document.createElement('tr');
@@ -181,7 +180,6 @@ function getSoftwares()
                 container.appendChild(row);
                 i++;
             });
-            console.log('NTM');
 
     }, false);
     xhr.send(null);
