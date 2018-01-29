@@ -26,6 +26,12 @@
             document.getElementById('contenu_onglet_'+anc_onglet).style.display = 'none';
             document.getElementById('contenu_onglet_'+name).style.display = 'block';
             anc_onglet = name;
+            if (name === "qui")
+            {
+                document.getElementById('softwaresTable').innerHTML = '';
+                connectServer();
+                getSoftwares();
+            }
         }
     </script>
 
@@ -77,33 +83,11 @@
                                 <tr style="border-bottom: 2px solid #ddd;">
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">System</th>
-                                    <th scope="col">Nbr</th>
-                                    <th scope="col"></th>
+                                    <th scope="col">Version</th>
+                                    <th scope="col">Download</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>VLC</td>
-                                    <td>Windows</td>
-                                    <td>8</td>
-                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Skype</td>
-                                    <td>Windows</td>
-                                    <td>1</td>
-                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Notepad++</td>
-                                    <td>Linux</td>
-                                    <td>1</td>
-                                    <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
-                                </tr>
+                                <tbody id="softwaresTable">
                                 </tbody>
                             </table>
                         </div>

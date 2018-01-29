@@ -57,9 +57,9 @@ function xdr()
 function connectServer()
 {
     var xhr = new xdr();
-    xhr.open("POST", "http://" + login_endpoint);
+    xhr.open("POST", "http://" + login_endpoint, false);
     xhr.setRequestHeader("Content-type", "application/json");
-     xhr.addEventListener("load", function(e)
+    xhr.addEventListener("load", function(e)
     {
         console.log(e.target.responseText);
 
@@ -88,7 +88,7 @@ function downloadSoftware(id)
         return;
 
     var xhr = new xdr();
-    xhr.open("GET", "http://" + soft_endpoint + "/" + id);
+    xhr.open("GET", "http://" + soft_endpoint + "/" + id, false);
     xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
     xhr.addEventListener("load", function(e)
     {
@@ -117,7 +117,7 @@ function downloadConfiguration(id)
         return;
 
     var xhr = new xdr();
-    xhr.open("GET", "http://" + conf_endpoint + "/" + id);
+    xhr.open("GET", "http://" + conf_endpoint + "/" + id, false);
     xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
     xhr.addEventListener("load", function(e)
     {
@@ -141,7 +141,7 @@ function getSoftwares()
         return;
 
     var xhr = new xdr();
-    xhr.open("GET", "http://" + soft_endpoint);
+    xhr.open("GET", "http://" + soft_endpoint, false);
     xhr.setRequestHeader("Authorization", "Bearer " + user.data.api_token);
     xhr.addEventListener("load", function(e)
     {
@@ -158,15 +158,30 @@ function getSoftwares()
             var softwares = json.data;
             console.log(softwares[0]);
 
-            var container=document.getElementById("softwares");
+            var container=document.getElementById('softwaresTable');
+            console.log(container);
+            var i = 1;
             softwares.forEach(function(soft) {
-                var software = document.createElement('a');
-                software.innerHTML = soft.name; // Adds name
-                software.href = soft.download_url; // Edit href link
-                container.appendChild(software);
-                var br = document.createElement('br');
-                container.appendChild(br);
+                var row = document.createElement('tr');
+                var id = document.createElement('th');
+                id.innerHTML = i;
+                row.appendChild(id);
+                var softwareName = document.createElement('td');
+                softwareName.innerHTML = soft.name;
+                row.appendChild(softwareName);
+                var version = document.createElement('td');
+                version.innerHTML = soft.version;
+                row.appendChild(version);
+                var downloadLink = document.createElement('td');
+                var href = document.createElement('a');
+                href.href = soft.download_url;
+                href.innerHTML = "Download";
+                downloadLink.appendChild(href);
+                row.appendChild(downloadLink);
+                container.appendChild(row);
+                i++;
             });
+            console.log('NTM');
 
     }, false);
     xhr.send(null);
