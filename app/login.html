@@ -34,23 +34,22 @@
         </div>
         </br>
         <h4>Please log in</h4>
-        <!--<form>-->
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" title="email" placeholder="email"></input>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="psswd" placeholder="password"></input>
-        </div>
-        <button type="button" class="btn ware_button" id="logbutton">Connect</button>
-        <!--</form>-->
-        <a>You forgot your password ?</a>
+        <form onsubmit="connectServer(document.getElementById('login').value, document.getElementById('password').value);return false;" action="#">
+            <div class="alert alert-danger" role="alert" id="login-error" hidden></div>
+            <div class="form-group">
+                <input class="form-control" type="login" name="login" title="login" placeholder="login" id="login"></input>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="password" id="password"></input>
+            </div>
+            <button type="submit" class="btn ware_button" id="logbutton">Connect</button>
+        </form>
     </div>
 </div>
 </body>
 <script>
     // You can also require other files to run in this process
     require('./renderer.js')
-    require('./js/log.js')
     //require('./js/apiManager.js')
 </script>
 </html>

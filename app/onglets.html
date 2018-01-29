@@ -29,7 +29,6 @@
             if (name === "qui")
             {
                 document.getElementById('softwaresTable').innerHTML = '';
-                connectServer();
                 getSoftwares();
             }
         }
@@ -42,6 +41,7 @@
             <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
             <a href="onglets.html">Home</a>
             <a href="login.html">Login</a>
+            <a href="#" onclick="deleteUser()">Logout</a>
             <a href="index.html">Old</a>
         </div>
         <span id="menu" onclick="openNav()">&#9776; Menu</span>

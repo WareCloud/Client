@@ -20,7 +20,7 @@ function createWindow ()
   mainWindow = new BrowserWindow({width: 1400, height: 1000, icon: __dirname + '/media/brand-small.png'})
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'app/onglets.html'), protocol: 'file:', slashes: true }))
+  mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'app/login.html'), protocol: 'file:', slashes: true }))
 
   mainWindow.on('closed', function () {
 

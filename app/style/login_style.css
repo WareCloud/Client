@@ -32,7 +32,7 @@ h1{
 
 .login_space {
     position: absolute;
-    width: 350px;
+    width: 18%;
     top: 30%;
     left: 40%;
     background-color: black;
@@ -47,7 +47,10 @@ h1{
 }
 
 .back_log {
-    background-image: url("../assets/data_center.jpg");
+    width: 1200px;
+    height: 800px;
+    background-size: 100% 100%;
+    background: url("../assets/data_center.jpg") no-repeat center center;
 }
 
 .ware_button{
