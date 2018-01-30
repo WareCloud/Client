@@ -20,10 +20,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="style/style2.css" />
 
-
+  <script src="js/agent.js"></script>
   <script src="js/apiManager.js"></script>
   <script src="js/button.js"></script>
-
 </head>
 <body>
   <div class="container">
@@ -103,8 +102,9 @@
   </body>
   <script>
   // You can also require other files to run in this process
+  require('./js/agent.js')
   require('./renderer.js')
-  require('./js/button2.js')
+  //require('./js/button2.js')
   require('./js/apiManager.js')
 </script>
 </html>
