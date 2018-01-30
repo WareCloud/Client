@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "lane_test";
+    src: url("fonts/LANE.ttf");
+}
+
+
+body{
+    font-family: lane_test, serif;
+    background-color:  #1F2023;
+    font-size: 15px;
+    color: white;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    list-style-type:none;
+}
