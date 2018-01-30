@@ -15,7 +15,6 @@ logger.transports.file.file = __dirname + '/log.txt';
 
 function createWindow ()
 {
-
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1400, height: 1000, icon: __dirname + '/media/brand-small.png'})
 
