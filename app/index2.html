@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WareCloud - Softwares</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+  integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+  crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+  integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"/>
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style/style2.css" />
+
+  <script src="js/agent.js"></script>
+  <script src="js/apiManager.js"></script>
+  <script src="js/button.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header style="margin-top : 30px;">
+      <div class="row">
+        <div class="col-md-4" style=" margin-top : 10px;">
+          <button type="button" class="btn ware_button" id="btnEd" value="Connection à l'agent" onclick="connectAgent()" >Connection à l'agent</button>
+        </div>
+        <div class="col-md-4" style=" margin-top : 10px;">
+          <button type="button" class="btn ware_button" id="btnEd" value="Connection au serveur" onclick="buttonConnectServer()" >Connection au serveur</button>
+        </div>
+        <div class="col-md-4" style=" margin-top : 10px;">
+          <button type="button" class="btn ware_button" id="btnEd" value="Configuration" onclick="buttonDownloadConfiguration(1)" >Configuration</button>
+        </div>
+      </div>
+      <div style="width : 100%; border : 1px solid #26BCB5; margin : 50px 0px;"></div>
+    </header>
+    <section>
+      <!--<h1>Softwares</h1>-->
+      <div class="row" style="margin-top : 20px;">
+        <div class="col-lg-3 col-md-4">
+          <div class="container-fluid">
+            <div class="row" style="margin-top : 10px;">
+              <a href="./index2.html"><button type="button" class="btn ware_button_activated" id="btnEd" value="Softwares" onclick="buttonGetSoftwares()" >Softwares</button></a>
+            </div>
+            <div class="row" style="margin-top : 10px;">
+              <a href="./configs.html"><button type="button" class="btn ware_button" id="btnEd" value="Configurations" >Configurations</button></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 col-md-8" style="margin-top : 10px; min-height : 30px;">
+          <table class="table" style="background-color: white; color: black;">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Version</th>
+                <th scope="col">Systems</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Notepad++</td>
+                <td>3.5</td>
+                <td>Windows, MacOs, Linux</td>
+                <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Warecloud</td>
+                <td>1.0</td>
+                <td>Windows, MacOs, Linux</td>
+                <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>VLC</td>
+                <td>5.9</td>
+                <td>Windows, MacOs, Linux</td>
+                <td class="text-right"><a><span class="glyphicon glyphicon-edit"></span></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" style="position : absolute; bottom : 0;">
+    <div class="container">
+      <span class="text-muted">We are using Node.js <script>document.write(process.versions.node)</script>,
+        Chromium <script>document.write(process.versions.chrome)</script>,
+        and Electron <script>document.write(process.versions.electron)</script>.</span>
+      </div>
+    </footer>
+  </body>
+  <script>
+  // You can also require other files to run in this process
+  require('./js/agent.js')
+  require('./renderer.js')
+  //require('./js/button2.js')
+  require('./js/apiManager.js')
+</script>
+</html>

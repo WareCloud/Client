@@ -15,7 +15,6 @@ logger.transports.file.file = __dirname + '/log.txt';
 
 function createWindow ()
 {
-
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1400, height: 1000, icon: __dirname + '/media/brand-small.png'})
 
@@ -26,6 +25,16 @@ function createWindow ()
 
     mainWindow = null
   })
+}
+
+function displayLog ()
+{
+  mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'app/logwin.html'), protocol: 'file:', slashes: true }))
+}
+
+function displayMenu ()
+{
+  mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'app/index2.html'), protocol: 'file:', slashes: true }))
 }
 
 app.on('ready', createWindow)

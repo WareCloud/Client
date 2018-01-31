@@ -1,12 +1,16 @@
-
 function connectAgent()
 {
-    ip = "127.0.0.1"
-    port = "8000"
+  let agentTest = new Agent(0, "127.0.0.1", "8000");
+  agentTest.connect();
+  //agentTest.send("Hello le petit monde");
+/*  process.stdout.write('Hello');
 
-    console.log("Connection to " + "wss://" + ip + ":" + port + "...");
-    // Let us open a web socket
-    var ws = new WebSocket("wss://" + ip + ":" + port);
+    ip = "127.0.0.1";
+    port = "8000";
+    console.log("Connection to " + "ws://" + ip + ":" + port + "...");
+      // Let us open a web socket
+    var ws = new WebSocket("ws://" + ip + ":" + port);
+
     ws.onopen = function()
     {
         // Web Socket is connected, send data using send()
@@ -23,10 +27,10 @@ function connectAgent()
 
     ws.onclose = function()
     {
-        // websocket is closed.
+       // websocket is closed.
         alert("Connection is closed...");
-        console.log("ws.onclose: ")
-    };
+       console.log("ws.onclose: ")
+    };*/
 }
 
 var host = "163.5.84.202";
