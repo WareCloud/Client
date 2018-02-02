@@ -33,177 +33,95 @@ function connectAgent()
     };*/
 }
 
-var host = "163.5.84.202";
-
-var api_endpoint = host + "/api";
-var user_endpoint = api_endpoint + "/user";
-var login_endpoint = user_endpoint + "/login";
-var conf_endpoint = api_endpoint + "/configuration";
-var soft_endpoint = api_endpoint + "/software";
-
-var user = {
-    'login': null,
-    'password': null,
-    'json': null
-};
-
-function xdr()
-{
-    var xdr = null;
-    if (window.XDomainRequest)
-        xdr = new XDomainRequest();
-    else if (window.XMLHttpRequest)
-        xdr = new XMLHttpRequest();
-    else
-        console.log("Module non compatible");
-    return (xdr);
-}
-
 function connectServer(login, password)
 {
-    var xhr = new xdr();
-    xhr.open("POST", "http://" + login_endpoint, false);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.addEventListener("load", function(e)
+    var result = API.login(login, password);
+
+    if (result.success)
     {
-        console.log(e.target.responseText);
+        saveUser(result.data);
+        console.log('Hello ' + result.data.login);
+        window.location = 'onglets.html';
+    }
+    else
+    {
+        var error = "";
+        for (var key in result.errors)
+            error += result.errors[key] + '<br>';
 
-        // Parse Request
-        var json = JSON.parse(e.target.responseText);
-
-        // Check callback
-        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
-        {
-            var error = "";
-            if (json.errors !== undefined)
-                for (var key in json.errors)
-                    error += json.errors[key] + '<br>';
-            else
-                error = json.error;
-
-            var loginError = document.getElementById('login-error');
-            loginError.innerHTML = "<strong>Error ! </strong>" + error;
-            loginError.hidden = false;
-            console.log('Error: Login failed.');
-        }
-        else
-        {
-            user.login = login;
-            user.password = password;
-            user.json = json;
-            saveUser(json, login, password)
-            console.log('Hello ' + user.json.data.login);
-            window.location = 'onglets.html';
-        }
-    }, false);
-    xhr.send(JSON.stringify(
-        {
-            "login" : login,
-            "password" : password,
-        }));
+        var loginError = document.getElementById('login-error');
+        loginError.innerHTML = "<strong>Error ! </strong>" + error;
+        loginError.hidden = false;
+        console.log('Error: Login failed.');
+    }
 }
 
 function downloadSoftware(id)
 {
-    if (user === null)
-        return;
+    var result = API.getSoftware(id);
 
-    var xhr = new xdr();
-    xhr.open("GET", "http://" + soft_endpoint + "/" + id, false);
-    xhr.setRequestHeader("Authorization", "Bearer " + user.json.data.api_token);
-    xhr.addEventListener("load", function(e)
+    if (result.success)
+        console.log('URL: ' + result.data.download_url);
+    else
     {
-        console.log(e.target.responseText);
-
-        // Parse Request
-        var json = JSON.parse(e.target.responseText);
-
-        // Check callback
-        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
-            console.log('Error: Download failed.');
-        else
-        {
-            console.log('URL: ' + json.data.download_url);
-
-        }
-    }, false);
-    xhr.send(null);
-
-
+        console.log('Error: Download failed.');
+        if (!API.isStillLoggedIn())
+            deleteUser(false);
+    }
 }
 
 function downloadConfiguration(id)
 {
-    if (user === null)
-        return;
+    var result = API.getConfiguration(id);
 
-    var xhr = new xdr();
-    xhr.open("GET", "http://" + conf_endpoint + "/" + id, false);
-    xhr.setRequestHeader("Authorization", "Bearer " + user.json.data.api_token);
-    xhr.addEventListener("load", function(e)
+    if (result.success)
+        console.log('Content: ' + result.data);
+    else
     {
-        console.log(e.target.responseText);
-
-        // Parse Request
-        var json = JSON.parse(e.target.responseText);
-
-        // Check callback
-        if (json && json.hasOwnProperty('error'))
-            console.log('Error: Download failed.');
-        else
-            console.log('Content: ' + e.target.responseText);
-    }, false);
-    xhr.send(null);
+        console.log('Error: Download failed.');
+        if (!API.isStillLoggedIn())
+            deleteUser(false);
+    }
 }
 
 function getSoftwares()
 {
-    if (user === null)
-        return;
+    var result = API.getSoftware();
 
-    var xhr = new xdr();
-    xhr.open("GET", "http://" + soft_endpoint, false);
-    xhr.setRequestHeader("Authorization", "Bearer " + user.json.data.api_token);
-    xhr.addEventListener("load", function(e)
+    if (result.success)
     {
-        console.log(e.target.responseText);
+        console.log('Content: ' + result.data);
+        var softwares = result.data;
 
-        // Parse Request
-        var json = JSON.parse(e.target.responseText);
-
-        // Check callback
-        if (!json || (json && (json.hasOwnProperty('error') || !json.hasOwnProperty('data'))))
-            console.log('Error: Failed to get softwares.');
-        else
-            console.log('Content: ' + e.target.responseText);
-            var softwares = json.data;
-            console.log(softwares[0]);
-
-            var container=document.getElementById('softwaresTable');
-            var i = 1;
-            softwares.forEach(function(soft) {
-                var row = document.createElement('tr');
-                var id = document.createElement('th');
-                id.innerHTML = i;
-                row.appendChild(id);
-                var softwareName = document.createElement('td');
-                softwareName.innerHTML = soft.name;
-                row.appendChild(softwareName);
-                var version = document.createElement('td');
-                version.innerHTML = soft.version;
-                row.appendChild(version);
-                var downloadLink = document.createElement('td');
-                var href = document.createElement('a');
-                href.href = soft.download_url;
-                href.innerHTML = "Download";
-                downloadLink.appendChild(href);
-                row.appendChild(downloadLink);
-                container.appendChild(row);
-                i++;
-            });
-    }, false);
-    xhr.send(null);
+        var container=document.getElementById('softwaresTable');
+        var i = 1;
+        softwares.forEach(function(soft) {
+            var row = document.createElement('tr');
+            var id = document.createElement('th');
+            id.innerHTML = i;
+            row.appendChild(id);
+            var softwareName = document.createElement('td');
+            softwareName.innerHTML = soft.name;
+            row.appendChild(softwareName);
+            var version = document.createElement('td');
+            version.innerHTML = soft.version;
+            row.appendChild(version);
+            var downloadLink = document.createElement('td');
+            var href = document.createElement('a');
+            href.href = soft.download_url;
+            href.innerHTML = "Download";
+            downloadLink.appendChild(href);
+            row.appendChild(downloadLink);
+            container.appendChild(row);
+            i++;
+        });
+    }
+    else
+    {
+        console.log('Error: Failed to get softwares.');
+        if (!API.isStillLoggedIn())
+            deleteUser(false);
+    }
 }
 
 //prefixes of implementation that we want to test
@@ -211,19 +129,17 @@ window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndex
 
 //prefixes of window.IDB objects
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
+window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 if (!window.indexedDB)
 {
-    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.")
+    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
 }
 
 const userData = [
     {
         id: 1,
-        json: null,
-        login: null,
-        password: null
+        user: null,
     }
 ];
 
@@ -258,29 +174,31 @@ function loadUser()
     {
         if (request.result !== undefined)
         {
-            user.login = request.result.login;
-            user.password = request.result.password;
-            user.json = request.result.json;
-            if (window.location.href.indexOf('login.html') !== -1 && user.login !== null && user.password !== null)
-                connectServer(user.login, user.password);
+            if (!API.setUser(request.result.user))
+                deleteUser(false);
+            else if (window.location.href.indexOf('login.html') !== -1)
+                window.location = 'onglets.html';
         }
     };
 }
 
-function saveUser(json, login, password)
+function saveUser(user)
 {
     var req = db.transaction(["user"], "readwrite")
         .objectStore("user")
         .put({
             id: 1,
-            json: json,
-            login: login,
-            password: password
+            user: user
         });
 }
 
-function deleteUser()
+function deleteUser(logout = true)
 {
+    if (logout)
+        API.logout();
+    else
+        API.deleteUser();
+
     var request = db.transaction(["user"], "readwrite")
         .objectStore("user")
         .delete(1);
