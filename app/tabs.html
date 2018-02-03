@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WareCloud</title>
+    <link rel="stylesheet" href="style/new_style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+    <script src="js/button.js"></script>
+    <script src="js/tab.js"></script>
+    <script src="js/SideNav.js"></script>
+
+    <!-- Lib -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+<header>
+    <div id="mySidenav" class="sideNav">
+        <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
+        <a href="tabs.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="#" onclick="deleteUser()">Logout</a>
+        <a href="index.html">Old</a>
+    </div>
+    <span id="menu" onclick="openNav()">&#9776; Menu</span>
+    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
+</header>
+
+<section>
+    <div class="corps">
+        <div class="TabSystem">
+            <div class="tabs">
+                <span class="Tab0 tab" id="MainTab" onclick="SwitchTab('Main');"><img class="icon" src="assets/icon.png">General</span>
+                <span class="Tab0 tab" id="SoftwareTab" onclick="SwitchTab('Software');"><img class="icon" src="assets/database.png">Software</span>
+                <span class="Tab0 tab" id="NetworkTab" onclick="SwitchTab('Network');"><img class="icon" src="assets/cloud-computing.png">Network</span>
+                <span class="Tab0 tab" id="ProfileTab" onclick="SwitchTab('Profile');"><img class="icon" src="assets/avatar.png">Profile</span>
+            </div>
+            <div class="ContentTabs">
+                <div class="ContentTab" id="ContentMainTab">
+                    <h1>General</h1><br>
+                    Infos du réseaux depuis la dernière co, infos de l'utilisateurs, mises à jours requises etc<br />
+                </div>
+                <div class="ContentTab" id="ContentSoftwareTab">
+                    <h1>Software</h1><br>
+                    Listes des logiciels disponibles sur notre serveur
+                    <div style="margin-top : 4%;">
+                        <table class="table" style="background-color: white; color: black; width: 100%;">
+                            <thead>
+                            <tr style="border-bottom: 2px solid #ddd;">
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Version</th>
+                                <th scope="col">Download</th>
+                            </tr>
+                            </thead>
+                            <tbody id="softwareTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ContentTab" id="ContentNetworkTab">
+                    <h1>Network</h1><br>
+                    Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
+                    <div id="table">
+                        <div class="element">
+                            <img  class="pic" src="assets/computer1.png">
+                            <div class="element1">
+                                <label class="container">Machine 1
+                                    <input type="checkbox">
+                                    <span class="checkMark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="element">
+                            <img  class="pic" src="assets/computer1.png">
+                            <div class="element1">
+                                <label class="container">Machine 1
+                                    <input type="checkbox">
+                                    <span class="checkMark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="element">
+                            <img  class="pic" src="assets/computer1.png">
+                            <div class="element1">
+                                <label class="container">Machine 1
+                                    <input type="checkbox">
+                                    <span class="checkMark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentTab" id="ContentProfileTab">
+                    <h1>Profile</h1><br>
+                    Profil détaillé de l'utilisateur
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var numTab = 'Main';
+            SwitchTab(numTab);
+        </script>
+    </div>
+</section>
+
+<footer style="text-align: center;margin-bottom: 3%;">
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+</footer>
+</body>
+
+<script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+    require('./js/button.js')
+</script>
+</html>

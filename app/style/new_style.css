@@ -1,31 +1,34 @@
-@font-face {
+@font-face
+{
     font-family: "lane_test";
     src: url("fonts/LANE.ttf");
 }
 
-
-body{
+body
+{
     font-family: lane_test, serif;
     background-color:  #1F2023;
     font-size: 24px;
     color: white;
 }
 
-a{
+a
+{
     color: black;
     text-decoration: none;
     list-style-type:none;
     padding: 1px 1px;
 }
 
-.button_a{
+.button_a
+{
     width: 20%;
     display: block;
     align-self: center;
     margin: 0 auto;
     padding: 20px 100px 18px 100px;
     color: white;
-    font-family: arial;
+    font-family: arial, serif;
     font-size: 18px;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -36,39 +39,47 @@ a{
     cursor: pointer;
 }
 
-.button_a:hover{
+.button_a:hover
+{
     background: #20938e;
 }
 
-.button_a:active{
+.button_a:active
+{
     transform: scale(1.025);
 }
 
-li:hover {
+li:hover
+{
     background-color: #40A497;
     color: white;
 }
 
-h1{
+h1
+{
     justify-content: center;
 }
 
-li{
+li
+{
     padding: 23px 58px;
     list-style-type:none;
     background-color: white;
 }
 
-#content{
+#content
+{
     display: flex;
     justify-content: center;
 }
 
-iframe{
+iframe
+{
     align: middle;
 }
 
-.corps{
+.corps
+{
     width: 88%;
     margin: 8% auto 0;
     color: #1F2023;
@@ -77,13 +88,15 @@ iframe{
 }
 
 
-* {
+*
+{
     margin: 0;
     padding: 0;
     box-sizing: inherit;
 }
 
-:focus {
+:focus
+{
     outline: none;
 }
 
@@ -148,7 +161,8 @@ color: black;
     box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type=submit]
+{
     width: 92%;
     background-color: #26bcb5;
     color: white;
@@ -159,18 +173,17 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover
+{
     background-color: #1e7972;
 }
 
-<!--   -->
-
-#onglet_pourquoi:hover, #onglet_profile:hover, #onglet_quoi:hover, #onglet_qui:hover
+#NetworkTab:hover, #ProfileTab:hover, #MainTab:hover, #SoftwareTab:hover
 {
     background-image: url(../assets/back.jpg);
 }
 
-.onglet
+.tab
 {
     display: inline-block;
     margin-right: 3px;
@@ -179,20 +192,22 @@ input[type=submit]:hover {
     cursor: pointer;
     border-radius: 10px 10px 0 0;
 }
-.onglet_0
+.Tab0
 {
     background:#bbbbbb;
     border-bottom:1px solid black;
     border-radius: 10px 10px 0 0;
 }
-.onglet_1
+
+.Tab1
 {
     background-image:url(../assets/back.jpg);
     border-bottom:0 solid black;
     padding-bottom:4px;
     border-radius: 10px 10px 0 0;
 }
-.contenu_onglet
+
+.ContentTab
 {
     background-image: url(../assets/back.jpg);
     border: 1px solid black;
@@ -202,7 +217,8 @@ input[type=submit]:hover {
     display: none;
 }
 
-.button_a{
+.button_a
+{
     width: 20%;
     display: block;
     align-self: center;
@@ -220,11 +236,13 @@ input[type=submit]:hover {
     cursor: pointer;
 }
 
-.button_a:hover{
+.button_a:hover
+{
     background: #20938e;
 }
 
-.button_a:active{
+.button_a:active
+{
     transform: scale(1.025);
 }
 
@@ -234,18 +252,112 @@ h1
     padding:0;
 }
 
-.icon{
+#table
+{
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
+
+.element {
+    position: relative;
+    width: auto;
+    height: auto;
+    margin: 4px;
+    flex: 1;
+    flex-basis: 20%;
+    float: left;
+}
+
+.element1
+{
+    margin: 0 auto;
+    width: 256px;
+}
+
+.icon
+{
     padding-right: 16px;
 }
 
-tr, th {
-    vertical-align: middle;
-    border-bottom: 1px solid #ddd;
-    padding: 8px;
-}
-
-.table{
+.table
+{
     border-collapse: collapse;
     box-shadow: 1px 1px 12px #555;
     font-size: 25px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~ CHECK BOX ~~~~~~~~~~~~~~~~~~~ */
+.container
+{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input
+{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkMark
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #1f2023;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkMark
+{
+    background-color: #1f2023;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkMark
+{
+    background-color: #26bcb5;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkMark:after
+{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkMark:after
+{
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkMark:after
+{
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #1e7972;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }

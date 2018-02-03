@@ -41,7 +41,7 @@ function connectServer(login, password)
     {
         saveUser(result.data);
         console.log('Hello ' + result.data.login);
-        window.location = 'onglets.html';
+        window.location = 'tabs.html';
     }
     else
     {
@@ -177,7 +177,7 @@ function loadUser()
             if (!API.setUser(request.result.user))
                 deleteUser(false);
             else if (window.location.href.indexOf('login.html') !== -1)
-                window.location = 'onglets.html';
+                window.location = 'tabs.html';
         }
     };
 }
