@@ -1,11 +1,10 @@
 var fs = require('fs');
 
 function print(array){
-  var ret = "<table><tr><td>IP ADRESSE</td><td>MAC ADRESSE</td></tr>";
+  var ret = "";
   for (var i = 0; i < array.length; i++) {
-    ret += "<tr><td>" + array[i].ip + "</td><td>" + array[i].mac + "</td></tr>";
+    ret += "<tr><td></td><td>" + array[i].ip + "</td><td>" + array[i].mac + "</td><td></td><td></td></tr>";
   }
-  ret += "</table>";
   return ret;
 }
 
@@ -33,5 +32,5 @@ fs.readFile('/proc/net/arp', function(err, data) {
     }
 
   console.log(output);
-  document.getElementById("mondiv").innerHTML = print(output);
+  document.getElementById("deviceTable").innerHTML = print(output);
 });

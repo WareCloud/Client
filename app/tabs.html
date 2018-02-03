@@ -21,6 +21,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
+    <script src="js/arp-discovery.js"></script>
 </head>
 
 <body>
@@ -98,6 +99,21 @@
                                     <span class="checkMark"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div style="margin-top : 4%;width:100%">
+                            <table class="table" style="background-color: white; color: black; width: 100%;">
+                                <thead>
+                                <tr style="border-bottom: 2px solid #ddd;">
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Ip</th>
+                                    <th scope="col">Mac address</th>
+                                    <th scope="col">Gestion</th>
+                                    <th scope="col">Add to List</th>
+                                </tr>
+                                </thead>
+                                <tbody id="deviceTable">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
