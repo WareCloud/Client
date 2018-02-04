@@ -93,7 +93,7 @@ function getSoftwares()
         console.log('Content: ' + result.data);
         var softwares = result.data;
 
-        var container=document.getElementById('softwaresTable');
+        var container=document.getElementById('softwareTable');
         var i = 1;
         softwares.forEach(function(soft) {
             var row = document.createElement('tr');
