@@ -287,6 +287,12 @@ h1
     font-size: 25px;
 }
 
+tr
+{
+    border-bottom: 1px solid #ddd;
+    height: 50px;
+}
+
 
 /* ~~~~~~~~~~~~~~~~~~~ CHECK BOX ~~~~~~~~~~~~~~~~~~~ */
 .container
