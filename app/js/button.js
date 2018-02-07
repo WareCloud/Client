@@ -1,6 +1,9 @@
+
+
+var agentTest = null
 function connectAgent()
 {
-  let agentTest = new Agent(0, "127.0.0.1", "8000");
+  agentTest = new Agent(0, "127.0.0.1", "8000");
   agentTest.connect();
   //agentTest.send("Hello le petit monde");
 /*  process.stdout.write('Hello');
@@ -30,7 +33,20 @@ function connectAgent()
        // websocket is closed.
         alert("Connection is closed...");
        console.log("ws.onclose: ")
-    };*/
+    };
+
+https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe FirefoxInstaller
+    */
+}
+
+function installAgent()
+{
+  agentTest.install("FirefoxInstaller");
+}
+
+function downloadAgent()
+{
+  agentTest.download("https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe", "FirefoxInstaller");
 }
 
 function connectServer(login, password)
