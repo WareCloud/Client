@@ -49,6 +49,29 @@ function downloadAgent()
   agentTest.download("https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe", "FirefoxInstaller");
 }
 
+function register(login, password, passwordConfirmation)
+{
+    var result = API.register(login, password, passwordConfirmation);
+
+    if (result.success)
+    {
+        saveUser(result.data);
+        console.log('Hello ' + result.data.login);
+        window.location = 'tabs.html';
+    }
+    else
+    {
+        var error = "";
+        for (var key in result.errors)
+            error += result.errors[key] + '<br>';
+
+        var loginError = document.getElementById('login-error');
+        loginError.innerHTML = "<strong>Error ! </strong>" + error;
+        loginError.hidden = false;
+        console.log('Error: Login failed.');
+    }
+}
+
 function connectServer(login, password)
 {
     var result = API.login(login, password);

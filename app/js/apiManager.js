@@ -6,6 +6,7 @@ var API =
 
     api_endpoints: {
         'get_user':     {endpoint: '/user',           method: 'GET',  use_token: true,  json: true},
+        'register':     {endpoint: '/user/register',  method: 'POST', use_token: false, json: true},
         'login':        {endpoint: '/user/login',     method: 'POST', use_token: false, json: true},
         'logout':       {endpoint: '/user/logout',    method: 'POST', use_token: true,  json: true},
         'get_config':   {endpoint: '/configuration',  method: 'GET',  use_token: true,  json: false},
@@ -139,6 +140,16 @@ var API =
         var parsedResult = this.parseResult(jsonResult, logName);
 
         return parsedResult;
+    },
+
+    register: function(login, password, passwordConfirmation)
+    {
+        var result = this.getResult('register', false, 'REGISTER', false, null, JSON.stringify({"login": login, "password": password, "password_confirmation": passwordConfirmation}));
+
+        if (result.success)
+            this.user = result.data;
+
+        return result;
     },
 
     login: function(login, password)

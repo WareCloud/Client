@@ -33,8 +33,8 @@
             </div>
         </div>
         </br>
-        <h4>Please log in</h4>
-        <form onsubmit="connectServer(document.getElementById('login').value, document.getElementById('password').value);return false;" action="#">
+        <h4>Register</h4>
+        <form onsubmit="register(document.getElementById('login').value, document.getElementById('password').value, document.getElementById('password_confirmation').value);return false;" action="#">
             <div class="alert alert-danger" role="alert" id="login-error" hidden></div>
             <div class="form-group">
                 <input class="form-control" type="login" name="login" title="login" placeholder="login" id="login"></input>
@@ -42,9 +42,12 @@
             <div class="form-group">
                 <input class="form-control" type="password" name="password" placeholder="password" id="password"></input>
             </div>
-            <button type="submit" class="btn ware_button" id="logbutton">Sign in</button>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password_confirmation" placeholder="password confirmation" id="password_confirmation"></input>
+            </div>
+            <button type="submit" class="btn ware_button" id="logbutton">Sign up</button>
+            <a href="login.html">Login</a>
         </form>
-        <a href="register.html">Register</a>
     </div>
 </div>
 </body>
