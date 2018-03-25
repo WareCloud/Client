@@ -1,42 +1,86 @@
+/*
+ * Local DB part
+ */
 
+//prefixes of implementation that we want to test
+window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+//prefixes of window.IDB objects
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+if (!window.indexedDB)
+{
+    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+}
+
+const userData = [
+    {
+        id: 1,
+        user: null
+    }
+];
+
+var db;
+var request = window.indexedDB.open("user", 1);
+
+request.onerror = function(event) {
+    console.log("error: ");
+};
+
+request.onsuccess = function(event) {
+    db = request.result;
+    console.log("success: " + db);
+    loadUser();
+};
+
+request.onupgradeneeded = function(event) {
+    var db = event.target.result;
+    var objectStore = db.createObjectStore("user", {keyPath: "id"});
+    for (var i in userData) {
+        objectStore.add(userData[i]);
+    }
+}
+
+
+
+/*
+ * Menu part
+ */
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function SwitchTab(name)
+{
+    document.getElementById(numTab + 'Tab').className = 'Tab0 tab';
+    document.getElementById(name + 'Tab').className = 'Tab1 tab';
+    document.getElementById('Content' + numTab + 'Tab').style.display = 'none';
+    document.getElementById('Content' + name + 'Tab').style.display = 'block';
+    numTab = name;
+    if (name === "Software")
+    {
+        document.getElementById('softwareTable').innerHTML = '';
+        getSoftwares();
+    }
+}
+
+
+
+/*
+ * Agent part
+ */
 
 var agentTest = null
 function connectAgent()
 {
   agentTest = new Agent(0, "127.0.0.1", "8000");
   agentTest.connect();
-  //agentTest.send("Hello le petit monde");
-/*  process.stdout.write('Hello');
-
-    ip = "127.0.0.1";
-    port = "8000";
-    console.log("Connection to " + "ws://" + ip + ":" + port + "...");
-      // Let us open a web socket
-    var ws = new WebSocket("ws://" + ip + ":" + port);
-
-    ws.onopen = function()
-    {
-        // Web Socket is connected, send data using send()
-        ws.send("Message to send");
-        console.log("ws.onopen: Message is sent...");
-
-    };
-
-    ws.onmessage = function (evt)
-    {
-        var received_msg = evt.data;
-        console.log("ws.onmessage: " + received_msg)
-    };
-
-    ws.onclose = function()
-    {
-       // websocket is closed.
-        alert("Connection is closed...");
-       console.log("ws.onclose: ")
-    };
-
-https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe FirefoxInstaller
-    */
 }
 
 function installAgent()
@@ -48,6 +92,12 @@ function downloadAgent()
 {
   agentTest.download("https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe", "FirefoxInstaller");
 }
+
+
+
+/*
+ * API part
+ */
 
 function register(login, password, passwordConfirmation)
 {
@@ -133,26 +183,34 @@ function getSoftwares()
         var softwares = result.data;
 
         var container=document.getElementById('softwareTable');
-        var i = 1;
         softwares.forEach(function(soft) {
-            var row = document.createElement('tr');
-            var id = document.createElement('th');
-            id.innerHTML = i;
-            row.appendChild(id);
-            var softwareName = document.createElement('td');
-            softwareName.innerHTML = soft.name;
-            row.appendChild(softwareName);
-            var version = document.createElement('td');
-            version.innerHTML = soft.version;
-            row.appendChild(version);
-            var downloadLink = document.createElement('td');
-            var href = document.createElement('a');
-            href.href = soft.download_url;
-            href.innerHTML = "Download";
-            downloadLink.appendChild(href);
-            row.appendChild(downloadLink);
-            container.appendChild(row);
-            i++;
+            var div = document.createElement('div');
+            div.className = 'element1';
+            var label = document.createElement('label');
+            label.className = 'container';
+            var img = document.createElement('img');
+            img.className = 'logo';
+            img.src =  soft.icon_url;
+            var input = document.createElement('input');
+            input.type = 'checkbox';
+            var span = document.createElement('span');
+            span.className = 'checkMarkLogo';
+            var infos = document.createElement('div');
+            infos.className = 'softTitle';
+            infos.textContent = soft.name;
+            var a = document.createElement('a');
+            a.href = '#';
+            var aimg = document.createElement('img');
+            aimg.className = 'info';
+            aimg.src = 'assets/svg/info.svg';
+            label.appendChild(img);
+            label.appendChild(input);
+            label.appendChild(span);
+            a.appendChild(aimg);
+            infos.appendChild(a);
+            div.appendChild(label);
+            div.appendChild(infos);
+            container.appendChild(div);
         });
     }
     else
@@ -163,52 +221,12 @@ function getSoftwares()
     }
 }
 
-//prefixes of implementation that we want to test
-window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-//prefixes of window.IDB objects
-window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
-if (!window.indexedDB)
-{
-    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
-}
-
-const userData = [
-    {
-        id: 1,
-        user: null,
-    }
-];
-
-
-var db;
-var request = window.indexedDB.open("user", 1);
-
-request.onerror = function(event) {
-    console.log("error: ");
-};
-
-request.onsuccess = function(event) {
-    db = request.result;
-    console.log("success: " + db);
-    loadUser();
-};
-
-request.onupgradeneeded = function(event) {
-    var db = event.target.result;
-    var objectStore = db.createObjectStore("user", {keyPath: "id"});
-    for (var i in userData) {
-        objectStore.add(userData[i]);
-    }
-}
-
 function loadUser()
 {
     var transaction = db.transaction(["user"]);
     var objectStore = transaction.objectStore("user");
     var request = objectStore.get(1);
+
     request.onsuccess = function (event)
     {
         if (request.result !== undefined)
@@ -223,7 +241,7 @@ function loadUser()
 
 function saveUser(user)
 {
-    var req = db.transaction(["user"], "readwrite")
+    db.transaction(["user"], "readwrite")
         .objectStore("user")
         .put({
             id: 1,
@@ -238,7 +256,7 @@ function deleteUser(logout = true)
     else
         API.deleteUser();
 
-    var request = db.transaction(["user"], "readwrite")
+    db.transaction(["user"], "readwrite")
         .objectStore("user")
         .delete(1);
     window.location = "login.html";

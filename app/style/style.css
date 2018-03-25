@@ -1,201 +1,120 @@
-@font-face {
-    font-family: "lane_test";
-    src: url("fonts/LANE.ttf");
+@font-face
+{
+    font-family: "Roboto";
+    src: url("fonts/Roboto-Thin.ttf");
 }
 
-
-body{
-    font-family: lane_test, serif;
+body
+{
+    font-family: roboto, serif;
     background-color:  #1F2023;
     font-size: 24px;
     color: white;
+    overflow-y: scroll;
 }
 
-a{
+a
+{
     color: black;
     text-decoration: none;
     list-style-type:none;
     padding: 1px 1px;
 }
 
-.button_a{
-  width: 20%;
-  display: block;
-  align-self: center;
-  margin: 0 auto;
-  padding: 20px 100px 18px 100px;
-  color: white;
-  font-family: arial;
-  font-size: 18px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-align: center;
-  background: #26BCB5;
-  border-radius: 10px;
-  transition: all 0.1s ease-in-out;
-  cursor: pointer;
+.logo
+{
+    border: 1px solid gray;
+    border-radius: 13px;
+    width: 96px;
+    height: 96px;
 }
 
-.button_a:hover{
- background: #20938e;
-}
-
-.button_a:active{
-  transform: scale(1.025);
-}
-
-li:hover {
-    background-color: #40A497;
+.install{
+    width: 20%;
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px 0 18px 0;
     color: white;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #26BCB5;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
 }
 
-h1{
+.button_a
+{
+    width: 20%;
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px 100px 18px 100px;
+    color: white;
+    font-family: arial, serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #26BCB5;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.button_a:hover
+{
+    background: #20938e;
+}
+
+.button_a:active
+{
+    transform: scale(1.025);
+}
+
+h1
+{
     justify-content: center;
 }
 
-li{
-    padding: 23px 58px;
+li
+{
     list-style-type:none;
-    background-color: white;
 }
 
-#content{
+#content
+{
     display: flex;
     justify-content: center;
 }
 
-iframe{
+iframe
+{
     align: middle;
 }
 
-.corps{
-    width: 80%;
-    background-image:url(../assets/back.jpg);
+.corps
+{
+    width: 88%;
     margin: 8% auto 0;
     color: #1F2023;
     min-height: 100vh;
-    text-align: center;
-    padding-top: 6%;
     font-size: 32px;
-
-    -moz-box-shadow:    inset 0 0 10px #000000;
-    -webkit-box-shadow: inset 0 0 10px #000000;
-    box-shadow:         inset 0 0 10px #000000;
 }
 
-.social-buttons {
-    text-align: center;
-    padding-top: 6%;
-}
 
-.social-button {
-    display: inline-block;
-    background-color: #fff4fd;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    margin-left: 0 !important;
-    margin-right: 15px !important;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    opacity: .99;
-    border-radius: 50%;
-    -webkit-transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.59);
-    transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.59);
-    -moz-box-shadow:    inset 0 0 10px #000000;
-    -webkit-box-shadow: inset 0 0 10px #000000;
-    box-shadow:         inset 0 0 10px #000000;
-}
-
-.social-button:before {
-    content: '';
-    background-color: #000;
-    width: 120%;
-    height: 120%;
-    position: absolute;
-    top: 90%;
-    left: -110%;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.79);
-    transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.79);
-}
-
-.social-button .fa {
-    font-size: 28px;
-    vertical-align: middle;
-    -webkit-transform: scale(0.75);
-    -ms-transform: scale(0.75);
-    transform: scale(0.75);
-    -webkit-transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.59);
-    transition: all .35s cubic-bezier(0.31,-0.105,0.43,1.59);
-}
-
-.social-button.facebook:before {
-    background-color: #3B5998;
-}
-
-.social-button.facebook .fa {
-    color: #3B5998;
-}
-
-.social-button.twitter:before {
-    background-color: #3CF;
-}
-
-.social-button.twitter .fa {
-    color: #3CF;
-}
-
-.social-button.google:before {
-    background-color: #DC4A38;
-}
-
-.social-button.google .fa {
-    color: #DC4A38;
-}
-
-.social-button.dribbble:before {
-    background-color: #F26798;
-}
-
-.social-button.dribbble .fa {
-    color: #F26798;
-}
-
-.social-button.skype:before {
-    background-color: #00AFF0;
-}
-
-.social-button.skype .fa {
-    color: #00AFF0;
-}
-
-.social-button:hover:before {
-    top: -10%;
-    left: -10%;
-}
-
-.social-button:hover .fa {
-    color: #fff;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-}
-
-.social-button:focus {
-    opacity: .85;
-}
-
-* {
+*
+{
     margin: 0;
     padding: 0;
     box-sizing: inherit;
 }
 
-:focus {
+:focus
+{
     outline: none;
 }
 
@@ -203,7 +122,6 @@ iframe{
 {
     padding: 1%;
     font-size: 30px;
-    position: fixed;
     float: left;
     cursor: pointer;
     color: white;
@@ -254,14 +172,15 @@ input[type=text], input[type=password], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;*
-    color: black;
+color: black;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type=submit]
+{
     width: 92%;
     background-color: #26bcb5;
     color: white;
@@ -272,6 +191,480 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover
+{
     background-color: #1e7972;
+}
+
+#NetworkTab:hover, #ProfileTab:hover, #MainTab:hover, #SoftwareTab:hover
+{
+    background-image: url(../assets/png/back.jpg);
+}
+
+.tab
+{
+    display: inline-block;
+    margin-right: 3px;
+    padding: 1% 2% 3px;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+}
+.Tab0
+{
+    background:#bbbbbb;
+    border-bottom:1px solid black;
+    border-radius: 10px 10px 0 0;
+}
+
+.Tab1
+{
+    background-image:url(../assets/png/back.jpg);
+    border-bottom:0 solid black;
+    padding-bottom:4px;
+    border-radius: 10px 10px 0 0;
+}
+
+.ContentTab
+{
+    background-image: url(../assets/png/back.jpg);
+    border: 1px solid black;
+    margin-top: -1px;
+    padding: 4%;
+    text-align: center;
+    display: none;
+}
+
+.button_a
+{
+    width: 20%;
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px 100px 18px 100px;
+    color: white;
+    font-family: arial, serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #26BCB5;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.button_a:hover
+{
+    background: #20938e;
+}
+
+.button_a:active
+{
+    transform: scale(1.025);
+}
+
+h1
+{
+    margin:0;
+    padding:0;
+}
+
+#table
+{
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
+
+.element, .column
+{
+    flex: 1;
+    margin: 4px 4px 4px 0;
+    border-radius: 10px;
+}
+
+.column:not(:first-child)
+{
+    margin-left: 4%;
+}
+
+.deviceElement
+{
+    margin-bottom: 7%;
+}
+
+.column
+{
+    background-color: rgba(128, 128, 128, 0.08);
+    display: block;
+    overflow: auto;
+    padding: 45px;
+    -webkit-box-shadow: inset 0 0 12px -1px rgba(4,48,37,0.41);
+    -moz-box-shadow: inset 0 0 12px -1px rgba(4,48,37,0.41);
+    box-shadow: inset 0 0 12px -1px rgba(4,48,37,0.41);
+}
+
+.element1
+{
+    margin: 3%;
+    float: left;
+}
+
+.icon
+{
+    padding-right: 16px;
+}
+
+.softTitle
+{
+    font-size: 26px;
+    margin-top: -15px;
+}
+
+.info
+{
+    width: 15px;
+}
+
+.table
+{
+    border-collapse: collapse;
+    box-shadow: 1px 1px 12px #555;
+    font-size: 25px;
+}
+
+tr
+{
+    border-bottom: 1px solid #ddd;
+    height: 50px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~ CHECK BOX ~~~~~~~~~~~~~~~~~~~ */
+.container
+{
+    font-size: 28px;
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.containerMachines {
+    font-size: 28px;
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    display: inline-block;
+    width: 79%;
+    /* text-align: left; */
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Hide the browser's default checkbox */
+.container input, .containerMachines input
+{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+/* Create a custom checkbox */
+.checkMark
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #1f2023;
+    border-radius: 5px;
+}
+
+.checkMarkLogo
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #1f2023;
+    border-radius: 10px 0 0 0;
+    border-top: 1px solid gray;
+    border-left: 1px solid gray;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkMark, .container:hover input ~ .checkMarkLogo, .containerMachines:hover input ~ .checkMark, .containerMachines:hover input ~ .checkMarkLogo
+{
+    background-color: #1f2023;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkMark, .container input:checked ~ .checkMarkLogo, .containerMachines input:checked ~ .checkMark, .containerMachines input:checked ~ .checkMarkLogo
+{
+    background-color: #26bcb5;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkMark:after, .checkMarkLogo:after
+{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkMark:after, .container input:checked ~ .checkMarkLogo:after, .containerMachines input:checked ~ .checkMark:after, .containerMachines input:checked ~ .checkMarkLogo:after
+{
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkMark:after, .containerMachines .checkMark:after
+{
+    left: 7px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid #1e7972;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.container .checkMarkLogo:after, .containerMachines .checkMarkLogo:after
+{
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #1e7972;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* Machine's Details */
+
+.onclick-menu
+{
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    outline: 0;
+    cursor:pointer;
+}
+
+.onclick-menu:before
+{
+    content: "details";
+    padding: 5px 10px;
+    background-color: #94a4a5;
+    font-size: 16px;
+    font-family: arial, serif;
+    border-radius: 5px;
+}
+
+.onclick-menu:focus
+{
+    pointer-events: none;
+}
+
+.onclick-menu:focus .onclick-menu-content
+{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.onclick-menu-content
+{
+    position: absolute;
+    z-index: 1;
+    display: inherit;
+    opacity: 0;
+    text-align: left;
+    visibility: hidden;
+    transition: visibility 0.5s;
+    background-color: #364656;
+    width: auto;
+    margin-top: 3px;
+    left: -115px;
+    padding: 10px;
+    font-size: 12px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.onclick-menu-content:before
+{
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid #364656;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    top: -10px;
+}
+
+<!-- test -->
+
+.column .links {
+    display: block;
+    margin: 0 -1em;
+    overflow: hidden;
+    padding: 1em 0;
+}
+.column .links > li {
+    box-sizing: border-box;
+    float: left;
+    padding: 1em;
+}
+.column .links > li a {
+    background: orange;
+    color: #fff;
+    display: block;
+    font-size: 2em;
+    line-height: 1;
+    padding: 25% 1em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.column .links > li a:hover {
+    background: #ffb733;
+}
+.column .links > li a.active {
+    background: #cc8400;
+}
+.column .links > li a.active:after {
+    background-color: transparent;
+    border-bottom: 0.375em solid #888;
+    border-left: 0.375em solid transparent;
+    border-right: 0.375em solid transparent;
+    bottom: -0.5em;
+    content: '';
+    height: 0;
+    left: 50%;
+    margin-left: -0.375em;
+    position: absolute;
+    width: 0;
+}
+/* change here for less or many elem for row */
+@media only screen and (max-width: 39.99em) {
+    .column .links > li {
+        width: 50%;
+    }
+    .column .links > li:nth-of-type(2n+1) {
+        clear: left;
+    }
+}
+@media only screen and (min-width: 40em) and (max-width: 59.99em) {
+    .column .links > li {
+        width: 33.33333%;
+    }
+    .column .links > li:nth-of-type(3n+1) {
+        clear: left;
+    }
+}
+@media only screen and (min-width: 60em) {
+    .column .links > li {
+        width: 25%; /* links width */
+    }
+    .column .links > li:nth-of-type(4n+1) {/* change ?n to change how many elem for row */
+        clear: left;
+    }
+}
+.column .spacer {
+    background-color: #888;
+    clear: both;
+    display: block;
+    margin: 0 1em;
+}
+.column .expanding-container {
+    clear: both;
+    display: none;
+    overflow: hidden;
+    width: 100%;
+}
+.column .expanding-container.expanded, .column .expanding-container:target {
+    display: block;
+}
+.column .hentry {
+    background: #888;
+    box-sizing: border-box;
+    clear: both;
+    color: #fff;
+    min-height: 4em;
+    overflow: hidden;
+    padding: 2em;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.column .hentry .entry-image {
+    box-sizing: border-box;
+    float: right;
+    margin-left: 1em;
+    padding: 0.25em 0 0.52em 1em;
+    text-align: center;
+    width: 50%;
+}
+.column .hentry .entry-title {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+.column .close-button {
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNLjcuN2wxOCAxOG0tMTggMGwxOC0xOCIvPjwvc3ZnPg==) no-repeat scroll 50% 50% transparent;
+    color: #fff;
+    display: inline-block;
+    height: 20px;
+    line-height: 1;
+    overflow: hidden;
+    padding: 1.5em 2em;
+    text-decoration: none;
+    text-indent: 5em;
+    white-space: nowrap;
+    width: 20px;
+    will-change: opacity;
+    z-index: 5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.column .close-button.active {
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+}
+.column .close-button:hover {
+    opacity: 0.5;
+}
+
+.img-placeholder {
+    background: orange;
+    color: #fff;
+    font-size: 4em;
+    font-weight: 300;
+    line-height: 1;
+    padding: 25% 0.25em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

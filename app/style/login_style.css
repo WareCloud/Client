@@ -1,13 +1,13 @@
 @font-face {
-    font-family: "lane_test";
-    src: url("fonts/LANE.ttf");
+    font-family: "roboto";
+    src: url("fonts/Roboto-Thin.ttf");
 }
 
 html{
 }
 
 body{
-    font-family: lane_test, serif;
+    font-family: roboto, serif;
     background-color:  #1F2023;
     font-size: 15px;
     color: white;
@@ -50,7 +50,7 @@ h1{
     width: 1200px;
     height: 800px;
     background-size: 100% 100%;
-    background: url("../assets/data_center.jpg") no-repeat center center;
+    background: url("../assets/png/data_center.jpg") no-repeat center center;
 }
 
 .ware_button{

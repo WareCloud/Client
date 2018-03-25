@@ -3,25 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>WareCloud</title>
-    <link rel="stylesheet" href="style/new_style.css" />
+    <link rel="stylesheet" href="style/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
     <script src="js/apiManager.js"></script>
-    <script src="js/button.js"></script>
-    <script src="js/tab.js"></script>
-    <script src="js/SideNav.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- Lib -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-            crossorigin="anonymous"></script>
+
     <script src="js/arp-discovery.js"></script>
 </head>
 
@@ -32,20 +20,20 @@
         <a href="tabs.html">Home</a>
         <a href="login.html">Login</a>
         <a href="#" onclick="deleteUser()">Logout</a>
-        <a href="index.html">Old</a>
+        <a href="old.html">Old</a>
     </div>
     <span id="menu" onclick="openNav()">&#9776; Menu</span>
-    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
+    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/png/brand-small-transparent.png"></h1></a>
 </header>
 
 <section>
     <div class="corps">
         <div class="TabSystem">
             <div class="tabs">
-                <span class="Tab0 tab" id="MainTab" onclick="SwitchTab('Main');"><img class="icon" src="assets/icon.png">General</span>
-                <span class="Tab0 tab" id="SoftwareTab" onclick="SwitchTab('Software');"><img class="icon" src="assets/database.png">Software</span>
-                <span class="Tab0 tab" id="NetworkTab" onclick="SwitchTab('Network');"><img class="icon" src="assets/cloud-computing.png">Network</span>
-                <span class="Tab0 tab" id="ProfileTab" onclick="SwitchTab('Profile');"><img class="icon" src="assets/avatar.png">Profile</span>
+                <span class="Tab0 tab" id="MainTab" onclick="SwitchTab('Main');"><img class="icon" src="assets/png/icon.png">General</span>
+                <span class="Tab0 tab" id="SoftwareTab" onclick="SwitchTab('Software');"><img class="icon" src="assets/png/database.png">Software</span>
+                <span class="Tab0 tab" id="NetworkTab" onclick="SwitchTab('Network');"><img class="icon" src="assets/png/cloud-computing.png">Network</span>
+                <span class="Tab0 tab" id="ProfileTab" onclick="SwitchTab('Profile');"><img class="icon" src="assets/png/avatar.png">Profile</span>
             </div>
             <div class="ContentTabs">
                 <div class="ContentTab" id="ContentMainTab">
@@ -53,54 +41,70 @@
                     Infos du réseaux depuis la dernière co, infos de l'utilisateurs, mises à jours requises etc<br />
                 </div>
                 <div class="ContentTab" id="ContentSoftwareTab">
-                    <h1>Software</h1><br>
-                    Listes des logiciels disponibles sur notre serveur
-                    <div style="margin-top : 4%;">
-                        <table class="table" style="background-color: white; color: black; width: 100%;">
-                            <thead>
-                            <tr style="border-bottom: 2px solid #ddd;">
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Version</th>
-                                <th scope="col">Download</th>
-                            </tr>
-                            </thead>
-                            <tbody id="softwareTable">
-                            </tbody>
-                        </table>
+                    <input class="install" type="button" id="install" value="Installation" onclick="" style="margin-bottom: 4%;"/>
+                    <div id="containerColumns" style="display: flex; justify-content: space-around;">
+
+                        <div class="column">
+                            <table class="tableDevices">
+                                <tr>
+                                    <div class="deviceElement">
+                                        <label class="containerMachines">192.168.0.1
+                                            <input type="checkbox" id="device1">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div tabindex="0" class="onclick-menu">
+                                            <div class="onclick-menu-content">
+                                                MAC address : 00:25:96:FF:FE:84:34:52<br>
+                                                Name : MSI<br>
+                                                IP : 192.168.0.1<br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="deviceElement">
+                                        <label class="containerMachines">192.168.0.2
+                                            <input type="checkbox" id="device2">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div tabindex="0" class="onclick-menu">
+                                            <div class="onclick-menu-content">
+                                                MAC address : 00:25:96:FF:FE:16:34:46<br>
+                                                Name : MSI<br>
+                                                IP : 192.168.0.1<br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="deviceElement">
+                                        <label class="containerMachines">192.168.0.3
+                                            <input type="checkbox" id="device3">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div tabindex="0" class="onclick-menu">
+                                            <div class="onclick-menu-content">
+                                                MAC address : 00:25:96:FF:FE:19:34:16<br>
+                                                Name : MSI<br>
+                                                IP : 192.168.0.1<br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="column">
+                            <table class="a" id="softwareTable">
+                            </table>
+                        </div>
+                        <div class="column"></div>
                     </div>
                 </div>
                 <div class="ContentTab" id="ContentNetworkTab">
                     <h1>Network</h1><br>
                     Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
                     <div id="table">
-                        <div class="element">
-                            <img  class="pic" src="assets/computer.png">
-                            <div class="element1">
-                                <label class="container">Machine 1
-                                    <input type="checkbox">
-                                    <span class="checkMark"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="element">
-                            <img  class="pic" src="assets/computer.png">
-                            <div class="element1">
-                                <label class="container">Machine 1
-                                    <input type="checkbox">
-                                    <span class="checkMark"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="element">
-                            <img  class="pic" src="assets/computer.png">
-                            <div class="element1">
-                                <label class="container">Machine 1
-                                    <input type="checkbox">
-                                    <span class="checkMark"></span>
-                                </label>
-                            </div>
-                        </div>
                         <div style="margin-top : 4%;width:100%">
                             <table class="table" style="background-color: white; color: black; width: 100%;">
                                 <thead>
@@ -141,6 +145,6 @@
 <script>
     // You can also require other files to run in this process
     require('./renderer.js')
-    require('./js/button.js')
+    require('./js/main.js')
 </script>
 </html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>WareCloud</title>
-	<link rel="stylesheet" href="style/style.css" />
+	<link rel="stylesheet" href="style/old.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -16,7 +16,7 @@
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/agent.js"></script>
-    <script type="text/javascript" src="js/button.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
 
   </head>
@@ -27,7 +27,7 @@
             <a href="tabs.html">Home</a>
             <a href="login.html">Login</a>
             <a href="#" onclick="deleteUser()">Logout</a>
-            <a href="index.html">Old</a>
+            <a href="old.html">Old</a>
         </div>
         <span id="menu" onclick="openNav()">&#9776; Menu</span>
         <script>
@@ -39,7 +39,7 @@
                 document.getElementById("mySidenav").style.width = "0";
             }
         </script>
-        <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/brand-small-transparent.png"></h1></a>
+        <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/png/brand-small-transparent.png"></h1></a>
     </header>
        <section>
            <div class="corps">
@@ -73,6 +73,6 @@
   <script>
     // You can also require other files to run in this process
     require('./renderer.js')
-    require('./js/button.js')
+    require('./js/main.js')
   </script>
 </html>
