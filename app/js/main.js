@@ -40,7 +40,7 @@ request.onupgradeneeded = function(event) {
     for (var i in userData) {
         objectStore.add(userData[i]);
     }
-}
+};
 
 
 
@@ -76,7 +76,7 @@ function SwitchTab(name)
  * Agent part
  */
 
-var agentTest = null
+var agentTest = null;
 function connectAgent()
 {
   agentTest = new Agent(0, "127.0.0.1", "8000");
