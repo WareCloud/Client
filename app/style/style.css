@@ -320,6 +320,9 @@ h1
 {
     font-size: 26px;
     margin-top: -15px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 98px;
 }
 
 .info
@@ -345,7 +348,7 @@ tr
 .container
 {
     font-size: 28px;
-    display: block;
+    display: inline-block;
     position: relative;
     margin-bottom: 12px;
     cursor: pointer;
@@ -667,4 +670,11 @@ tr
     padding: 25% 0.25em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.fit {
+    text-align: center;
+    white-space: nowrap;
+    font-size: 24px;
+    width: inherit;
 }

@@ -45,34 +45,6 @@ request.onupgradeneeded = function(event) {
 
 
 /*
- * Menu part
- */
-
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
-function SwitchTab(name)
-{
-    document.getElementById(numTab + 'Tab').className = 'Tab0 tab';
-    document.getElementById(name + 'Tab').className = 'Tab1 tab';
-    document.getElementById('Content' + numTab + 'Tab').style.display = 'none';
-    document.getElementById('Content' + name + 'Tab').style.display = 'block';
-    numTab = name;
-    if (name === "Software")
-    {
-        document.getElementById('softwareTable').innerHTML = '';
-        getSoftwares();
-    }
-}
-
-
-
-/*
  * Agent part
  */
 
@@ -197,7 +169,13 @@ function getSoftwares()
             span.className = 'checkMarkLogo';
             var infos = document.createElement('div');
             infos.className = 'softTitle';
-            infos.textContent = soft.name;
+            //infos.textContent = soft.name;
+            var fit = document.createElement('div');
+            fit.className = 'fit';
+            fit.id = 'fit';
+            var wrap = document.createElement('span');
+            wrap.id = 'wrap';
+            wrap.textContent = soft.name;
             var a = document.createElement('a');
             a.href = '#';
             var aimg = document.createElement('img');
@@ -206,11 +184,14 @@ function getSoftwares()
             label.appendChild(img);
             label.appendChild(input);
             label.appendChild(span);
+            fit.appendChild(wrap);
             a.appendChild(aimg);
+            infos.appendChild(fit);
             infos.appendChild(a);
             div.appendChild(label);
             div.appendChild(infos);
             container.appendChild(div);
+            fontFitResize(fit, wrap);
         });
     }
     else
