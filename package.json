@@ -14,7 +14,7 @@
   ],
   "author": "WareCloud",
   "devDependencies": {
-    "electron": "^1.6.16"
+    "electron": "^1.8.4"
   },
   "dependencies": {
     "electron-log": "^2.2.14"
