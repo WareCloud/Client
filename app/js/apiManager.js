@@ -2,6 +2,7 @@ var API =
 {
     api_protocol: 'http',
     api_host: '163.5.84.202',
+    api_port: '80',
     api_prefix: '/api',
 
     api_endpoints: {
@@ -28,6 +29,11 @@ var API =
         return (xdr);
     },
 
+    getRootURL: function()
+    {
+        return (this.api_protocol + '://' + this.api_host + ':' + this.api_port + this.api_prefix);
+    },
+
     callAPI: function(action, token = null, param = null, data = null)
     {
         if (this.api_endpoints[action] === undefined)
@@ -38,7 +44,7 @@ var API =
             return null;
 
         var xhr = new this.xdr();
-        var api_url = this.api_protocol + "://" + this.api_host + this.api_prefix + endpointInfos.endpoint;
+        var api_url = this.getRootURL() + endpointInfos.endpoint;
         if (param !== null)
             api_url += '/' + param;
 

@@ -307,8 +307,7 @@ h1
 
 .element1
 {
-    margin: 3%;
-    float: left;
+    margin-top: 3%;
 }
 
 .icon
@@ -328,6 +327,8 @@ h1
 .info
 {
     width: 15px;
+    cursor: pointer;
+    margin-bottom: 6%;
 }
 
 .table
@@ -527,113 +528,44 @@ tr
     top: -10px;
 }
 
-<!-- test -->
-
-.column .links {
-    display: block;
-    margin: 0 -1em;
-    overflow: hidden;
-    padding: 1em 0;
-}
-.column .links > li {
-    box-sizing: border-box;
-    float: left;
-    padding: 1em;
-}
-.column .links > li a {
-    background: orange;
-    color: #fff;
-    display: block;
-    font-size: 2em;
-    line-height: 1;
-    padding: 25% 1em;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-.column .links > li a:hover {
-    background: #ffb733;
-}
-.column .links > li a.active {
-    background: #cc8400;
-}
-.column .links > li a.active:after {
-    background-color: transparent;
-    border-bottom: 0.375em solid #888;
-    border-left: 0.375em solid transparent;
-    border-right: 0.375em solid transparent;
-    bottom: -0.5em;
-    content: '';
-    height: 0;
-    left: 50%;
-    margin-left: -0.375em;
+a.active {
+    border-bottom: 0.38em solid #888;
+    border-left: 0.38em solid transparent;
+    border-right: 0.38em solid transparent;
+    margin-left: -0.38em;
+    margin-top: -12px;
     position: absolute;
-    width: 0;
+    padding: 0;
 }
-/* change here for less or many elem for row */
-@media only screen and (max-width: 39.99em) {
-    .column .links > li {
-        width: 50%;
-    }
-    .column .links > li:nth-of-type(2n+1) {
-        clear: left;
-    }
-}
-@media only screen and (min-width: 40em) and (max-width: 59.99em) {
-    .column .links > li {
-        width: 33.33333%;
-    }
-    .column .links > li:nth-of-type(3n+1) {
-        clear: left;
-    }
-}
-@media only screen and (min-width: 60em) {
-    .column .links > li {
-        width: 25%; /* links width */
-    }
-    .column .links > li:nth-of-type(4n+1) {/* change ?n to change how many elem for row */
-        clear: left;
-    }
-}
-.column .spacer {
+
+.column .software-description {
     background-color: #888;
     clear: both;
     display: block;
-    margin: 0 1em;
 }
-.column .expanding-container {
-    clear: both;
-    display: none;
-    overflow: hidden;
-    width: 100%;
-}
-.column .expanding-container.expanded, .column .expanding-container:target {
-    display: block;
-}
-.column .hentry {
+
+.column .software-entry {
     background: #888;
     box-sizing: border-box;
     clear: both;
     color: #fff;
     min-height: 4em;
     overflow: hidden;
-    padding: 2em;
-    width: 100%;
+    padding: 1em;
+    /*width: 100%;*/
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.column .hentry .entry-image {
+.column .software-entry .soft-img {
     box-sizing: border-box;
     float: right;
     margin-left: 1em;
-    padding: 0.25em 0 0.52em 1em;
+    padding-left: 1em;
     text-align: center;
     width: 50%;
 }
-.column .hentry .entry-title {
-    font-size: 1.5em;
+.column .software-entry .soft-title {
+    font-size: 30px;
     font-weight: 400;
 }
 .column .close-button {
@@ -661,20 +593,31 @@ tr
     opacity: 0.5;
 }
 
-.img-placeholder {
-    background: orange;
-    color: #fff;
-    font-size: 4em;
-    font-weight: 300;
-    line-height: 1;
-    padding: 25% 0.25em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 .fit {
     text-align: center;
     white-space: nowrap;
     font-size: 24px;
     width: inherit;
+}
+
+.soft-img, .soft-desc
+{
+    margin-top: 5%;
+    font-size: 15px;
+    text-align: justify;
+}
+
+.soft-img-src
+{
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border-radius: 16px;
+}
+
+.softwareTable
+{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }

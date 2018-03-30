@@ -22,21 +22,21 @@ const userData = [
 ];
 
 var db;
-var request = window.indexedDB.open("user", 1);
+var request = window.indexedDB.open('user', 1);
 
 request.onerror = function(event) {
-    console.log("error: ");
+    console.log('error: ');
 };
 
 request.onsuccess = function(event) {
     db = request.result;
-    console.log("success: " + db);
+    console.log('success: ' + db);
     loadUser();
 };
 
 request.onupgradeneeded = function(event) {
     var db = event.target.result;
-    var objectStore = db.createObjectStore("user", {keyPath: "id"});
+    var objectStore = db.createObjectStore('user', {keyPath: 'id'});
     for (var i in userData) {
         objectStore.add(userData[i]);
     }
@@ -51,18 +51,18 @@ request.onupgradeneeded = function(event) {
 var agentTest = null;
 function connectAgent()
 {
-  agentTest = new Agent(0, "127.0.0.1", "8000");
+  agentTest = new Agent(0, '127.0.0.1', '8000');
   agentTest.connect();
 }
 
 function installAgent()
 {
-  agentTest.install("FirefoxInstaller");
+  agentTest.install('FirefoxInstaller');
 }
 
 function downloadAgent()
 {
-  agentTest.download("https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe", "FirefoxInstaller");
+  agentTest.download('https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe', 'FirefoxInstaller');
 }
 
 
@@ -83,12 +83,12 @@ function register(login, password, passwordConfirmation)
     }
     else
     {
-        var error = "";
+        var error = '';
         for (var key in result.errors)
             error += result.errors[key] + '<br>';
 
         var loginError = document.getElementById('login-error');
-        loginError.innerHTML = "<strong>Error ! </strong>" + error;
+        loginError.innerHTML = '<strong>Error ! </strong>' + error;
         loginError.hidden = false;
         console.log('Error: Login failed.');
     }
@@ -106,12 +106,12 @@ function connectServer(login, password)
     }
     else
     {
-        var error = "";
+        var error = '';
         for (var key in result.errors)
             error += result.errors[key] + '<br>';
 
         var loginError = document.getElementById('login-error');
-        loginError.innerHTML = "<strong>Error ! </strong>" + error;
+        loginError.innerHTML = '<strong>Error ! </strong>' + error;
         loginError.hidden = false;
         console.log('Error: Login failed.');
     }
@@ -145,6 +145,7 @@ function downloadConfiguration(id)
     }
 }
 
+var softs = null;
 function getSoftwares()
 {
     var result = API.getSoftware();
@@ -152,6 +153,7 @@ function getSoftwares()
     if (result.success)
     {
         console.log('Content: ' + result.data);
+        softs = result.data;
         var softwares = result.data;
 
         var container=document.getElementById('softwareTable');
@@ -162,25 +164,26 @@ function getSoftwares()
             label.className = 'container';
             var img = document.createElement('img');
             img.className = 'logo';
-            img.src =  soft.icon_url;
+            img.src = API.getRootURL() + soft.icon_url;
             var input = document.createElement('input');
             input.type = 'checkbox';
             var span = document.createElement('span');
             span.className = 'checkMarkLogo';
             var infos = document.createElement('div');
             infos.className = 'softTitle';
-            //infos.textContent = soft.name;
             var fit = document.createElement('div');
             fit.className = 'fit';
-            fit.id = 'fit';
             var wrap = document.createElement('span');
-            wrap.id = 'wrap';
+            wrap.className = 'wrap';
             wrap.textContent = soft.name;
             var a = document.createElement('a');
-            a.href = '#';
+            a.className = 'soft-info';
             var aimg = document.createElement('img');
             aimg.className = 'info';
             aimg.src = 'assets/svg/info.svg';
+            var adesc = document.createElement('a');
+            adesc.className = 'active';
+            adesc.style.display = 'none';
             label.appendChild(img);
             label.appendChild(input);
             label.appendChild(span);
@@ -190,9 +193,13 @@ function getSoftwares()
             infos.appendChild(a);
             div.appendChild(label);
             div.appendChild(infos);
+            div.appendChild(adesc);
             container.appendChild(div);
             fontFitResize(fit, wrap);
         });
+        initSoftwaresDescriptions();
+        window.addEventListener('resize', function() { resetSoftwareDescription() });
+        resetSoftwareDescription();
     }
     else
     {
@@ -204,8 +211,8 @@ function getSoftwares()
 
 function loadUser()
 {
-    var transaction = db.transaction(["user"]);
-    var objectStore = transaction.objectStore("user");
+    var transaction = db.transaction(['user']);
+    var objectStore = transaction.objectStore('user');
     var request = objectStore.get(1);
 
     request.onsuccess = function (event)
@@ -222,8 +229,8 @@ function loadUser()
 
 function saveUser(user)
 {
-    db.transaction(["user"], "readwrite")
-        .objectStore("user")
+    db.transaction(['user'], 'readwrite')
+        .objectStore('user')
         .put({
             id: 1,
             user: user
@@ -237,8 +244,8 @@ function deleteUser(logout = true)
     else
         API.deleteUser();
 
-    db.transaction(["user"], "readwrite")
-        .objectStore("user")
+    db.transaction(['user'], 'readwrite')
+        .objectStore('user')
         .delete(1);
-    window.location = "login.html";
+    window.location = 'login.html';
 }
