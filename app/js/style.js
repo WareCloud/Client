@@ -17,6 +17,7 @@ function SwitchTab(name)
     {
         document.getElementById('softwareTable').innerHTML = '';
         getSoftwares();
+        getConfigurations();
     }
     if (name === 'Network')
     {

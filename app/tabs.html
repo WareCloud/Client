@@ -46,60 +46,45 @@
                     <div id="containerColumns" style="display: flex; justify-content: space-around;">
 
                         <div class="column">
-                            <table class="tableDevices">
-                                <tr>
-                                    <div class="deviceElement">
-                                        <label class="containerMachines">192.168.0.1
-                                            <input type="checkbox" id="device1">
-                                            <span class="checkMark"></span>
-                                        </label>
-                                        <div tabindex="0" class="onclick-menu">
-                                            <div class="onclick-menu-content">
-                                                MAC address : 00:25:96:FF:FE:84:34:52<br>
-                                                Name : MSI<br>
-                                                IP : 192.168.0.1<br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </tr>
-                                <tr>
-                                    <div class="deviceElement">
-                                        <label class="containerMachines">192.168.0.2
-                                            <input type="checkbox" id="device2">
-                                            <span class="checkMark"></span>
-                                        </label>
-                                        <div tabindex="0" class="onclick-menu">
-                                            <div class="onclick-menu-content">
-                                                MAC address : 00:25:96:FF:FE:16:34:46<br>
-                                                Name : MSI<br>
-                                                IP : 192.168.0.1<br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </tr>
-                                <tr>
-                                    <div class="deviceElement">
-                                        <label class="containerMachines">192.168.0.3
-                                            <input type="checkbox" id="device3">
-                                            <span class="checkMark"></span>
-                                        </label>
-                                        <div tabindex="0" class="onclick-menu">
-                                            <div class="onclick-menu-content">
-                                                MAC address : 00:25:96:FF:FE:19:34:16<br>
-                                                Name : MSI<br>
-                                                IP : 192.168.0.1<br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </tr>
-                            </table>
+                            <div class="deviceTable" id="deviceTable">
+                            </div>
                         </div>
 
                         <div class="column">
-                            <table class="softwareTable" id="softwareTable">
-                            </table>
+                            <div class="softwareTable" id="softwareTable">
+                            </div>
                         </div>
-                        <div class="column"></div>
+                        <div class="column">
+                            <div class="configTable" id="configTable">
+                                    <div class="configElement">
+                                        <label class="containerElement"><p class="elementName">Config fouchauve</p>
+                                            <input type="checkbox" id="config1">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div class="iconConfig">
+                                            <img src="assets/svg/sublime.svg" class="iconSVG"/>
+                                        </div>
+                                    </div>
+                                    <div class="configElement">
+                                        <label class="containerElement"><p class="elementName">Config fouchauve</p>
+                                            <input type="checkbox" id="config2">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div class="iconConfig">
+                                            <img src="assets/svg/sublime.svg" class="iconSVG"/>
+                                        </div>
+                                    </div>
+                                    <div class="configElement">
+                                        <label class="containerElement"><p class="elementName">Config fouchauve</p>
+                                            <input type="checkbox" id="config3">
+                                            <span class="checkMark"></span>
+                                        </label>
+                                        <div class="iconConfig">
+                                            <img src="assets/svg/sublime.svg" class="iconSVG"/>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="ContentTab" id="ContentNetworkTab">

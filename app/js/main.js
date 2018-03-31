@@ -148,6 +148,9 @@ function downloadConfiguration(id)
 var softs = null;
 function getSoftwares()
 {
+    var container = document.getElementById('softwareTable');
+    container.innerHTML = '';
+
     var result = API.getSoftware();
 
     if (result.success)
@@ -156,10 +159,9 @@ function getSoftwares()
         softs = result.data;
         var softwares = result.data;
 
-        var container=document.getElementById('softwareTable');
         softwares.forEach(function(soft) {
             var div = document.createElement('div');
-            div.className = 'element1';
+            div.className = 'softwareElement';
             var label = document.createElement('label');
             label.className = 'container';
             var img = document.createElement('img');
@@ -184,6 +186,7 @@ function getSoftwares()
             var adesc = document.createElement('a');
             adesc.className = 'active';
             adesc.style.display = 'none';
+
             label.appendChild(img);
             label.appendChild(input);
             label.appendChild(span);
@@ -195,6 +198,7 @@ function getSoftwares()
             div.appendChild(infos);
             div.appendChild(adesc);
             container.appendChild(div);
+
             fontFitResize(fit, wrap);
         });
         initSoftwaresDescriptions();
@@ -207,6 +211,42 @@ function getSoftwares()
         if (!API.isStillLoggedIn())
             deleteUser(false);
     }
+}
+
+function getDevices()
+{
+    var container = document.getElementById('deviceTable');
+    container.innerHTML = '';
+
+    var arp = new ARP();
+    console.log(arp.getDevices());
+    arp.getDevices().forEach(function(device){
+        var element = document.createElement('div');
+        element.className = 'deviceElement';
+        var containerElement = document.createElement('label');
+        containerElement.className = 'containerElement';
+        var elementName = document.createElement('p');
+        elementName.className = 'elementName';
+        elementName.textContent = device.ip;
+        var input = document.createElement('input');
+        input.type = 'checkbox';
+        var span = document.createElement('span');
+        span.className = 'checkMark';
+        var menu = document.createElement('div');
+        menu.tabIndex = 0;
+        menu.className = 'onclick-menu';
+        var menuContent = document.createElement('div');
+        menuContent.className = 'onclick-menu-content';
+        menuContent.innerHTML = 'MAC address : ' + device.mac + '<br>' + 'IP : ' + device.ip;
+
+        containerElement.appendChild(elementName);
+        containerElement.appendChild(input);
+        containerElement.appendChild(span);
+        menu.appendChild(menuContent);
+        element.appendChild(containerElement);
+        element.appendChild(menu);
+        container.appendChild(element);
+    });
 }
 
 function loadUser()
