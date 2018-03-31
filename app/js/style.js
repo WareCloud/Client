@@ -15,9 +15,11 @@ function SwitchTab(name)
     numTab = name;
     if (name === 'Software')
     {
-        document.getElementById('softwareTable').innerHTML = '';
-        getSoftwares();
-        getConfigurations();
+        displayDevices();
+        saveSoftwares();
+        saveConfigurations();
+        displaySoftwares();
+        displayConfigurations();
     }
     if (name === 'Network')
     {
