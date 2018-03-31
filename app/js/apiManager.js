@@ -130,10 +130,10 @@ var API =
             return {success: false, errors: {error: 'Result is null.'}};
         }
 
-        if (logName);
+        if (logName)
             console.log('RESULT => ' + result);
 
-        if (!endpointInfos.json)
+        if (!endpointInfos.json && param !== null)
             return {success: true, data: result};
 
         try {
@@ -195,7 +195,7 @@ var API =
         return result;
     },
 
-    getConfiguration: function(id)
+    getConfiguration: function(id = null)
     {
         var result = this.getResult('get_config', true, 'CONFIGURATION', true, id);
         return result;

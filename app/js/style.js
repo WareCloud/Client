@@ -18,6 +18,12 @@ function SwitchTab(name)
         document.getElementById('softwareTable').innerHTML = '';
         getSoftwares();
     }
+    if (name === 'Network')
+    {
+        var arp = new ARP();
+        var container = document.getElementById('networkTable');
+        container.innerHTML = arp.displayDevices(arp.getDevices());
+    }
 }
 
 function fontFitResize(fit, wrap, step = 0.5) {
