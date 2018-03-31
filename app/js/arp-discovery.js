@@ -28,22 +28,18 @@ class ARP {
             });
         }
         else {
-            this.fs.readFile('/proc/net/arp', function (err, data) {
-                if (!!err) return done(err, null);
+            var lines = this.fs.readFileSync('/proc/net/arp').toString().split('\n');
+            lines.splice(0, 1);
 
-                var lines = data.toString().split('\n');
-                lines.splice(0, 1);
+            lines.forEach(function(line){
+                var cols = line.replace(/ [ ]*/g, ' ').split(' ');
 
-                lines.forEach(function(line){
-                    var cols = line.replace(/ [ ]*/g, ' ').split(' ');
-
-                    if ((cols.length > 3) && (cols[0].length !== 0) && (cols[3].length !== 0) && cols[3] !== '00:00:00:00:00:00') {
-                        devices.push({
-                            ip: cols[0],
-                            mac: cols[3]
-                        });
-                    }
-                });
+                if ((cols.length > 3) && (cols[0].length !== 0) && (cols[3].length !== 0) && cols[3] !== '00:00:00:00:00:00') {
+                    devices.push({
+                        ip: cols[0],
+                        mac: cols[3]
+                    });
+                }
             });
         }
         return devices;
