@@ -289,11 +289,6 @@ h1
     margin-left: 4%;
 }
 
-.deviceElement
-{
-    margin-bottom: 7%;
-}
-
 .column
 {
     background-color: rgba(128, 128, 128, 0.08);
@@ -305,7 +300,7 @@ h1
     box-shadow: inset 0 0 12px -1px rgba(4,48,37,0.41);
 }
 
-.element1
+.element
 {
     margin-top: 3%;
 }
@@ -359,14 +354,12 @@ tr
     user-select: none;
 }
 
-.containerMachines {
+.containerElement {
     font-size: 28px;
-    display: block;
     position: relative;
     margin-bottom: 12px;
     display: inline-block;
     width: 79%;
-    /* text-align: left; */
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -376,7 +369,7 @@ tr
 
 
 /* Hide the browser's default checkbox */
-.container input, .containerMachines input
+.container input, .containerElement input
 {
     position: absolute;
     opacity: 0;
@@ -410,13 +403,13 @@ tr
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkMark, .container:hover input ~ .checkMarkLogo, .containerMachines:hover input ~ .checkMark, .containerMachines:hover input ~ .checkMarkLogo
+.container:hover input ~ .checkMark, .container:hover input ~ .checkMarkLogo, .containerElement:hover input ~ .checkMark, .containerElement:hover input ~ .checkMarkLogo
 {
     background-color: #1f2023;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkMark, .container input:checked ~ .checkMarkLogo, .containerMachines input:checked ~ .checkMark, .containerMachines input:checked ~ .checkMarkLogo
+.container input:checked ~ .checkMark, .container input:checked ~ .checkMarkLogo, .containerElement input:checked ~ .checkMark, .containerElement input:checked ~ .checkMarkLogo
 {
     background-color: #26bcb5;
 }
@@ -430,13 +423,13 @@ tr
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkMark:after, .container input:checked ~ .checkMarkLogo:after, .containerMachines input:checked ~ .checkMark:after, .containerMachines input:checked ~ .checkMarkLogo:after
+.container input:checked ~ .checkMark:after, .container input:checked ~ .checkMarkLogo:after, .containerElement input:checked ~ .checkMark:after, .containerElement input:checked ~ .checkMarkLogo:after
 {
     display: block;
 }
 
 /* Style the checkmark/indicator */
-.container .checkMark:after, .containerMachines .checkMark:after
+.container .checkMark:after, .containerElement .checkMark:after
 {
     left: 7px;
     top: 4px;
@@ -449,7 +442,7 @@ tr
     transform: rotate(45deg);
 }
 
-.container .checkMarkLogo:after, .containerMachines .checkMarkLogo:after
+.container .checkMarkLogo:after, .containerElement .checkMarkLogo:after
 {
     left: 6px;
     top: 2px;
@@ -542,6 +535,7 @@ a.active {
     background-color: #888;
     clear: both;
     display: block;
+    margin-bottom: 1em;
 }
 
 .column .software-entry {
@@ -551,8 +545,7 @@ a.active {
     color: #fff;
     min-height: 4em;
     overflow: hidden;
-    padding: 1em;
-    /*width: 100%;*/
+    padding: 0 1em 1em 1em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -575,7 +568,6 @@ a.active {
     height: 20px;
     line-height: 1;
     overflow: hidden;
-    padding: 1.5em 2em;
     text-decoration: none;
     text-indent: 5em;
     white-space: nowrap;
@@ -584,7 +576,13 @@ a.active {
     z-index: 5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    float: right;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    cursor: pointer;
 }
+
 .column .close-button.active {
     -webkit-transition: opacity 0.2s;
     transition: opacity 0.2s;
@@ -620,4 +618,22 @@ a.active {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+}
+
+.elementName
+{
+    text-align: left;
+    margin-left: 2em;
+}
+
+.iconConfig
+{
+    display: block;
+    float: right;
+}
+
+.iconSVG
+{
+    width: 40px;
+    height: 40px;
 }

@@ -64,6 +64,8 @@ function resetSoftwareDescription(){
         var softwareDescription = document.createElement('div');
         softwareDescription.classList.add('software-description');
         softwareDescription.style.display = 'none';
+        var close = document.createElement('a');
+        close.className = 'close-button';
         var article = document.createElement('article');
         article.className = 'software-entry';
         var h1 = document.createElement('h1');
@@ -78,11 +80,23 @@ function resetSoftwareDescription(){
         article.appendChild(h1);
         article.appendChild(entryImg);
         article.appendChild(description);
+        softwareDescription.appendChild(close);
         softwareDescription.appendChild(article);
         var afterObj = Math.min((perRow * row), maxElem) - 1;
-        var referenceNode = document.getElementsByClassName('element1')[afterObj];
+        var referenceNode = document.getElementsByClassName('softwareElement')[afterObj];
         referenceNode.parentNode.insertBefore(softwareDescription, referenceNode.nextSibling);
     }
+
+    [].forEach.call(document.getElementsByClassName('close-button'), function(el) {
+        el.addEventListener('click', function(){
+            [].forEach.call(document.getElementsByClassName('software-description'), function(el) {
+                el.style.display = 'none';
+            });
+            [].forEach.call(document.getElementsByClassName('active'), function(el) {
+                el.style.display = 'none';
+            });
+        });
+    });
 }
 
 function initSoftwaresDescriptions()
