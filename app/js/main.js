@@ -168,20 +168,18 @@ function saveSoftwares()
 
 function saveSoftwares()
 {
-  var result = API.getSoftware();
-  if (result.success)
-  {
-    result.data.forEach(function(d){
-      //console.log(d);
-      SOFTMANAGER.addSoftware(new Software(d));
-    });
-//    SOFTMANAGER.display();
-  }
-  else {
-    console.log('Error: Failed to get softwares');
-    if (!API.isStillLoggedIn())
-      deleteUser(false);
-  }
+    var result = API.getSoftware();
+    if (result.success)
+    {
+        result.data.forEach(function(soft){
+            SOFTMANAGER.addSoftware(soft);
+        });
+    }
+    else {
+        console.log('Error: Failed to get softwares');
+        if (!API.isStillLoggedIn())
+            deleteUser(false);
+    }
 }
 
 function getSoftware(id)
@@ -198,9 +196,7 @@ function displaySoftwares()
 {
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
-    console.log(SOFTMANAGER.getSoftware(1));
     SOFTMANAGER.getSoftwares().forEach(function(soft) {
-        console.log(soft);
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
