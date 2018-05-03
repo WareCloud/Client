@@ -314,7 +314,7 @@ function displayConfigurations()
         containerElement.setAttribute('name', 'container-config-' + conf.software.id);
         var elementName = document.createElement('p');
         elementName.className = 'elementName';
-        elementName.textContent = conf.software.name;
+        elementName.textContent = conf.name;
         var input = document.createElement('input');
         input.type = 'checkbox';
         var span = document.createElement('span');
