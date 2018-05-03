@@ -130,9 +130,9 @@ function initSoftwaresDescriptions()
             }
             var row = getSoftwareRow(pos);
             var description = document.getElementsByClassName('software-description')[row];
-            description.getElementsByClassName('soft-title')[0].textContent = softs[pos - 1].name;
-            description.getElementsByClassName('soft-img-src')[0].src = API.getRootURL() + softs[pos - 1].icon_url;
-            description.getElementsByClassName('soft-desc')[0].textContent = softs[pos - 1].comment;
+            description.getElementsByClassName('soft-title')[0].textContent = SOFTMANAGER.getSoftwareName(pos - 1);
+            description.getElementsByClassName('soft-img-src')[0].src = API.getRootURL() + SOFTMANAGER.getSoftware(pos - 1).icon_url;
+            description.getElementsByClassName('soft-desc')[0].textContent = SOFTMANAGER.getSoftware(pos - 1).comment;
             currSoftware.getElementsByClassName('active')[0].style.display = '';
             description.style.display = 'block';
         });

@@ -1,7 +1,4 @@
-
-
 PACKET_ID = 1
-
 
 class PacketId
 {
@@ -37,7 +34,6 @@ class AgentManager {
         }
         return connected
       }
-
 }
 
 class Agent {
@@ -75,14 +71,30 @@ class Agent {
           };
     }
 
+    createRequest(request, soft, link)
+    {
+      var result = {id_agent:this.id, "request":request, "software":soft, "link":link};
+      return JSON.stringify(result);
+    }
+
     install(name)
     {
-      this.send("install " + name)
+      this.send(createRequest("install", name, null));
     }
 
     download(link, name)
     {
-      this.send("download " + link  + " " + name)
+      this.send(createRequest("download", name, link))
+    }
+
+    uninstall(link, name)
+    {
+      this.send(createRequest("uninstall", name, link))
+    }
+
+    autodelete()
+    {
+      this.send(createRequest("autodelete", null, null))
     }
 
     send(message)

@@ -130,8 +130,8 @@ var API =
             return {success: false, errors: {error: 'Result is null.'}};
         }
 
-        if (logName)
-            console.log('RESULT => ' + result);
+        /*if (logName)
+            console.log('RESULT => ' + result);*/
 
         if (!endpointInfos.json && param !== null)
             return {success: true, data: result};

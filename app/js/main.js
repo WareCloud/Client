@@ -122,7 +122,10 @@ function downloadSoftware(id)
     var result = API.getSoftware(id);
 
     if (result.success)
+    {
         console.log('URL: ' + result.data.download_url);
+        saveSoftwares();
+    }
     else
     {
         console.log('Error: Download failed.');
@@ -145,7 +148,7 @@ function downloadConfiguration(id)
     }
 }
 
-var softs = [];
+/*var softs = [];
 function saveSoftwares()
 {
     var result = API.getSoftware();
@@ -161,16 +164,33 @@ function saveSoftwares()
         if (!API.isStillLoggedIn())
             deleteUser(false);
     }
+}*/
+
+function saveSoftwares()
+{
+  var result = API.getSoftware();
+  if (result.success)
+  {
+    result.data.forEach(function(d){
+      //console.log(d);
+      SOFTMANAGER.addSoftware(new Software(d));
+    });
+//    SOFTMANAGER.display();
+  }
+  else {
+    console.log('Error: Failed to get softwares');
+    if (!API.isStillLoggedIn())
+      deleteUser(false);
+  }
 }
 
 function getSoftware(id)
 {
     var software = null;
-    softs.forEach(function(soft){
+    SOFTMANAGER.softwares.forEach(function(soft){
         if (soft.id === id)
             software = soft;
     });
-
     return software;
 }
 
@@ -178,8 +198,9 @@ function displaySoftwares()
 {
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
-
-    softs.forEach(function(soft) {
+    console.log(SOFTMANAGER.getSoftware(1));
+    SOFTMANAGER.getSoftwares().forEach(function(soft) {
+        console.log(soft);
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
@@ -268,8 +289,7 @@ function saveConfigurations()
     var result = API.getConfiguration();
 
     if (result.success) {
-        console.log('Content: ' + result.data);
-
+        //console.log('Content: ' + result.data);
         confs = result.data;
         confs.sort(function(a, b) {
             return (a.software.id > b.software.id) ? 1 : ((b.software.id > a.software.id) ? -1 : 0);
@@ -307,7 +327,7 @@ function displayConfigurations()
         iconConfig.className = 'iconConfig';
         var iconSVG = document.createElement('img');
         iconSVG.className = 'iconSVG';
-        iconSVG.src = API.getRootURL() + getSoftware(conf.software.id).icon_url;
+        iconSVG.src = API.getRootURL() + SOFTMANAGER.getSoftware(conf.software.id).icon_url;
 
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
