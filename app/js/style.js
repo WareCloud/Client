@@ -24,6 +24,8 @@ function SwitchTab(name)
     if (name === 'Network')
     {
         var arp = new ARP();
+        var disc = new Discovery();
+        disc.getDevices();
         var container = document.getElementById('networkTable');
         container.innerHTML = arp.displayDevices(arp.getDevices());
     }
