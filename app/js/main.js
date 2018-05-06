@@ -148,24 +148,6 @@ function downloadConfiguration(id)
     }
 }
 
-/*var softs = [];
-function saveSoftwares()
-{
-    var result = API.getSoftware();
-
-    if (result.success)
-    {
-        console.log('Content: ' + result.data);
-        softs = result.data;
-    }
-    else
-    {
-        console.log('Error: Failed to get softwares.');
-        if (!API.isStillLoggedIn())
-            deleteUser(false);
-    }
-}*/
-
 function saveSoftwares()
 {
     var result = API.getSoftware();
@@ -336,6 +318,7 @@ function displayConfigurations()
 
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
+          create_bundle();
             document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked === true ? 'block' : 'none';
             });

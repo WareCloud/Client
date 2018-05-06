@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="style/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/apiManager.js"></script>
-    <script src="js/software.js"></script>
-    <script src="js/Agent.js"></script>
+    <script src="js/bundle.js"></script>
+    <script src="js/Software.js"></script>
+    <script src="js/agent.js"></script>
     <script src="js/style.js"></script>
     <script src="js/main.js"></script>
 
@@ -15,6 +16,7 @@
     <!-- Lib -->
 
     <script src="js/arp-discovery.js"></script>
+    <script src="js/discovery.js"></script>
 </head>
 
 <body>
@@ -45,8 +47,11 @@
                     Infos du réseaux depuis la dernière co, infos de l'utilisateurs, mises à jours requises etc<br />
                 </div>
                 <div class="ContentTab" id="ContentSoftwareTab">
+                  <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;">
                     <input class="install" type="button" id="install" value="Installation" onclick="" style="margin-bottom: 4%;"/>
-                    <div id="containerColumns" style="display: flex; justify-content: space-around;">
+                    <input class="create_bundle" type="button" id="create_bundle" value="Create a bundle" onclick="create_bundle()" style="margin-bottom: 4%;"/>
+                  </div>
+                  <div id="containerColumns" style="display: flex; justify-content: space-around;">
 
                         <div class="column">
                             <div class="deviceTable" id="deviceTable">
@@ -65,7 +70,6 @@
                 </div>
                 <div class="ContentTab" id="ContentNetworkTab">
                     <h1>Network</h1><br>
-                    Gestion concrète du réseau avec map du réseau et possibilité d'intéragir avec chaque machine
                     <div id="table">
                         <div style="margin-top : 4%;width:100%">
                             <table class="table" style="background-color: white; color: black; width: 100%;">
@@ -86,7 +90,6 @@
                 </div>
                 <div class="ContentTab" id="ContentProfileTab">
                     <h1>Profile</h1><br>
-                    Profil détaillé de l'utilisateur
                 </div>
             </div>
         </div>
