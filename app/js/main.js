@@ -232,11 +232,15 @@ function displayDevices()
     container.innerHTML = '';
 
     var arp = new ARP();
+    var id = 0;
     arp.getDevices().forEach(function(device){
         var element = document.createElement('div');
         element.className = 'deviceElement';
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
+        var deviceStatus = document.createElement('p');
+        deviceStatus.className = 'deviceStatus';
+        deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="orange" /></svg>';
         var elementName = document.createElement('p');
         elementName.className = 'elementName';
         elementName.textContent = device.ip;
@@ -251,6 +255,7 @@ function displayDevices()
         menuContent.className = 'onclick-menu-content';
         menuContent.innerHTML = 'MAC address : ' + device.mac + '<br>' + 'IP : ' + device.ip;
 
+        containerElement.appendChild(deviceStatus);
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
         containerElement.appendChild(span);
@@ -258,6 +263,9 @@ function displayDevices()
         element.appendChild(containerElement);
         element.appendChild(menu);
         container.appendChild(element);
+
+        checkDeviceAvailability(id, device.ip, 8000);
+        id++;
     });
 }
 
@@ -375,4 +383,23 @@ function deleteUser(logout = true)
         .objectStore('user')
         .delete(1);
     window.location = 'login.html';
+}
+
+function checkDeviceAvailability(id, ip, port)
+{
+    websocket = new WebSocket('ws://' + ip + ':' + port);
+    websocket.onopen = function(evt) {
+        console.log('CONNECTED TO ' + websocket.url);
+        setDeviceAvailability(id, true);
+    };
+    websocket.onclose = function(evt) {
+        console.log('DISCONNECTED FROM ' + websocket.url);
+        setDeviceAvailability(id, false);
+    };
+}
+
+function setDeviceAvailability(id, status)
+{
+    var color = status ? 'green' : 'red';
+    document.getElementsByClassName('deviceStatus')[id].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + color + '" /></svg>';
 }
