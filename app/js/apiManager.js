@@ -6,13 +6,19 @@ var API =
     api_prefix: '/api',
 
     api_endpoints: {
-        'get_user':     {endpoint: '/user',           method: 'GET',  use_token: true,  json: true},
-        'register':     {endpoint: '/user/register',  method: 'POST', use_token: false, json: true},
-        'login':        {endpoint: '/user/login',     method: 'POST', use_token: false, json: true},
-        'logout':       {endpoint: '/user/logout',    method: 'POST', use_token: true,  json: true},
-        'get_config':   {endpoint: '/configuration',  method: 'GET',  use_token: true,  json: false},
-        'post_config':  {endpoint: '/configuration',  method: 'POST', use_token: true,  json: true},
-        'get_soft':     {endpoint: '/software',       method: 'GET',  use_token: true,  json: true}
+        'get_user':     {endpoint: '/user',             method: 'GET',      use_token: true,    json: true},
+        'register':     {endpoint: '/user/register',    method: 'POST',     use_token: false,   json: true},
+        'login':        {endpoint: '/user/login',       method: 'POST',     use_token: false,   json: true},
+        'logout':       {endpoint: '/user/logout',      method: 'POST',     use_token: true,    json: true},
+        'get_config':   {endpoint: '/configuration',    method: 'GET',      use_token: true,    json: false},
+        'post_config':  {endpoint: '/configuration',    method: 'POST',     use_token: true,    json: true},
+        'up_config':    {endpoint: '/configuration',    method: 'PUT',      use_token: true,    json: true},
+        'del_config':   {endpoint: '/configuration',    method: 'DELETE',   use_token: true,    json: false},
+        'get_soft':     {endpoint: '/software',         method: 'GET',      use_token: true,    json: true},
+        'get_bundle':   {endpoint: '/bundle',           method: 'GET',      use_token: true,    json: true},
+        'post_bundle':  {endpoint: '/bundle',           method: 'POST',     use_token: true,    json: true},
+        'up_bundle':    {endpoint: '/bundle',           method: 'PUT',      use_token: true,    json: true},
+        'del_bundle':   {endpoint: '/bundle',           method: 'DELETE',   use_token: true,    json: false}
     },
 
     user: null,
@@ -25,7 +31,7 @@ var API =
         else if (window.XMLHttpRequest)
             xdr = new XMLHttpRequest();
         else
-            console.log("Module non compatible");
+            console.log('Module non compatible');
         return (xdr);
     },
 
@@ -49,11 +55,11 @@ var API =
             api_url += '/' + param;
 
         xhr.open(endpointInfos.method, api_url, false);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.setRequestHeader('Accept', 'application/json');
 
         if (endpointInfos.use_token)
-            xhr.setRequestHeader("Authorization", "Bearer " + token);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
 
         xhr.onreadystatechange = function()
         {
@@ -72,7 +78,7 @@ var API =
             if (logName !== null)
                 console.log('[' + logName + '] ERROR: Failed to communicate with the API !');
 
-            return {success: false, errors: {error: ["Failed to communicate with the API !"]}};
+            return {success: false, errors: {error: ['Failed to communicate with the API !']}};
         }
 
         if (jsonResult.hasOwnProperty('error'))
@@ -87,7 +93,7 @@ var API =
         {
             if (logName !== null)
                 for (var key in jsonResult.errors)
-                    console.log('[' + logName + '] ERROR: ' + key + " => " + jsonResult.errors[key]);
+                    console.log('[' + logName + '] ERROR: ' + key + ' => ' + jsonResult.errors[key]);
 
             return {success: false, errors: jsonResult.errors};
         }
@@ -139,7 +145,7 @@ var API =
         try {
             var jsonResult = JSON.parse(result);
         } catch (e) {
-            console.error("Parsing error:", e);
+            console.error('Parsing error:', e);
             return {success: false, errors: {error: 'Failed to parse JSON result.'}};
         }
 
@@ -150,7 +156,8 @@ var API =
 
     register: function(login, password, passwordConfirmation)
     {
-        var result = this.getResult('register', false, 'REGISTER', false, null, JSON.stringify({"login": login, "password": password, "password_confirmation": passwordConfirmation}));
+        var json = {'login': login, 'password': password, 'password_confirmation': passwordConfirmation};
+        var result = this.getResult('register', false, 'REGISTER', false, null, JSON.stringify(json));
 
         if (result.success)
             this.user = result.data;
@@ -160,7 +167,8 @@ var API =
 
     login: function(login, password)
     {
-        var result = this.getResult('login', false, 'LOGIN', false, null, JSON.stringify({"login": login, "password": password}));
+        var json = {'login': login, 'password': password};
+        var result = this.getResult('login', false, 'LOGIN', false, null, JSON.stringify(json));
 
         if (result.success)
             this.user = result.data;
@@ -201,6 +209,34 @@ var API =
         return result;
     },
 
+    postConfiguration: function(name, softwareId, content)
+    {
+        var json = {'software_id': softwareId, 'name': name, 'content': content};
+        var result = this.getResult('post_config', true, 'CONFIGURATION', true, null, JSON.stringify(json));
+        return result;
+    },
+
+    updateConfiguration: function(id, name = null, content = null)
+    {
+        var json = {};
+
+        if (name !== null)
+            json['name'] = name;
+
+        if (content !== null)
+            json['content'] = content;
+
+
+        var result = this.getResult('up_config', true, 'CONFIGURATION', true, id, JSON.stringify(json));
+        return result;
+    },
+
+    deleteConfiguration: function(id)
+    {
+        var result = this.getResult('del_config', true, 'CONFIGURATION', true, id);
+        return result;
+    },
+
     setUser: function(user)
     {
         this.user = user;
@@ -213,5 +249,38 @@ var API =
     deleteUser: function(user)
     {
         this.user = null;
+    },
+
+    getBundle: function(id = null)
+    {
+        var result = this.getResult('get_bundle', true, 'BUNDLE', true, id);
+        return result;
+    },
+
+    postBundle: function(name, bundle)
+    {
+        var json = {'name': name, 'bundle': bundle};
+        var result = this.getResult('post_bundle', true, 'BUNDLE', true, null, JSON.stringify(json));
+        return result;
+    },
+
+    updateBundle: function(id, name = null, bundle = null)
+    {
+        var json = {};
+
+        if (name !== null)
+            json['name'] = name;
+
+        if (bundle !== null)
+            json['bundle'] = bundle;
+
+        var result = this.getResult('up_bundle', true, 'BUNDLE', true, id, JSON.stringify(json));
+        return result;
+    },
+
+    deleteBundle: function(id)
+    {
+        var result = this.getResult('del_bundle', true, 'BUNDLE', true, id);
+        return result;
     }
 };
