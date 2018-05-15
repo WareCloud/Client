@@ -491,6 +491,20 @@ tr
 
 /* Machine's Details */
 
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    border-radius: 10px;
+    margin-bottom: 4%;
+}
+
+#myBar {
+    width: 0%;
+    height: 30px;
+    background-color: #26bcb5;
+    border-radius: 10px;
+}
+
 .onclick-menu
 {
     position: relative;
