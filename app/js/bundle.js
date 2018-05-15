@@ -1,30 +1,34 @@
+/*
 class Bundle {
-    constructor(id, name)
+    constructor(name, bundle)
     {
-        this.id = id;
         this.name = name;
-        this.softs = [];
+        this.bundle = bundle;
     }
 
-    addSoftware(soft)
+    setName(name)
     {
-        this.softs.push(soft);
+        this.name = name;
     }
 
-    removeSoftware(soft)
+    setBundle(bundle)
     {
-      for (i = 0; i != this.size; i++)
-      {
-        if (this.softs[i].id == soft.id)
-        {
-          this.softs = this.softs.splice(i);
-        }
-      }
+        this.bundle = bundle;
+    }
+
+    addBundle(soft, conf)
+    {
+        this.bundle.push({'software_id': soft.id, 'configuration_id': conf.id});
+    }
+
+    deleteBundle()
+    {
+
     }
 
     download(agent)
     {
-        for(i = 0; i != this.size; i++)
+        for(var i = 0; i != this.size; i++)
         {
             agent.download(this.softs[i].link, this.softs[i].name);
         }
@@ -32,40 +36,51 @@ class Bundle {
 
     install(agent)
     {
-        for(i = 0; i != this.size; i++)
+        for(var i = 0; i != this.size; i++)
         {
             agent.install(this.softs[i].name);
         }
     }
 }
+*/
 
-var BUNDLEMANAGER = {
-  bundles: [],
+var BundleManager = {
+    bundles: [],
 
-  createBundle: function(name)
-  {
-    this.bundles.push(new Bundle(this.bundles.length, name))
-  },
+    addBundle: function(bundle)
+    {
+        this.bundles[bundle.id] = bundle;
+    },
 
-  getBundle: function(id)
-  {
-    return this.bundles[id];
-  }
+    getBundle: function(id = null)
+    {
+        if (id === null)
+            return this.bundles;
 
+        if (this.bundles[id] !== undefined)
+            return this.bundles[id];
+
+        return null;
+    },
+
+    deleteBundle: function(bundle)
+    {
+        delete this.bundles[bundle.id];
+    }
 };
 
-function create_bundle()
+function CreateBundleButton()
 {
-  var count = 0;
-  var elms = document.getElementById('softwareTable').getElementsByTagName("input");
-  for (var i = 0; i < elms.length; i++){
-    if (elms[i].checked == true)
-      count++;
-  }
-  button = document.getElementById("create_bundle");
-  if (count > 1)
-    button.style.background = '#26BCB5';
-  else {
-    button.style.background = '#D6E0F6';
-  }
+    var count = 0;
+    var elms = document.getElementById('softwareTable').getElementsByTagName("input");
+    for (var i = 0; i < elms.length; i++){
+        if (elms[i].checked == true)
+            count++;
+    }
+    button = document.getElementById("CreateBundleButton");
+    if (count > 1)
+        button.style.background = '#26BCB5';
+    else {
+        button.style.background = '#D6E0F6';
+    }
 }

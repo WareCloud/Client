@@ -1,50 +1,4 @@
 /*
- * Local DB part
- */
-
-//prefixes of implementation that we want to test
-window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-//prefixes of window.IDB objects
-window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
-if (!window.indexedDB)
-{
-    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
-}
-
-const userData = [
-    {
-        id: 1,
-        user: null
-    }
-];
-
-var db;
-var request = window.indexedDB.open('user', 1);
-
-request.onerror = function(event) {
-    console.log('error: ');
-};
-
-request.onsuccess = function(event) {
-    db = request.result;
-    console.log('success: ' + db);
-    loadUser();
-};
-
-request.onupgradeneeded = function(event) {
-    var db = event.target.result;
-    var objectStore = db.createObjectStore('user', {keyPath: 'id'});
-    for (var i in userData) {
-        objectStore.add(userData[i]);
-    }
-};
-
-
-
-/*
  * Agent part
  */
 
@@ -151,10 +105,11 @@ function downloadConfiguration(id)
 function saveSoftwares()
 {
     var result = API.getSoftware();
+
     if (result.success)
     {
         result.data.forEach(function(soft){
-            SOFTMANAGER.addSoftware(soft);
+            SoftwareManager.addSoftware(soft);
         });
     }
     else {
@@ -167,7 +122,7 @@ function saveSoftwares()
 function getSoftware(id)
 {
     var software = null;
-    SOFTMANAGER.softwares.forEach(function(soft){
+    SoftwareManager.softwares.forEach(function(soft){
         if (soft.id === id)
             software = soft;
     });
@@ -178,12 +133,13 @@ function displaySoftwares()
 {
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
-    SOFTMANAGER.getSoftwares().forEach(function(soft) {
+    SoftwareManager.getSoftware().forEach(function(soft) {
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
         var label = document.createElement('label');
         label.className = 'container';
+        label.setAttribute('name', 'soft-' + soft.id);
         var img = document.createElement('img');
         img.className = 'logo';
         img.src = API.getRootURL() + soft.icon_url;
@@ -226,21 +182,30 @@ function displaySoftwares()
     resetSoftwareDescription();
 }
 
+var display;
+function switchBundleMode()
+{
+    display ? displayDevices() : displayBundles();
+    document.getElementById('BundleModeButton').value = (display ? 'Normal' : 'Bundle') + ' mode';
+}
+
 function displayDevices()
 {
+    display = 0;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
-    var arp = new ARP();
     var id = 0;
-    arp.getDevices().forEach(function(device){
+    ARP.getDevices(true).forEach(function(device){
+        var deviceExists = DeviceManager.getDeviceByIp(device.ip);
         var element = document.createElement('div');
         element.className = 'deviceElement';
+        element.setAttribute('online', 'false');
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
         var deviceStatus = document.createElement('p');
         deviceStatus.className = 'deviceStatus';
-        deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="orange" /></svg>';
+        deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="'+ (deviceExists !== null && deviceExists.isOnline() ? 'lime' : 'orange') + '" /></svg>';
         var elementName = document.createElement('p');
         elementName.className = 'elementName';
         elementName.textContent = device.ip;
@@ -264,21 +229,94 @@ function displayDevices()
         element.appendChild(menu);
         container.appendChild(element);
 
-        checkDeviceAvailability(id, device.ip, 8000);
+        DeviceManager.addDevice(id, device);
         id++;
     });
 }
 
-var confs = [];
+function saveBundles()
+{
+    var result = API.getBundle();
+
+    if (result.success)
+    {
+        result.data.forEach(function(bundle){
+            BundleManager.addBundle(bundle);
+        });
+    }
+    else {
+        console.log('Error: Failed to get bundles');
+        if (!API.isStillLoggedIn())
+            deleteUser(false);
+    }
+}
+
+function displayBundles()
+{
+    display = 1;
+    var container = document.getElementById('deviceTable');
+    container.innerHTML = '';
+
+    BundleManager.getBundle().forEach(function(bundle){
+        var element = document.createElement('div');
+        element.className = 'BundleElement';
+        element.setAttribute('name', 'bundle-' + bundle.id);
+        element.setAttribute('bundle-id', bundle.id);
+        var containerElement = document.createElement('label');
+        containerElement.className = 'containerElement';
+        var elementName = document.createElement('p');
+        elementName.className = 'elementName';
+        elementName.textContent = bundle.name;
+        var input = document.createElement('input');
+        input.type = 'checkbox';
+        var span = document.createElement('span');
+        span.className = 'checkMark';
+
+        containerElement.appendChild(elementName);
+        containerElement.appendChild(input);
+        containerElement.appendChild(span);
+        element.appendChild(containerElement);
+        container.appendChild(element);
+    });
+
+    [].forEach.call(document.getElementsByClassName('BundleElement'), function(el) {
+        el.addEventListener('click', function(event) {
+            event.preventDefault();
+            el.getElementsByTagName('input')[0].checked = !el.getElementsByTagName('input')[0].checked;
+            if(el.getElementsByTagName('input')[0].checked === true)
+            {
+                var bundle = BundleManager.getBundle(el.getAttribute('bundle-id'));
+                if (bundle !== null)
+                {
+                    bundle.bundle.forEach(function(element) {
+                        if (element.configuration !== null)
+                        {
+                            var config = document.getElementById('config-' + element.configuration.id);
+                            if (config !== undefined && config.getElementsByTagName('input')[0].checked === false)
+                                config.click();
+                        }
+
+                        var software = document.getElementsByName('soft-' + element.software.id)[0];
+                        if (software !== undefined && software.getElementsByTagName('input')[0].checked === false)
+                            software.click();
+                    })
+                }
+            }
+        }, false);
+    });
+}
+
 function saveConfigurations()
 {
     var result = API.getConfiguration();
 
     if (result.success) {
-        //console.log('Content: ' + result.data);
-        confs = result.data;
-        confs.sort(function(a, b) {
+        var configs = result.data;
+        configs.sort(function(a, b) {
             return (a.software.id > b.software.id) ? 1 : ((b.software.id > a.software.id) ? -1 : 0);
+        });
+        configs.forEach(function(config){
+            ConfigurationManager.addConfiguration(config);
         });
     }
     else
@@ -294,7 +332,7 @@ function displayConfigurations()
     var container = document.getElementById('configTable');
     container.innerHTML = '';
 
-    confs.forEach(function(conf) {
+    ConfigurationManager.getConfiguration().forEach(function(conf) {
         var element = document.createElement('div');
         element.className = 'configElement';
         element.setAttribute('name', 'config-' + conf.software.id);
@@ -302,6 +340,7 @@ function displayConfigurations()
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement containerConfig';
         containerElement.setAttribute('name', 'container-config-' + conf.software.id);
+        containerElement.id = 'config-' + conf.id;
         var elementName = document.createElement('p');
         elementName.className = 'elementName';
         elementName.textContent = conf.name;
@@ -313,7 +352,7 @@ function displayConfigurations()
         iconConfig.className = 'iconConfig';
         var iconSVG = document.createElement('img');
         iconSVG.className = 'iconSVG';
-        iconSVG.src = API.getRootURL() + SOFTMANAGER.getSoftware(conf.software.id).icon_url;
+        iconSVG.src = API.getRootURL() + SoftwareManager.getSoftware(conf.software.id).icon_url;
 
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
@@ -326,7 +365,7 @@ function displayConfigurations()
 
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
-          create_bundle();
+            CreateBundleButton();
             document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked === true ? 'block' : 'none';
             });
@@ -358,6 +397,8 @@ function loadUser()
                 deleteUser(false);
             else if (window.location.href.indexOf('login.html') !== -1)
                 window.location = 'tabs.html';
+            else
+                loadContent();
         }
     };
 }
@@ -385,21 +426,22 @@ function deleteUser(logout = true)
     window.location = 'login.html';
 }
 
-function checkDeviceAvailability(id, ip, port)
-{
-    websocket = new WebSocket('ws://' + ip + ':' + port);
-    websocket.onopen = function(evt) {
-        console.log('CONNECTED TO ' + websocket.url);
-        setDeviceAvailability(id, true);
-    };
-    websocket.onclose = function(evt) {
-        console.log('DISCONNECTED FROM ' + websocket.url);
-        setDeviceAvailability(id, false);
-    };
-}
-
 function setDeviceAvailability(id, status)
 {
-    var color = status ? 'green' : 'red';
-    document.getElementsByClassName('deviceStatus')[id].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + color + '" /></svg>';
+    var deviceElement = document.getElementsByClassName('deviceElement')[id];
+    if (deviceElement !== undefined)
+    {
+        deviceElement.setAttribute('online', status ? 'true' : 'false');
+        deviceElement.getElementsByClassName('deviceStatus')[0].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + (status ? 'lime' : 'red') + '" /></svg>';
+    }
+}
+
+function setDeviceAgentDetails(id, json)
+{
+    document.getElementsByClassName('onclick-menu-content')[id].innerHTML = document.getElementsByClassName('onclick-menu-content')[id].innerHTML + '<br>' + 'OS: ' + json.os + '<br>User: ' + json.user + '<br>Version: ' + json.version;
+}
+
+function refreshDevicesAvailbility()
+{
+    DeviceManager.refreshDevicesStatus();
 }

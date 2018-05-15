@@ -1,3 +1,19 @@
+var refreshDevicesTimeout;
+
+function loadContent() {
+    saveSoftwares();
+    saveConfigurations();
+    saveBundles();
+}
+
+function displayContent()
+{
+    displayDevices();
+    refreshDevicesTimeout = setInterval(refreshDevicesAvailbility, 10000);
+    displaySoftwares();
+    displayConfigurations();
+}
+
 function openNav() {
     document.getElementById('mySidenav').style.width = '250px';
 }
@@ -15,17 +31,12 @@ function SwitchTab(name)
     numTab = name;
     if (name === 'Software')
     {
-        displayDevices();
-        saveSoftwares();
-        saveConfigurations();
-        displaySoftwares();
-        displayConfigurations();
+        displayContent();
     }
     if (name === 'Network')
     {
-        var arp = new ARP();
         var container = document.getElementById('networkTable');
-        container.innerHTML = arp.displayDevices(arp.getDevices());
+        container.innerHTML = ARP.displayDevices(ARP.getDevices(true));
     }
 }
 
@@ -69,7 +80,7 @@ function resetSoftwareDescription(){
 
     recalculateSoftwareRows();
 
-    for (row=1; row <= maxRows; row++){
+    for (var row = 1; row <= maxRows; row++){
         var softwareDescription = document.createElement('div');
         softwareDescription.classList.add('software-description');
         softwareDescription.style.display = 'none';
@@ -121,7 +132,7 @@ function initSoftwaresDescriptions()
             var currSoftware = this.parentNode.parentNode;
             var childs = currSoftware.parentNode.childNodes;
             var pos = 0;
-            for (i = 0; i < childs.length; i++) {
+            for (var i = 0; i < childs.length; i++) {
                 if (childs[i].className === currSoftware.className)
                     pos++;
                 if (currSoftware === childs[i]){
@@ -130,9 +141,9 @@ function initSoftwaresDescriptions()
             }
             var row = getSoftwareRow(pos);
             var description = document.getElementsByClassName('software-description')[row];
-            description.getElementsByClassName('soft-title')[0].textContent = SOFTMANAGER.getSoftwareName(pos - 1);
-            description.getElementsByClassName('soft-img-src')[0].src = API.getRootURL() + SOFTMANAGER.getSoftware(pos - 1).icon_url;
-            description.getElementsByClassName('soft-desc')[0].textContent = SOFTMANAGER.getSoftware(pos - 1).comment;
+            description.getElementsByClassName('soft-title')[0].textContent = SoftwareManager.getSoftware(pos).name;
+            description.getElementsByClassName('soft-img-src')[0].src = API.getRootURL() + SoftwareManager.getSoftware(pos).icon_url;
+            description.getElementsByClassName('soft-desc')[0].textContent = SoftwareManager.getSoftware(pos).comment;
             currSoftware.getElementsByClassName('active')[0].style.display = '';
             description.style.display = 'block';
         });
