@@ -21,7 +21,7 @@ function Software(soft){
 }
 */
 
-var SOFTMANAGER =
+var SoftwareManager =
 {
     softwares: [],
 
@@ -30,24 +30,21 @@ var SOFTMANAGER =
         this.softwares[soft.id] = soft;
     },
 
-    getSoftware: function(id)
+    getSoftware: function(id = null)
     {
+        if (id === null)
+            return this.softwares;
+
         if (this.softwares[id] !== undefined)
             return this.softwares[id];
+
         return null;
     },
 
-    getSoftwareName: function(id)
+    deleteSoftware: function(soft)
     {
-        if (this.softwares[id] !== undefined)
-            return this.softwares[id].name;
-        return null;
-    },
-
-    getSoftwares: function()
-    {
-        return this.softwares;
-    },
+        delete this.softwares[soft.id];
+    }
 
     /*
     display: function()

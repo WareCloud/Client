@@ -46,6 +46,40 @@ a
     cursor: pointer;
 }
 
+.CreateBundleButton{
+    width: 20%;
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px 0 18px 0;
+    color: white;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #D6E0F6;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.BundleModeButton{
+    width: 20%;
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px 0 18px 0;
+    color: white;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    background: #26BCB5;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
 .button_a
 {
     width: 20%;
@@ -457,6 +491,20 @@ tr
 
 /* Machine's Details */
 
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    border-radius: 10px;
+    margin-bottom: 4%;
+}
+
+#myBar {
+    width: 0%;
+    height: 30px;
+    background-color: #26bcb5;
+    border-radius: 10px;
+}
+
 .onclick-menu
 {
     position: relative;
@@ -636,4 +684,12 @@ a.active {
 {
     width: 40px;
     height: 40px;
+}
+
+.statusSVG
+{
+    width: 20px;
+    height: 20px;
+    margin: 0.3em 0.5em 0 1.8em;
+    float: left;
 }

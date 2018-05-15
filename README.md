@@ -35,3 +35,11 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 - [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
 - [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
 - [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
+
+## Create executable
+
+# Install electron-packager
+npm install electron-packager
+# Create executable
+electron-packager . Warecloud --overwrite --asar=true --platform=win32 --arch=ia32 --icon=brand-small.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="Warecloud"
+

@@ -1,19 +1,22 @@
-class ARP {
-    constructor() {
-        this.fs = require('fs');
-    }
+var ARP =
+{
+    fs: require('fs'),
+    devices: [],
 
-    displayDevices(devices) {
+    displayDevices: function(devices)
+    {
         var ret = '';
         devices.forEach(function(device) {
             ret += '<tr><td></td><td>' + device.ip + '</td><td>' + device.mac + '</td><td></td><td></td></tr>';
         });
         return ret;
-    }
+    },
 
-    getDevices() {
+    refreshDevices: function()
+    {
         var devices = [];
-        if (process.platform === 'win32') {
+        if (process.platform === 'win32')
+        {
             const {execSync} = require('child_process');
             var result = execSync('arp -a').toString().split('\n');
             result.forEach(function(line){
@@ -27,7 +30,8 @@ class ARP {
                 });
             });
         }
-        else {
+        else
+        {
             var lines = this.fs.readFileSync('/proc/net/arp').toString().split('\n');
             lines.splice(0, 1);
 
@@ -42,7 +46,16 @@ class ARP {
                 }
             });
         }
-        return devices;
+        this.devices = devices;
+        this.devices.push({ip: 'localhost', mac:'00-00-00-00-00'});
+    },
+
+    getDevices: function(refresh = false)
+    {
+        if (refresh)
+            this.refreshDevices();
+
+        return this.devices;
     }
-}
+};
 
