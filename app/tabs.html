@@ -12,6 +12,7 @@
     <script src="js/software.js"></script>
     <script src="js/configuration.js"></script>
     <script src="js/agent.js"></script>
+    <script src="js/install.js"></script>
     <script src="js/main.js"></script>
     <script src="js/style.js"></script>
     <script src="js/progressBar.js"></script>
@@ -53,7 +54,7 @@
                         <button style="height: 50px;" onclick="move()">Test progress <bar></bar></button>
                         <input class="BundleModeButton" type="button" id="BundleModeButton" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
                         <input class="CreateBundleButton" type="button" id="CreateBundleButton" value="Create a bundle" onclick="BundleManager.createBundle()" style="margin-bottom: 4%;"/>
-                        <input class="install" type="button" id="install" value="Installation" onclick="install()" style="margin-bottom: 4%;"/>
+                        <input class="install" type="button" id="install" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
                   </div>
                     <div id="myProgress">
                         <div id="myBar"></div>

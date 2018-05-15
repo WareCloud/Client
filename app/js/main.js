@@ -200,6 +200,7 @@ function displayDevices()
         var deviceExists = DeviceManager.getDeviceByIp(device.ip);
         var element = document.createElement('div');
         element.className = 'deviceElement';
+        element.setAttribute('device-ip', device.ip);
         element.setAttribute('online', 'false');
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
@@ -283,7 +284,7 @@ function displayBundles()
         el.addEventListener('click', function(event) {
             event.preventDefault();
             el.getElementsByTagName('input')[0].checked = !el.getElementsByTagName('input')[0].checked;
-            if(el.getElementsByTagName('input')[0].checked === true)
+            if(el.getElementsByTagName('input')[0].checked)
             {
                 var bundle = BundleManager.getBundle(el.getAttribute('bundle-id'));
                 if (bundle !== null)
@@ -292,12 +293,12 @@ function displayBundles()
                         if (element.configuration !== null)
                         {
                             var config = document.getElementById('config-' + element.configuration.id);
-                            if (config !== undefined && config.getElementsByTagName('input')[0].checked === false)
+                            if (config !== undefined && !config.getElementsByTagName('input')[0].checked)
                                 config.click();
                         }
 
                         var software = document.getElementsByName('soft-' + element.software.id)[0];
-                        if (software !== undefined && software.getElementsByTagName('input')[0].checked === false)
+                        if (software !== undefined && !software.getElementsByTagName('input')[0].checked)
                             software.click();
                     })
                 }
@@ -336,6 +337,7 @@ function displayConfigurations()
         var element = document.createElement('div');
         element.className = 'configElement';
         element.setAttribute('name', 'config-' + conf.software.id);
+        element.setAttribute('config-id', conf.id);
         element.style.display = 'none';
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement containerConfig';
@@ -367,7 +369,7 @@ function displayConfigurations()
         el.addEventListener('click', function() {
             CreateBundleButton();
             document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
-                conf.style.display = el.getElementsByTagName('input')[0].checked === true ? 'block' : 'none';
+                conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
             });
         });
     });
