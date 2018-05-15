@@ -26,13 +26,10 @@
 <header>
     <div id="mySidenav" class="sideNav">
         <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times;</a>
-        <a href="tabs.html">Home</a>
-        <a href="login.html">Login</a>
         <a href="#" onclick="deleteUser()">Logout</a>
-        <a href="old.html">Old</a>
     </div>
     <span id="menu" onclick="openNav()">&#9776; Menu</span>
-    <a href="login.html"><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/png/brand-small-transparent.png"></h1></a>
+    <a><h1><img style="height: 165px; float: right; clear: right; margin-right: 9%;" src="assets/png/brand-small-transparent.png"></h1></a>
 </header>
 
 <section>
@@ -51,14 +48,16 @@
                 </div>
                 <div class="ContentTab" id="ContentSoftwareTab">
                     <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;"><!--PROGRESS BAR-->
-                        <button style="height: 50px;" onclick="move()">Test progress <bar></bar></button>
+                        <!--<button style="height: 50px;" onclick="move()">Test progress <bar></bar></button>-->
                         <input class="BundleModeButton" type="button" id="BundleModeButton" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
                         <input class="CreateBundleButton" type="button" id="CreateBundleButton" value="Create a bundle" onclick="BundleManager.createBundle()" style="margin-bottom: 4%;"/>
                         <input class="install" type="button" id="install" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
                   </div>
+                    <!--
                     <div id="myProgress">
                         <div id="myBar"></div>
                     </div>
+                    -->
                   <div id="containerColumns" style="display: flex; justify-content: space-around;">
 
                         <div class="column">
