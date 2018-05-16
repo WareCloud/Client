@@ -298,7 +298,7 @@ function displayBundles()
                         if (element.configuration !== null)
                         {
                             var config = document.getElementById('config-' + element.configuration.id);
-                            if (config !== undefined && !config.getElementsByTagName('input')[0].checked)
+                            if (config !== undefined && !config.getElementsByTagName('input')[1].checked)
                                 config.click();
                         }
 
@@ -348,9 +348,11 @@ function displayConfigurations()
         containerElement.className = 'containerElement containerConfig';
         containerElement.setAttribute('name', 'container-config-' + conf.software.id);
         containerElement.id = 'config-' + conf.id;
-        var elementName = document.createElement('p');
-        elementName.className = 'elementName';
-        elementName.textContent = conf.name;
+        var elementName = document.createElement('input');
+        elementName.className = 'elementName elementInput';
+        elementName.type = 'text';
+        elementName.placeholder = conf.name;
+        elementName.onblur = function(event) { ConfigurationManager.renameBundle(event) };
         var input = document.createElement('input');
         input.type = 'checkbox';
         var span = document.createElement('span');
@@ -380,11 +382,13 @@ function displayConfigurations()
     });
     [].forEach.call(document.getElementsByClassName('containerConfig'), function(el) {
         el.addEventListener('click', function() {
+            event.preventDefault();
+            el.getElementsByTagName('input')[1].checked = !el.getElementsByTagName('input')[1].checked;
             [].forEach.call(document.getElementsByName(el.getAttribute('name')), function(container){
                 if (el === container)
                     return;
 
-                container.getElementsByTagName('input')[0].checked = false;
+                container.getElementsByTagName('input')[1].checked = false;
             });
         });
     });

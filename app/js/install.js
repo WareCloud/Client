@@ -34,7 +34,7 @@ var InstallManager =
     {
         var selected = false;
         [].forEach.call(document.getElementsByName('config-' + softwareId), function(element) {
-            if (element.getElementsByTagName('input')[0].checked && element.style.display !== 'none')
+            if (element.getElementsByTagName('input')[1].checked && element.style.display !== 'none')
                 selected = true;
         });
 

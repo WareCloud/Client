@@ -33,7 +33,7 @@ var BundleManager = {
                 var softwareId = parseInt(software.getAttribute('soft-id'));
                 var bundle = {'software_id': softwareId, 'configuration_id': null};
                 [].forEach.call(document.getElementsByName('config-' + softwareId), function(configuration) {
-                    if (configuration.getElementsByTagName('input')[0].checked && configuration.style.display !== 'none')
+                    if (configuration.getElementsByTagName('input')[1].checked && configuration.style.display !== 'none')
                         bundle['configuration_id'] = parseInt(configuration.getAttribute('config-id'));
                 });
                 bundles.push(bundle);

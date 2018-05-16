@@ -20,5 +20,26 @@ var ConfigurationManager = {
     deleteConfiguration: function(configuration)
     {
         delete this.configurations[configuration.id];
+    },
+
+    renameBundle: function(event)
+    {
+        var name = event.target.value;
+        var configurationId = parseInt(event.target.parentNode.parentNode.getAttribute('config-id'));
+
+        if (name === "")
+            return;
+
+        API.updateConfiguration(configurationId, name);
+        saveConfigurations();
+        displayConfigurations();
+        [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
+            if (el.getElementsByTagName('input')[0].checked)
+            {
+                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function (conf) {
+                    conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
+                });
+            }
+        });
     }
 };
