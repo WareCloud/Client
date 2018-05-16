@@ -674,6 +674,19 @@ a.active {
     margin-left: 2em;
 }
 
+.elementName.elementInput
+{
+    position: unset;
+    visibility: visible;
+    opacity: unset;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    padding: 0;
+    margin: 0 0 0 20%;
+    font-family: roboto, serif;
+}
+
 .iconConfig
 {
     display: block;

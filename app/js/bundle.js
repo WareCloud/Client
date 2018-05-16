@@ -1,49 +1,3 @@
-/*
-class Bundle {
-    constructor(name, bundle)
-    {
-        this.name = name;
-        this.bundle = bundle;
-    }
-
-    setName(name)
-    {
-        this.name = name;
-    }
-
-    setBundle(bundle)
-    {
-        this.bundle = bundle;
-    }
-
-    addBundle(soft, conf)
-    {
-        this.bundle.push({'software_id': soft.id, 'configuration_id': conf.id});
-    }
-
-    deleteBundle()
-    {
-
-    }
-
-    download(agent)
-    {
-        for(var i = 0; i != this.size; i++)
-        {
-            agent.download(this.softs[i].link, this.softs[i].name);
-        }
-    }
-
-    install(agent)
-    {
-        for(var i = 0; i != this.size; i++)
-        {
-            agent.install(this.softs[i].name);
-        }
-    }
-}
-*/
-
 var BundleManager = {
     bundles: [],
 
@@ -66,21 +20,43 @@ var BundleManager = {
     deleteBundle: function(bundle)
     {
         delete this.bundles[bundle.id];
+    },
+
+    createBundle: function()
+    {
+        var name = document.getElementById('BundleName').value;
+        var bundles = [];
+
+        [].forEach.call(document.getElementsByClassName('softwareElement'), function(software) {
+            if (software.getElementsByTagName('input')[0].checked)
+            {
+                var softwareId = parseInt(software.getAttribute('soft-id'));
+                var bundle = {'software_id': softwareId, 'configuration_id': null};
+                [].forEach.call(document.getElementsByName('config-' + softwareId), function(configuration) {
+                    if (configuration.getElementsByTagName('input')[0].checked && configuration.style.display !== 'none')
+                        bundle['configuration_id'] = parseInt(configuration.getAttribute('config-id'));
+                });
+                bundles.push(bundle);
+            }
+        });
+
+        API.postBundle(name, bundles);
+
+        saveBundles();
+        switchBundleMode(0);
+        displayCreateBundleButton();
+    },
+
+    renameBundle: function(event)
+    {
+        var name = event.target.value;
+        var bundleId = parseInt(event.target.parentNode.parentNode.getAttribute('bundle-id'));
+
+        if (name === "")
+            return;
+
+        API.updateBundle(bundleId, name);
+        saveBundles();
+        switchBundleMode(0);
     }
 };
-
-function CreateBundleButton()
-{
-    var count = 0;
-    var elms = document.getElementById('softwareTable').getElementsByTagName("input");
-    for (var i = 0; i < elms.length; i++){
-        if (elms[i].checked == true)
-            count++;
-    }
-    button = document.getElementById("CreateBundleButton");
-    if (count > 1)
-        button.style.background = '#26BCB5';
-    else {
-        button.style.background = '#D6E0F6';
-    }
-}

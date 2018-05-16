@@ -49,9 +49,13 @@
                 <div class="ContentTab" id="ContentSoftwareTab">
                     <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;"><!--PROGRESS BAR-->
                         <!--<button style="height: 50px;" onclick="move()">Test progress <bar></bar></button>-->
-                        <input class="BundleModeButton" type="button" id="BundleModeButton" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
-                        <input class="CreateBundleButton" type="button" id="CreateBundleButton" value="Create a bundle" onclick="BundleManager.createBundle()" style="margin-bottom: 4%;"/>
-                        <input class="install" type="button" id="install" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
+                        <input class="BundleModeButton" id="BundleModeButton" type="button" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
+                        <input class="BundleName" id="BundleName" type="text" placeholder="Bundle name" style="margin-bottom: 4%;  width: 20%; color: black; display: none;"/>
+                        <a id="BundleSave" onclick="BundleManager.createBundle()" style="width: 3%; margin-top: 11px; height: 1%; cursor: pointer; display:none;">
+                            <img src="assets/svg/checked.svg">
+                        </a>
+                        <input class="CreateBundleButton" id="CreateBundleButton" type="button" value="Create a bundle" style="margin-bottom: 4%;" onclick="displayBundleName()" disabled/>
+                        <input class="install" id="install" type="button" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
                   </div>
                     <!--
                     <div id="myProgress">

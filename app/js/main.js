@@ -183,8 +183,11 @@ function displaySoftwares()
 }
 
 var display;
-function switchBundleMode()
+function switchBundleMode(disp = null)
 {
+    if (disp !== null)
+        display = disp;
+
     display ? displayDevices() : displayBundles();
     document.getElementById('BundleModeButton').value = (display ? 'Normal' : 'Bundle') + ' mode';
 }
@@ -265,9 +268,11 @@ function displayBundles()
         element.setAttribute('bundle-id', bundle.id);
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
-        var elementName = document.createElement('p');
-        elementName.className = 'elementName';
-        elementName.textContent = bundle.name;
+        var elementName = document.createElement('input');
+        elementName.className = 'elementName elementInput';
+        elementName.type = 'text';
+        elementName.placeholder = bundle.name;
+        elementName.onblur = function(event) { BundleManager.renameBundle(event) };
         var input = document.createElement('input');
         input.type = 'checkbox';
         var span = document.createElement('span');
@@ -283,8 +288,8 @@ function displayBundles()
     [].forEach.call(document.getElementsByClassName('BundleElement'), function(el) {
         el.addEventListener('click', function(event) {
             event.preventDefault();
-            el.getElementsByTagName('input')[0].checked = !el.getElementsByTagName('input')[0].checked;
-            if(el.getElementsByTagName('input')[0].checked)
+            el.getElementsByTagName('input')[1].checked = !el.getElementsByTagName('input')[1].checked;
+            if(el.getElementsByTagName('input')[1].checked)
             {
                 var bundle = BundleManager.getBundle(el.getAttribute('bundle-id'));
                 if (bundle !== null)
@@ -367,7 +372,7 @@ function displayConfigurations()
 
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
-            CreateBundleButton();
+            displayCreateBundleButton();
             document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
             });
@@ -446,4 +451,28 @@ function setDeviceAgentDetails(id, json)
 function refreshDevicesAvailbility()
 {
     DeviceManager.refreshDevicesStatus();
+}
+
+function displayBundleName()
+{
+    document.getElementById('BundleName').style.display = 'block';
+    document.getElementById('BundleSave').style.display = 'block';
+    document.getElementById('CreateBundleButton').style.display = 'none';
+}
+
+function displayCreateBundleButton()
+{
+    var count = 0;
+    var elms = document.getElementById('softwareTable').getElementsByTagName('input');
+    for (var i = 0; i < elms.length; i++)
+    {
+        if (elms[i].checked)
+            count++;
+    }
+    var button = document.getElementById('CreateBundleButton');
+    button.disabled = (count <= 1);
+    button.style.background = (count > 1) ? '#26BCB5' : '#D6E0F6';
+    button.style.display = 'block';
+    document.getElementById('BundleName').style.display = 'none';
+    document.getElementById('BundleSave').style.display = 'none';
 }
