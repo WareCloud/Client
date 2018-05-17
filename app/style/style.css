@@ -202,7 +202,7 @@ iframe
     margin-left: 50px;
 }
 
-input[type=text], input[type=password], select {
+input[type=text], input[type=password],input[type=url], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;*
@@ -230,7 +230,7 @@ input[type=submit]:hover
     background-color: #1e7972;
 }
 
-#NetworkTab:hover, #ProfileTab:hover, #MainTab:hover, #SoftwareTab:hover
+#ProfileTab:hover, #InstallTab:hover, #SuggestionTab:hover, #BugTab:hover
 {
     background-image: url(../assets/png/back.jpg);
 }
@@ -342,6 +342,7 @@ h1
 .icon
 {
     padding-right: 16px;
+    width: 32px;
 }
 
 .softTitle
@@ -705,4 +706,50 @@ a.active {
     height: 20px;
     margin: 0.3em 0.5em 0 1.8em;
     float: left;
+}
+
+#formSuggestion, #formBug
+{
+    width: 40%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.labelSuggestion
+{
+    width: 30%;
+    float: left;
+    display: block;
+    margin: 8px 0;
+    text-align: left;
+}
+
+.inputSuggestion
+{
+    font-size: 14px;
+    width: 70% !important;
+    float: right;
+}
+
+.txtArea
+{
+    font: 13px Arial;
+    resize: none;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 70%;
+}
+
+.submitSuggestion
+{
+    clear: left;
+    float: left;
+    width: 100% !important;
+    padding: 14px 0 !important;
+    margin-top: 1em !important;
 }

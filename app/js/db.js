@@ -21,7 +21,7 @@ const userData = [
     }
 ];
 
-var db;
+var db = null;
 var request = window.indexedDB.open('user', 1);
 
 request.onerror = function(event) {

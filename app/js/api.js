@@ -6,19 +6,21 @@ var API =
     api_prefix: '/api',
 
     api_endpoints: {
-        'get_user':     {endpoint: '/user',             method: 'GET',      use_token: true,    json: true},
-        'register':     {endpoint: '/user/register',    method: 'POST',     use_token: false,   json: true},
-        'login':        {endpoint: '/user/login',       method: 'POST',     use_token: false,   json: true},
-        'logout':       {endpoint: '/user/logout',      method: 'POST',     use_token: true,    json: true},
-        'get_config':   {endpoint: '/configuration',    method: 'GET',      use_token: true,    json: false},
-        'post_config':  {endpoint: '/configuration',    method: 'POST',     use_token: true,    json: true},
-        'up_config':    {endpoint: '/configuration',    method: 'PUT',      use_token: true,    json: true},
-        'del_config':   {endpoint: '/configuration',    method: 'DELETE',   use_token: true,    json: false},
-        'get_soft':     {endpoint: '/software',         method: 'GET',      use_token: true,    json: true},
-        'get_bundle':   {endpoint: '/bundle',           method: 'GET',      use_token: true,    json: true},
-        'post_bundle':  {endpoint: '/bundle',           method: 'POST',     use_token: true,    json: true},
-        'up_bundle':    {endpoint: '/bundle',           method: 'PUT',      use_token: true,    json: true},
-        'del_bundle':   {endpoint: '/bundle',           method: 'DELETE',   use_token: true,    json: false}
+        'get_user':         {endpoint: '/user',                 method: 'GET',      use_token: true,    json: true},
+        'register':         {endpoint: '/user/register',        method: 'POST',     use_token: false,   json: true},
+        'login':            {endpoint: '/user/login',           method: 'POST',     use_token: false,   json: true},
+        'logout':           {endpoint: '/user/logout',          method: 'POST',     use_token: true,    json: true},
+        'get_config':       {endpoint: '/configuration',        method: 'GET',      use_token: true,    json: false},
+        'post_config':      {endpoint: '/configuration',        method: 'POST',     use_token: true,    json: true},
+        'up_config':        {endpoint: '/configuration',        method: 'PUT',      use_token: true,    json: true},
+        'del_config':       {endpoint: '/configuration',        method: 'DELETE',   use_token: true,    json: false},
+        'get_soft':         {endpoint: '/software',             method: 'GET',      use_token: true,    json: true},
+        'get_bundle':       {endpoint: '/bundle',               method: 'GET',      use_token: true,    json: true},
+        'post_bundle':      {endpoint: '/bundle',               method: 'POST',     use_token: true,    json: true},
+        'up_bundle':        {endpoint: '/bundle',               method: 'PUT',      use_token: true,    json: true},
+        'del_bundle':       {endpoint: '/bundle',               method: 'DELETE',   use_token: true,    json: false},
+        'post_suggestion':  {endpoint: '/softwaresuggestion',   method: 'POST',     use_token: true,    json: false},
+        'post_bug':         {endpoint: '/bugreport',            method: 'POST',     use_token: true,    json: false}
     },
 
     user: null,
@@ -98,7 +100,7 @@ var API =
             return {success: false, errors: jsonResult.errors};
         }
 
-        if (!jsonResult.hasOwnProperty('data'))
+        if (!jsonResult.hasOwnProperty('data') && Object.keys(jsonResult).length !== 0)
         {
             if (logName !== null)
                 console.log('[' + logName + '] ERROR: Unknown error.');
@@ -281,6 +283,20 @@ var API =
     deleteBundle: function(id)
     {
         var result = this.getResult('del_bundle', true, 'BUNDLE', true, id);
+        return result;
+    },
+
+    postSoftwareSuggestion: function(name, website)
+    {
+        var json = {'name': name, 'website': website};
+        var result = this.getResult('post_suggestion', true, 'SOFTWARE SUGGESTION', true, null, JSON.stringify(json));
+        return result;
+    },
+
+    postBug: function(title, description)
+    {
+        var json = {'title': title, 'description': description};
+        var result = this.getResult('post_bug', true, 'BUG REPORT', true, null, JSON.stringify(json));
         return result;
     }
 };

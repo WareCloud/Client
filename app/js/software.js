@@ -1,26 +1,3 @@
-/*
-function Software(soft){
-    this.id = soft.id;
-    this.name = soft.name;
-    this.icon_url = soft.icon_url;
-    this.comment = soft.comment;
-    this.vendor = soft.vendor;
-    this.vendor_url = soft.vendor_url;
-    this.created_at = soft.created_at;
-    this.download_url = soft.download_url;
-    this.version = soft.version;
-    console.log(this);
-
-    this.setIcon = function(url) {
-        this.icon_url = url;
-    };
-
-    this.getName = function(){
-        return this.name;
-    };
-}
-*/
-
 var SoftwareManager =
 {
     softwares: [],
@@ -45,13 +22,4 @@ var SoftwareManager =
     {
         delete this.softwares[soft.id];
     }
-
-    /*
-    display: function()
-    {
-        this.softwares.forEach(function(soft){
-            console.log(soft);
-        });
-    }
-    */
 };

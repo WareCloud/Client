@@ -1,9 +1,11 @@
 var refreshDevicesTimeout;
 
-function loadContent() {
+function loadContent()
+{
     saveSoftwares();
     saveConfigurations();
     saveBundles();
+    displayContent();
 }
 
 function displayContent()
@@ -14,11 +16,13 @@ function displayContent()
     displayConfigurations();
 }
 
-function openNav() {
+function openNav()
+{
     document.getElementById('mySidenav').style.width = '250px';
 }
 
-function closeNav() {
+function closeNav()
+{
     document.getElementById('mySidenav').style.width = '0';
 }
 
@@ -29,18 +33,14 @@ function SwitchTab(name)
     document.getElementById('Content' + numTab + 'Tab').style.display = 'none';
     document.getElementById('Content' + name + 'Tab').style.display = 'block';
     numTab = name;
-    if (name === 'Software')
+    if (name === 'Install')
     {
         displayContent();
     }
-    if (name === 'Network')
-    {
-        var container = document.getElementById('networkTable');
-        container.innerHTML = ARP.displayDevices(ARP.getDevices(true));
-    }
 }
 
-function fontFitResize(fit, wrap, step = 0.5) {
+function fontFitResize(fit, wrap, step = 0.5)
+{
     var currentSize;
     while(fit.offsetWidth < wrap.offsetWidth) {
         currentSize = parseFloat(window.getComputedStyle(wrap, null).getPropertyValue('font-size'));
@@ -56,10 +56,15 @@ var maxRows = 0;
 
 function recalculateSoftwareRows()
 {
-    var ulWidth = document.getElementsByClassName('softwareTable')[0].offsetWidth;
-    var liWidth = document.getElementsByClassName('softwareTable')[0].children[0].offsetWidth;
+    var softwareTable = document.getElementsByClassName('softwareTable')[0];
+    var child = softwareTable.children[0];
+    if (softwareTable === undefined || child === undefined)
+        return;
+
+    var ulWidth = softwareTable.offsetWidth;
+    var liWidth = child.offsetWidth;
     perRow = Math.floor( ulWidth / liWidth );
-    maxElem = document.getElementsByClassName('softwareTable')[0].children.length;
+    maxElem = softwareTable.children.length;
     maxRows = Math.ceil(maxElem / perRow);
 }
 
@@ -68,7 +73,8 @@ function getSoftwareRow(position)
     return Math.min(maxRows, Math.ceil(position / perRow)) - 1;
 }
 
-function resetSoftwareDescription(){
+function resetSoftwareDescription()
+{
     var elements = document.getElementsByClassName('software-description');
 
     while(elements.length > 0)
