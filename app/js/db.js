@@ -31,7 +31,7 @@ request.onerror = function(event) {
 request.onsuccess = function(event) {
     db = request.result;
     console.log('success: ' + db);
-    loadUser();
+    boot();
 };
 
 request.onupgradeneeded = function(event) {
@@ -41,3 +41,11 @@ request.onupgradeneeded = function(event) {
         objectStore.add(userData[i]);
     }
 };
+
+function boot()
+{
+    if (loadUser === undefined)
+        setTimeout(function() { console.log('BOOTING'); boot(); }, 100);
+    else
+        loadUser();
+}
