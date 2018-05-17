@@ -77,16 +77,20 @@ var InstallManager =
                     setTimeout(function(){ device.websocket.send('follow ' + json.path) }, 1000);
                 else if (json.id === 3 && json.type === "F_FINISH")
                 {
-                    InstallManager.currentInstall[device.ip][json.path].finished = true;
-
                     if (InstallManager.configurationIsSelected(InstallManager.currentInstall[device.ip][json.path].id))
                         setTimeout(function(){ device.websocket.send('configure ' + InstallManager.currentInstall[device.ip][json.path].name); }, 1000);
+                    else
+                        InstallManager.currentInstall[device.ip][json.path].finished = true;
+                }
+                else if (json.id === 5 && json.type === "OK_CONFIGURATION")
+                    InstallManager.currentInstall[device.ip][json.path].finished = true;
 
-                    if (InstallManager.isFinished())
-                    {
-                        device.websocket.onmessage = function (event){ console.log('RECEIVED MESSAGE: ' + event.data + ' FROM ' + device.websocket.url); };
-                        button.value = 'INSTALL';
-                    }
+                if (InstallManager.isFinished())
+                {
+                    devices.forEach(function (dev) {
+                        dev.websocket.onmessage = function (event){ console.log('RECEIVED MESSAGE: ' + event.data + ' FROM ' + dev.websocket.url); };
+                    });
+                    button.value = 'INSTALL';
                 }
             };
 
