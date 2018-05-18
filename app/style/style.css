@@ -422,6 +422,7 @@ tr
     width: 25px;
     background-color: #1f2023;
     border-radius: 5px;
+    margin-top: 0.1em;
 }
 
 .checkMarkLogo
@@ -704,7 +705,7 @@ a.active {
 {
     width: 20px;
     height: 20px;
-    margin: 0.3em 0.5em 0 1.8em;
+    margin: 0.2em 0.5em 0 1.8em;
     float: left;
 }
 
@@ -724,6 +725,7 @@ a.active {
     margin: 8px 0;
     text-align: left;
     font-size: 20px;
+    line-height: 2em;
 }
 
 .labelSuggestion.big
