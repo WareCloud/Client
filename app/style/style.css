@@ -402,6 +402,15 @@ tr
     user-select: none;
 }
 
+.error
+{
+    width: 25px;
+    margin-top: 0.3em;
+    margin-left: 0.2em;
+    position: absolute;
+    cursor: pointer;
+}
+
 
 /* Hide the browser's default checkbox */
 .container input, .containerElement input
@@ -685,8 +694,11 @@ a.active {
     background: transparent;
     font-size: 28px;
     padding: 0;
-    margin: 0 0 0 20%;
+    /*margin: 0 0 0 20%;*/
     font-family: roboto, serif;
+
+    width: 72%;
+    margin: 0;
 }
 
 .iconConfig

@@ -272,16 +272,25 @@ function displayBundles()
         elementName.className = 'elementName elementInput';
         elementName.type = 'text';
         elementName.placeholder = bundle.name;
-        elementName.onblur = function(event) { BundleManager.renameBundle(event) };
+        elementName.onblur = function() { BundleManager.renameBundle(bundle.id, elementName.value); };
         var input = document.createElement('input');
         input.type = 'checkbox';
+        var a = document.createElement('a');
+        a.className = 'errorButton';
+        a.onclick = function() { BundleManager.deleteBundle(bundle.id); };
+        var error = document.createElement('img');
+        error.id = 'deleteBundle';
+        error.className = 'error';
+        error.src = 'assets/svg/error.svg';
         var span = document.createElement('span');
         span.className = 'checkMark';
 
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
         containerElement.appendChild(span);
+        a.appendChild(error);
         element.appendChild(containerElement);
+        element.appendChild(a);
         container.appendChild(element);
     });
 
@@ -352,7 +361,7 @@ function displayConfigurations()
         elementName.className = 'elementName elementInput';
         elementName.type = 'text';
         elementName.placeholder = conf.name;
-        elementName.onblur = function(event) { ConfigurationManager.renameBundle(event) };
+        elementName.onblur = function() { ConfigurationManager.renameConfiguration(conf.id, elementName.value); };
         var input = document.createElement('input');
         input.type = 'checkbox';
         var span = document.createElement('span');
@@ -362,11 +371,20 @@ function displayConfigurations()
         var iconSVG = document.createElement('img');
         iconSVG.className = 'iconSVG';
         iconSVG.src = API.getRootURL() + SoftwareManager.getSoftware(conf.software.id).icon_url;
+        var a = document.createElement('a');
+        a.className = 'errorButton';
+        a.onclick = function() { ConfigurationManager.deleteConfiguration(conf.id); };
+        var error = document.createElement('img');
+        error.id = 'deleteConf';
+        error.className = 'error';
+        error.src = 'assets/svg/error.svg';
 
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
         containerElement.appendChild(span);
+        a.appendChild(error);
         iconConfig.appendChild(iconSVG);
+        iconConfig.appendChild(a);
         element.appendChild(containerElement);
         element.appendChild(iconConfig);
         container.appendChild(element);

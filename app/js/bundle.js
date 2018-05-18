@@ -17,9 +17,12 @@ var BundleManager = {
         return null;
     },
 
-    deleteBundle: function(bundle)
+    deleteBundle: function(bundleId)
     {
-        delete this.bundles[bundle.id];
+        delete this.bundles[bundleId];
+        API.deleteBundle(bundleId);
+        saveBundles();
+        switchBundleMode(0);
     },
 
     createBundle: function()
@@ -47,11 +50,8 @@ var BundleManager = {
         displayCreateBundleButton();
     },
 
-    renameBundle: function(event)
+    renameBundle: function(bundleId, name)
     {
-        var name = event.target.value;
-        var bundleId = parseInt(event.target.parentNode.parentNode.getAttribute('bundle-id'));
-
         if (name === "")
             return;
 

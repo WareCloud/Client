@@ -17,16 +17,25 @@ var ConfigurationManager = {
         return null;
     },
 
-    deleteConfiguration: function(configuration)
+    deleteConfiguration: function(configurationId)
     {
-        delete this.configurations[configuration.id];
+        delete this.configurations[configurationId];
+        API.deleteConfiguration(configurationId);
+        saveConfigurations();
+        displayConfigurations();
+
+        [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
+            if (el.getElementsByTagName('input')[0].checked)
+            {
+                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function (conf) {
+                    conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
+                });
+            }
+        });
     },
 
-    renameBundle: function(event)
+    renameConfiguration: function(configurationId, name)
     {
-        var name = event.target.value;
-        var configurationId = parseInt(event.target.parentNode.parentNode.getAttribute('config-id'));
-
         if (name === "")
             return;
 
