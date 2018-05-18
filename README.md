@@ -38,8 +38,13 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 
 ## Create executable
 
-# Install electron-packager
-npm install electron-packager
-# Create executable
+**Install electron-packager**
+```bash
+npm install electron-packager -g
+```
+**Generate executable**
+```bash
 electron-packager . Warecloud --overwrite --asar=true --platform=win32 --arch=ia32 --icon=brand-small.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="Warecloud"
-
+```
+**Source**
+- [https://www.christianengvall.se/electron-packager-tutorial/]
