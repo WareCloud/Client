@@ -20,7 +20,8 @@ var API =
         'up_bundle':        {endpoint: '/bundle',               method: 'PUT',      use_token: true,    json: true},
         'del_bundle':       {endpoint: '/bundle',               method: 'DELETE',   use_token: true,    json: false},
         'post_suggestion':  {endpoint: '/softwaresuggestion',   method: 'POST',     use_token: true,    json: false},
-        'post_bug':         {endpoint: '/bugreport',            method: 'POST',     use_token: true,    json: false}
+        'post_bug':         {endpoint: '/bugreport',            method: 'POST',     use_token: true,    json: false},
+        'update_password':  {endpoint: '/user/password',        method: 'POST',     use_token: true,    json: true}
     },
 
     user: null,
@@ -297,6 +298,13 @@ var API =
     {
         var json = {'title': title, 'description': description};
         var result = this.getResult('post_bug', true, 'BUG REPORT', true, null, JSON.stringify(json));
+        return result;
+    },
+
+    updatePassword: function(password, newPassword, newPasswordConfirmation)
+    {
+        var json = {'password': password, 'new_password': newPassword, 'new_password_confirmation': newPasswordConfirmation};
+        var result = this.getResult('update_password', true, 'UPDATE PASSWORD', true, null, JSON.stringify(json));
         return result;
     }
 };

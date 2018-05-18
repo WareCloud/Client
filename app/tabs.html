@@ -76,12 +76,25 @@
                     </div>
                 </div>
                 <div class="ContentTab" id="ContentProfileTab">
-                    <h1>Profile</h1><br>
+                    <h3>Profile</h3>
+                    <div class="alert" role="alert" id="profileMessage"></div>
+                    <label class="labelSuggestion" id="profileLogin"></label>
+                    <br>
+                    <form id="formProfile" onsubmit="updatePassword();return false;" action="#">
+                        <label class="labelSuggestion">Current password:</label>
+                        <input class="inputSuggestion" id="profilePassword" type="password" placeholder="Current password" required>
+                        <label class="labelSuggestion">New password:</label>
+                        <input class="inputSuggestion" id="profileNewPassword" type="password" placeholder="New password" required>
+                        <label class="labelSuggestion">New password confirmation:</label>
+                        <input class="inputSuggestion" id="profileNewPasswordConfirmation" type="password" placeholder="New password confirmation" required>
+                        <input class="submitSuggestion" type="submit" value="Submit">
+                    </form>
                 </div>
                 <div class="ContentTab" id="ContentSuggestionTab">
                     <h3>Which software do you want to see in Warecloud?</h3>
+                    <div class="alert" role="alert" id="suggestionMessage"></div>
                     <br>
-                    <form id="formSuggestion" onsubmit="API.postSoftwareSuggestion(document.getElementById('softwareSuggestionName').value, document.getElementById('softwareSuggestionWebsite').value);return false;" action="#">
+                    <form id="formSuggestion" onsubmit="submitSoftwareSuggestion();return false;" action="#">
                         <label class="labelSuggestion">Name:</label>
                         <input class="inputSuggestion" id="softwareSuggestionName" type="text" placeholder="Software name" required>
                         <label class="labelSuggestion">Website:</label>
@@ -91,8 +104,9 @@
                 </div>
                 <div class="ContentTab" id="ContentBugTab">
                     <h3>You found a bug? Tell us!</h3>
+                    <div class="alert" role="alert" id="bugReportMessage"></div>
                     <br>
-                    <form id="formBug" onsubmit="API.postBug(document.getElementById('bugReportName').value, document.getElementById('bugReportDescription').value);return false;" action="#">
+                    <form id="formBug" onsubmit="submitBugReport();return false;" action="#">
                             <label class="labelSuggestion">Title:</label>
                             <input class="inputSuggestion" id="bugReportName" type="text" placeholder="Bug title" style="width: 20%;" required>
                             <label class="labelSuggestion">Description:</label>

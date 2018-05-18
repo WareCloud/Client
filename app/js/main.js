@@ -480,3 +480,73 @@ function displayCreateBundleButton()
     document.getElementById('BundleName').style.display = 'none';
     document.getElementById('BundleSave').style.display = 'none';
 }
+
+function updatePassword()
+{
+    var password = document.getElementById('profilePassword').value;
+    var newPassword = document.getElementById('profileNewPassword').value;
+    var newPasswordConfirmation = document.getElementById('profileNewPasswordConfirmation').value;
+
+    var result = API.updatePassword(password, newPassword, newPasswordConfirmation);
+    var message = document.getElementById('profileMessage');
+    if (result.success)
+    {
+        message.className = 'alert alert-success';
+        message.innerHTML = '<strong>Success ! </strong>' + result.data;
+    }
+    else
+    {
+        var error = '';
+        for (var key in result.errors)
+            error += result.errors[key] + '<br>';
+
+        message.className = 'alert alert-danger';
+        message.innerHTML = '<strong>Error ! </strong>' + error;
+    }
+}
+
+function submitSoftwareSuggestion()
+{
+    var name = document.getElementById('softwareSuggestionName').value;
+    var website = document.getElementById('softwareSuggestionWebsite').value;
+
+    var result = API.postSoftwareSuggestion(name, website);
+    var message = document.getElementById('suggestionMessage');
+    if (result.success)
+    {
+        message.className = 'alert alert-success';
+        message.innerHTML = '<strong>Success ! </strong>' + result.data;
+    }
+    else
+    {
+        var error = '';
+        for (var key in result.errors)
+            error += result.errors[key] + '<br>';
+
+        message.className = 'alert alert-danger';
+        message.innerHTML = '<strong>Error ! </strong>' + error;
+    }
+}
+
+function submitBugReport()
+{
+    var name = document.getElementById('bugReportName').value;
+    var description = document.getElementById('bugReportDescription').value;
+
+    var result = API.postBug(name, description);
+    var message = document.getElementById('bugReportMessage');
+    if (result.success)
+    {
+        message.className = 'alert alert-success';
+        message.innerHTML = '<strong>Success ! </strong>' + result.data;
+    }
+    else
+    {
+        var error = '';
+        for (var key in result.errors)
+            error += result.errors[key] + '<br>';
+
+        message.className = 'alert alert-danger';
+        message.innerHTML = '<strong>Error ! </strong>' + error;
+    }
+}
