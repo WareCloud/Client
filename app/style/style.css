@@ -710,7 +710,7 @@ a.active {
 
 #formProfile, #formSuggestion, #formBug
 {
-    width: 40%;
+    width: 45%;
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
@@ -723,6 +723,12 @@ a.active {
     display: block;
     margin: 8px 0;
     text-align: left;
+    font-size: 20px;
+}
+
+.labelSuggestion.big
+{
+    width: 40%;
 }
 
 .inputSuggestion
@@ -732,7 +738,12 @@ a.active {
     float: right;
 }
 
-.txtArea
+.inputSuggestion.big
+{
+    width: 60% !important;
+}
+
+.txtAreaSuggestion
 {
     font: 13px Arial;
     resize: none;
