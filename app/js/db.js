@@ -44,7 +44,7 @@ request.onupgradeneeded = function(event) {
 
 function boot()
 {
-    if (loadUser === undefined)
+    if (typeof loadUser !== 'function')
         setTimeout(function() { console.log('BOOTING'); boot(); }, 100);
     else
         loadUser();

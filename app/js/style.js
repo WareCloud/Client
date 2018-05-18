@@ -5,11 +5,22 @@ function loadContent()
     saveSoftwares();
     saveConfigurations();
     saveBundles();
-    displayContent();
+    displayProfile();
+}
+
+function displayProfile()
+{
+    document.getElementById('ProfileTab').innerHTML = '<img class="icon" src="assets/svg/user.svg">' + API.user.login;
 }
 
 function displayContent()
 {
+    if (db === null || API.user === null)
+    {
+        setTimeout(function() { displayContent(); }, 100);
+        return;
+    }
+
     displayDevices();
     refreshDevicesTimeout = setInterval(refreshDevicesAvailbility, 10000);
     displaySoftwares();
