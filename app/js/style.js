@@ -39,6 +39,7 @@ function closeNav()
 
 function SwitchTab(name)
 {
+    var message = null;
     document.getElementById(numTab + 'Tab').className = 'Tab0 tab';
     document.getElementById(name + 'Tab').className = 'Tab1 tab';
     document.getElementById('Content' + numTab + 'Tab').style.display = 'none';
@@ -48,6 +49,15 @@ function SwitchTab(name)
     {
         displayContent();
     }
+    if (name === 'Profile')
+        message = document.getElementById('profileMessage');
+    if (name === 'Suggestion')
+        message = document.getElementById('suggestionMessage');
+    if (name === 'Bug')
+        message = document.getElementById('bugReportMessage');
+
+    message.className = 'alert';
+    message.innerHTML = '';
 }
 
 function fontFitResize(fit, wrap, step = 0.5)
