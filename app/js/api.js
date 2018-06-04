@@ -1,9 +1,9 @@
 var API =
 {
-    api_protocol: 'http',
-    api_host: '163.5.84.202',
-    api_port: '80',
-    api_prefix: '/api',
+    api_protocol: 'https',
+    api_host: 'api.warecloud.me',
+    api_port: '',
+    api_prefix: '',
 
     api_endpoints: {
         'get_user':         {endpoint: '/user',                 method: 'GET',      use_token: true,    json: true},
