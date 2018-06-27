@@ -37,6 +37,9 @@
         <div class="TabSystem">
             <div class="tabs">
                 <span class="Tab0 tab" id="InstallTab" onclick="SwitchTab('Install');"><img class="icon" src="assets/svg/install.svg">Install</span>
+
+                <span class="Tab0 tab" id="UninstallTab" onclick="SwitchTab('Uninstall');"><img class="icon" src="assets/svg/Uninstall.svg">Uninstall</span>
+
                 <span class="Tab0 tab" id="ProfileTab" onclick="SwitchTab('Profile');"><img class="icon" src="assets/svg/user.svg">Profile</span>
                 <span class="Tab0 tab" id="SuggestionTab" onclick="SwitchTab('Suggestion');"><img class="icon" src="assets/svg/light.svg">Suggestion</span>
                 <span class="Tab0 tab" id="BugTab" onclick="SwitchTab('Bug');"><img class="icon" src="assets/svg/bug.svg">Bug report</span>
@@ -52,13 +55,13 @@
                         </a>
                         <input class="CreateBundleButton" id="CreateBundleButton" type="button" value="Create a bundle" style="margin-bottom: 4%;" onclick="displayBundleName()" disabled/>
                         <input class="install" id="install" type="button" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
-                  </div>
+                    </div>
                     <!--
                     <div id="myProgress">
                         <div id="myBar"></div>
                     </div>
                     -->
-                  <div id="containerColumns" style="display: flex; justify-content: space-around;">
+                  <div class="containerColumns" style="display: flex; justify-content: space-around;">
 
                         <div class="column">
                             <div class="deviceTable" id="deviceTable">
@@ -75,6 +78,22 @@
                         </div>
                     </div>
                 </div>
+                <!-- NEW -->
+                <div class="ContentTab" id="ContentUninstallTab">
+                    <div class="containerColumns" style="display: flex; justify-content: space-around;">
+
+                        <div class="column">
+                            <div class="deviceTable" id="deviceTableUninstall">
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="softwareTable" id="softwareTableUninstall">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- OUI -->
                 <div class="ContentTab" id="ContentProfileTab">
                     <h3>Profile</h3>
                     <div class="alert" role="alert" id="profileMessage"></div>
