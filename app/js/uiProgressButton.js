@@ -12,15 +12,7 @@
 	
 	'use strict';
 
-	var transEndEventNames = {
-			'WebkitTransition': 'webkitTransitionEnd',
-			'MozTransition': 'transitionend',
-			'OTransition': 'oTransitionEnd',
-			'msTransition': 'MSTransitionEnd',
-			'transition': 'transitionend'
-		},
-		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
-		support = { transitions : Modernizr.csstransitions };
+    var transEndEventName = 'transitionend';
 
 	function extend( a, b ) {
 		for( var key in b ) { 
@@ -36,8 +28,8 @@
 		// the path elements
 		this.paths = [].slice.call( this.el.querySelectorAll( 'path' ) );
 		// we will save both paths and its lengths in arrays
-		this.pathsArr = new Array();
-		this.lengthsArr = new Array();
+		this.pathsArr = [];
+		this.lengthsArr = [];
 		this._init();
 	}
 
@@ -49,14 +41,14 @@
 		} );
 		// undraw stroke
 		this.draw(0);
-	}
+	};
 
 	// val in [0,1] : 0 - no stroke is visible, 1 - stroke is visible
 	SVGEl.prototype.draw = function( val ) {
 		for( var i = 0, len = this.pathsArr.length; i < len; ++i ){
 			this.pathsArr[ i ].style.strokeDashoffset = this.lengthsArr[ i ] * ( 1 - val );
 		}
-	}
+	};
 
 	function UIProgressButton( el, options ) {
 		this.el = el;
@@ -68,7 +60,7 @@
 	UIProgressButton.prototype.options = {
 		// time in ms that the status (success or error will be displayed) - should be at least higher than the transition-duration value defined for the stroke-dashoffset transition of both checkmark and cross strokes 
 		statusTime : 1500
-	}
+	};
 
 	UIProgressButton.prototype._init = function() {
 		// the button
@@ -82,12 +74,12 @@
 		this._initEvents();
 		// enable button
 		this._enable();
-	}
+	};
 
 	UIProgressButton.prototype._initEvents = function() {
 		var self = this;
 		this.button.addEventListener( 'click', function() { self._submit(); } );
-	}
+	};
 
 	UIProgressButton.prototype._submit = function() {
 		// by adding the loading class the button will transition to a "circle"
@@ -95,11 +87,9 @@
 		
 		var self = this,
 			onEndBtnTransitionFn = function( ev ) {
-				if( support.transitions ) {
-					if( ev.propertyName !== 'width' ) return false;
+				if( ev.propertyName !== 'width' ) return false;
 					this.removeEventListener( transEndEventName, onEndBtnTransitionFn );
-				}
-				
+
 				// disable the button - this should have been the first thing to do when clicking the button.
 				// however if we do so Firefox does not seem to fire the transitionend event.
 				this.setAttribute( 'disabled', '' );
@@ -114,13 +104,8 @@
 				}
 			};
 
-		if( support.transitions ) {
-			this.button.addEventListener( transEndEventName, onEndBtnTransitionFn );
-		}
-		else {
-			onEndBtnTransitionFn();
-		}
-	}
+		this.button.addEventListener( transEndEventName, onEndBtnTransitionFn );
+	};
 
 	// runs after the progress reaches 100%
 	UIProgressButton.prototype.stop = function( status ) {
@@ -153,16 +138,16 @@
 
 		// give it a time (ideally the same like the transition time) so that the last progress increment animation is still visible.
 		setTimeout( endLoading, 300 );
-	}
+	};
 
 	UIProgressButton.prototype.setProgress = function( val ) {
 		this.progressEl.draw( val );
-	}
+	};
 
 	// enable button
 	UIProgressButton.prototype._enable = function() {
 		this.button.removeAttribute( 'disabled' );
-	}
+	};
 
 	// add to global namespace
 	window.UIProgressButton = UIProgressButton;
