@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>WareCloud</title>
     <link rel="stylesheet" href="style/style.css" />
-    <link rel="stylesheet" href="style/component.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/api.js"></script>
     <script src="js/db.js"></script>
@@ -16,8 +15,6 @@
     <script src="js/install.js"></script>
     <script src="js/main.js"></script>
     <script src="js/style.js"></script>
-    <script src="js/progressBar.js"></script>
-    <script src="js/classie.js"></script>
     <script src="js/uiProgressButton.js"></script>
 
 
@@ -46,8 +43,7 @@
             </div>
             <div class="ContentTabs">
                 <div class="ContentTab" id="ContentInstallTab">
-                    <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;"><!--PROGRESS BAR-->
-                        <!--<button style="height: 50px;" onclick="move()">Test progress <bar></bar></button>-->
+                    <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;">
                         <input class="BundleModeButton" id="BundleModeButton" type="button" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
                         <input class="BundleName" id="BundleName" type="text" placeholder="Bundle name" style="margin-bottom: 4%;  width: 20%; color: black; display: none;"/>
                         <a id="BundleSave" onclick="BundleManager.createBundle()" style="width: 3%; margin-top: 11px; height: 1%; cursor: pointer; display:none;">
@@ -56,11 +52,6 @@
                         <input class="CreateBundleButton" id="CreateBundleButton" type="button" value="Create a bundle" style="margin-bottom: 4%;" onclick="displayBundleName()" disabled/>
                         <input class="install" id="install" type="button" value="Install" onclick="InstallManager.install()" style="margin-bottom: 4%;"/>
                   </div>
-                    <!--
-                    <div id="myProgress">
-                        <div id="myBar"></div>
-                    </div>
-                    -->
                   <div id="containerColumns" style="display: flex; justify-content: space-around;">
 
                         <div class="column">
@@ -79,9 +70,19 @@
                     </div>
                     <div class="progress-button">
                         <button><span>Confirm</span></button>
-                        <svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
-                        <svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
-                        <svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+                        <svg class="progress-circle" width="70" height="70">
+                            <path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/>
+                        </svg>
+                        <svg class="checkmark" width="70" height="70">
+                            <path d="m31.5,46.5l15.3,-23.2"/>
+                            <path d="m31.5,46.5l-8.5,-7.1"/>
+                        </svg>
+                        <svg class="cross" width="70" height="70">
+                            <path d="m35,35l-9.3,-9.3"/>
+                            <path d="m35,35l9.3,9.3"/>
+                            <path d="m35,35l-9.3,9.3"/>
+                            <path d="m35,35l9.3,-9.3"/>
+                        </svg>
                     </div>
                 </div>
                 <div class="ContentTab" id="ContentProfileTab">
@@ -145,20 +146,20 @@
     require('./renderer.js');
     require('./js/main.js');
 
-    [].slice.call( document.querySelectorAll( '.progress-button' ) ).forEach( function( bttn, pos ) {
-        new UIProgressButton( bttn, {
-            callback : function( instance ) {
-                var progress = 0,
-                    interval = setInterval( function() {
-                        progress = Math.min( progress + Math.random() * 0.1, 1 );
-                        instance.setProgress( progress );
-                        if( progress === 1 ) {
-                            instance.stop( pos === 1 || pos === 3 ? -1 : 1 );
-                            clearInterval( interval );
-                        }
-                    }, 150 );
+    [].slice.call(document.querySelectorAll('.progress-button')).forEach(function(bttn, pos) {
+        new UIProgressButton(bttn, {
+            callback : function(instance) {
+                var progress = 0;
+                var interval = setInterval(function() {
+                    progress = Math.min(progress + Math.random() * 0.1, 1);
+                    instance.setProgress(progress);
+                    if(progress === 1) {
+                        instance.stop(pos === 1 || pos === 3 ? -1 : 1);
+                        clearInterval(interval);
+                    }
+                }, 150);
             }
-        } );
-    } );
+        });
+    });
 </script>
 </html>
