@@ -11,14 +11,14 @@
 /* Button style */
 .progress-button button {
 	display: block;
-	margin: 0 auto;
+	margin: 3em auto 0 auto;
 	padding: 0;
 	width: 250px;
 	height: 70px;
-	border: 2px solid #1ECD97;
+	border: 2px solid #26BCB5;
 	border-radius: 40px;
 	background: transparent;
-	color: #1ECD97;
+	color: #26BCB5;
 	letter-spacing: 1px;
 	font-size: 18px;
 	font-family: 'Montserrat', sans-serif;
@@ -28,7 +28,7 @@
 }
 
 .progress-button button:hover {
-	background-color: #1ECD97;
+	background-color: #26BCB5;
 	color: #fff;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .progress-button svg.progress-circle path {
-	stroke: #1ECD97;
+	stroke: #26BCB5;
 	stroke-width: 5;
 }
 
@@ -98,8 +98,8 @@
 }
 
 .success.progress-button button {
-	border-color: #1ECD97;
-	background-color: #1ECD97;
+	border-color: #26BCB5;
+	background-color: #26BCB5;
 }
 
 .error.progress-button button {
