@@ -393,7 +393,7 @@ function displayConfigurations()
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
             displayCreateBundleButton();
-            document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
+            document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function(conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
             });
         });
@@ -418,7 +418,7 @@ function loadUser()
     var objectStore = transaction.objectStore('user');
     var request = objectStore.get(1);
 
-    request.onsuccess = function (event)
+    request.onsuccess = function(event)
     {
         if (request.result !== undefined)
         {

@@ -21,7 +21,7 @@ var DeviceManager =
                 setDeviceAvailability(device.id, true);
             };
 
-            device.websocket.onmessage = function (evt)
+            device.websocket.onmessage = function(evt)
             {
                 setDeviceAgentDetails(device.id, JSON.parse(evt.data));
             };
@@ -37,7 +37,7 @@ var DeviceManager =
                 return device.websocket.readyState;
             };
 
-            device.close = function ()
+            device.close = function()
             {
                 if (device.websocket.readyState !== device.websocket.OPEN)
                     device.websocket.close();

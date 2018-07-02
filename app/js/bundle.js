@@ -52,7 +52,7 @@ var BundleManager = {
 
     renameBundle: function(bundleId, name)
     {
-        if (name === "")
+        if (name === '')
             return;
 
         API.updateBundle(bundleId, name);
