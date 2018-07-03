@@ -457,6 +457,9 @@ function setDeviceAvailability(id, status)
 
 function displayConfirmButton()
 {
+    if (InstallManager.installing)
+        return;
+
     var install = document.getElementById('install');
     var button = install.getElementsByTagName('button')[0];
 

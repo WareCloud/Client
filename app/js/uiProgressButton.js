@@ -60,7 +60,7 @@
 
 	UIProgressButton.prototype.options = {
 		// time in ms that the status (success or error will be displayed) - should be at least higher than the transition-duration value defined for the stroke-dashoffset transition of both checkmark and cross strokes
-		statusTime : 1500
+		statusTime : 3000
 	};
 
 	UIProgressButton.prototype._init = function() {

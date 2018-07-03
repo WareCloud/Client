@@ -867,6 +867,7 @@ a.active {
 
 /* Loading, success and error effects */
 .loading.progress-button button {
+    opacity: 1;
     width: 70px; /* make a circle */
     border-width: 5px;
     border-color: #ddd;
@@ -888,6 +889,7 @@ a.active {
 
 .success.progress-button button,
 .error.progress-button button {
+    opacity: 1;
     -webkit-transition: background-color 0.3s, width 0.3s, border-width 0.3s;
     transition: background-color 0.3s, width 0.3s, border-width 0.3s;
 }

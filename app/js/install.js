@@ -26,11 +26,25 @@ var InstallManager =
     logs: [],
     errors: [],
     progress: null,
+    installing: false,
 
-    logError: function(device, json, currentInstall)
+    logError: function(device, json, currentInstall = null)
     {
-        this.errors.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' JSON: ' + JSON.stringify(JSON));
-        currentInstall.status = InstallManager.status.FAILED;
+        InstallManager.errors.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' JSON: ' + JSON.stringify(json));
+
+        if (currentInstall !== null)
+            currentInstall.status = InstallManager.status.FAILED;
+        else
+            Object.keys(InstallManager.currentInstall[device.ip]).forEach(function(install) {
+                InstallManager.currentInstall[device.ip][install].status = InstallManager.status.FAILED;
+            });
+    },
+
+    handleDisconnected: function(device)
+    {
+        json = {'error': 'DEVICE DISCONNECTED'};
+        InstallManager.logError(device, json);
+        InstallManager.displayProgress();
     },
 
     handleConnected: function(device, json)
@@ -49,7 +63,7 @@ var InstallManager =
             /*
             currentInstall.status = InstallManager.status.INSTALLED;
             if (InstallManager.getSoftwares(json.command.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
-                setTimeout(function() { device.websocket.send('configure ' + currentInstall.name); }, 1000);
+                setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
             */
         }
         else
@@ -63,13 +77,13 @@ var InstallManager =
         if (json.type === 'F_RUNNING')
         {
             currentInstall.status = InstallManager.status.DOWNLOADED;
-            setTimeout(function(){ device.websocket.send('follow ' + json.path) }, 1000);
+            setTimeout(function(){ device.send('follow ' + json.path) }, 1000);
         }
         else if (json.type === 'F_FINISH')
         {
             currentInstall.status = InstallManager.status.INSTALLED;
             if (InstallManager.getSoftwares(json.path.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
-                setTimeout(function() { device.websocket.send('configure ' + currentInstall.name); }, 1000);
+                setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
         }
         else
             InstallManager.logError(device, json, currentInstall);
@@ -85,7 +99,7 @@ var InstallManager =
             if (json.command >= 100)
             {
                 currentInstall.status = InstallManager.status.DOWNLOADED;
-                device.websocket.send('install ' + json.path);
+                device.send('install ' + json.path);
             }
         }
         else
@@ -115,29 +129,29 @@ var InstallManager =
     handleMessage: function(device, event)
     {
         var messages = {
-            1: this.handleConnected,
-            2: this.handleInstall,
-            3: this.handleFollow,
-            4: this.handleDownload,
-            5: this.handleConfigure,
-            6: this.handleUninstall,
+            1: InstallManager.handleConnected,
+            2: InstallManager.handleInstall,
+            3: InstallManager.handleFollow,
+            4: InstallManager.handleDownload,
+            5: InstallManager.handleConfigure,
+            6: InstallManager.handleUninstall,
 
-            20: this.handleError
+            20: InstallManager.handleError
         };
 
-        this.logs.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' MSG: ' + event.data);
+        InstallManager.logs.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' MSG: ' + event.data);
 
         try {
             var json = JSON.parse(event.data);
         }
         catch (e) {
-            this.errors.push(new Date().toLocaleString() + 'ERROR: ' + e + ' FROM: ' + device.websocket.url);
+            InstallManager.errors.push(new Date().toLocaleString() + 'ERROR: ' + e + ' FROM: ' + device.websocket.url);
         }
 
-        if (messages[json.id] !== undefined)
+        if (device.isOnline() && messages[json.id] !== undefined)
             messages[json.id](device, json);
 
-        this.displayProgress();
+        InstallManager.displayProgress();
     },
 
     setDevices: function()
@@ -152,7 +166,7 @@ var InstallManager =
             }
         });
 
-        this.devices = devices;
+        InstallManager.devices = devices;
     },
 
     configurationIsSelected: function(softwareId)
@@ -170,7 +184,7 @@ var InstallManager =
     {
         var finished = true;
 
-        Object.keys(this.currentInstall).forEach(function(device) {
+        Object.keys(InstallManager.currentInstall).forEach(function(device) {
             Object.keys(InstallManager.currentInstall[device]).forEach(function(software) {
                 if (InstallManager.softwares[software].status - InstallManager.currentInstall[device][software].status > 0)
                     finished = false;
@@ -185,13 +199,13 @@ var InstallManager =
         var total = 0;
         var current = 0;
 
-        Object.keys(this.softwares).forEach(function(soft) {
+        Object.keys(InstallManager.softwares).forEach(function(soft) {
             total += InstallManager.softwares[soft].status;
         });
 
         total *= InstallManager.devices.length;
 
-        Object.keys(this.currentInstall).forEach(function(device) {
+        Object.keys(InstallManager.currentInstall).forEach(function(device) {
             Object.keys(InstallManager.currentInstall[device]).forEach(function(software) {
                 current += Math.max(InstallManager.status.STARTED, InstallManager.softwares[software.replace('.exe', '')].status - InstallManager.currentInstall[device][software].status);
             });
@@ -201,15 +215,16 @@ var InstallManager =
 
     displayProgress: function()
     {
-        var progress = this.getProgress();
+        var progress = InstallManager.getProgress();
 
-        this.progress.setProgress(progress);
+        InstallManager.progress.setProgress(progress);
         if (progress >= 1.0)
         {
             InstallManager.devices.forEach(function(dev) {
                 dev.websocket.onmessage = function(event){ console.log('RECEIVED MESSAGE: ' + event.data + ' FROM ' + dev.websocket.url); };
             });
-            this.progress.stop(this.errors.length === 0);
+            InstallManager.progress.stop(InstallManager.errors.length === 0);
+            InstallManager.installing = false;
         }
     },
 
@@ -226,27 +241,28 @@ var InstallManager =
             }
         });
 
-        this.softwares = softwares;
+        InstallManager.softwares = softwares;
     },
 
     getSoftwares: function(software = null)
     {
-        if (this.softwares[software] !== undefined)
-            return this.softwares[software];
+        if (InstallManager.softwares[software] !== undefined)
+            return InstallManager.softwares[software];
 
         return softwares;
     },
 
     install: function(progress)
     {
-        this.progress = progress;
-        this.setDevices();
-        this.setSoftwares();
-        this.currentInstall = {};
-        this.logs = [];
-        this.errors = [];
+        InstallManager.progress = progress;
+        InstallManager.setDevices();
+        InstallManager.setSoftwares();
+        InstallManager.currentInstall = {};
+        InstallManager.logs = [];
+        InstallManager.errors = [];
+        InstallManager.installing = true;
 
-        this.devices.forEach(function(device) {
+        InstallManager.devices.forEach(function(device) {
 
             InstallManager.currentInstall[device.ip] = {};
 
@@ -255,13 +271,13 @@ var InstallManager =
                 InstallManager.handleMessage(device, event);
             };
 
-            Object.keys(this.softwares).forEach(function(software) {
+            Object.keys(InstallManager.softwares).forEach(function(software) {
                 var soft = InstallManager.softwares[software];
                 var softwareExe = software + '.exe';
                 InstallManager.currentInstall[device.ip][softwareExe] = {'id': soft.id, 'name': software, 'status': InstallManager.status.STARTED};
-                //device.websocket.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
-                device.websocket.send('install ' + software + '.exe');
-                setTimeout(function(){ device.websocket.send('follow ' + software + '.exe'); }, 1000);
+                //device.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
+                device.send('install ' + software + '.exe');
+                setTimeout(function(){ device.send('follow ' + software + '.exe'); }, 1000);
             });
         });
     }

@@ -30,6 +30,12 @@ var DeviceManager =
             {
                 console.log('DISCONNECTED FROM ' + device.websocket.url);
                 setDeviceAvailability(device.id, false);
+
+                if (InstallManager.installing)
+                    InstallManager.devices.forEach(function(dev) {
+                        if (device.ip === dev.ip)
+                            InstallManager.handleDisconnected(device);
+                    });
             };
 
             device.getStatus = function()
@@ -46,6 +52,12 @@ var DeviceManager =
             device.isOnline = function()
             {
                 return (device.websocket.readyState === device.websocket.OPEN)
+            };
+
+            device.send = function(msg)
+            {
+                if(device.isOnline())
+                    device.websocket.send(msg);
             };
 
             setTimeout(device.close, 3000);
