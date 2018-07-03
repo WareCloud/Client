@@ -131,6 +131,11 @@ var InstallManager =
 
     },
 
+    handleError: function(device, json)
+    {
+
+    },
+
     handleMessage: function(device, event)
     {
         var messages = {
