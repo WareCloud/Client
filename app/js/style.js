@@ -56,8 +56,11 @@ function SwitchTab(name)
     if (name === 'Bug')
         message = document.getElementById('bugReportMessage');
 
-    message.className = 'alert';
-    message.innerHTML = '';
+    if (message)
+    {
+        message.className = 'alert';
+        message.innerHTML = '';
+    }
 }
 
 function fontFitResize(fit, wrap, step = 0.5)

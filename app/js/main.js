@@ -159,14 +159,22 @@ function displaySoftwares()
     resetSoftwareDescription();
 }
 
-var display;
+var displayBundleMode;
 function switchBundleMode(disp = null)
 {
-    if (disp !== null)
-        display = disp;
+    if (displayBundleMode !== null)
+        displayBundleMode = disp;
 
-    display ? displayDevices() : displayBundles();
-    document.getElementById('BundleModeButton').value = (display ? 'Normal' : 'Bundle') + ' mode';
+    displayBundleMode ? displayDevices() : displayBundles();
+    document.getElementById('BundleModeButton').value = (displayBundleMode ? 'Normal' : 'Bundle') + ' mode';
+}
+
+var displayLogs = false;
+function switchLogs()
+{
+    displayLogs = !displayLogs;
+    document.getElementById('displaylogs').text = (displayLogs ? 'Hide' : 'Display') + ' logs';
+    document.getElementById('logs').style.display = displayLogs ? 'block' : 'none';
 }
 
 function displayDevices()

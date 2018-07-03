@@ -919,3 +919,18 @@ button[disabled] {
 input[disabled] {
     cursor: default;
 }
+
+.column.logs {
+    margin-left: 0%;
+    margin-top: 1em;
+}
+
+.displaylogs {
+    text-align: left;
+    margin-top: 1em;
+}
+
+.textlogs {
+    width: 95%;
+    height: 100%;
+}

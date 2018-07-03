@@ -23,14 +23,13 @@ var InstallManager =
     devices: [],
     softwares: {},
     currentInstall: {},
-    logs: [],
-    errors: [],
+    logs: {},
     progress: null,
     installing: false,
 
     logError: function(device, json, currentInstall = null)
     {
-        InstallManager.errors.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' JSON: ' + JSON.stringify(json));
+        InstallManager.log(device, json, "ERROR");
 
         if (currentInstall !== null)
             currentInstall.status = InstallManager.status.FAILED;
@@ -38,6 +37,17 @@ var InstallManager =
             Object.keys(InstallManager.currentInstall[device.ip]).forEach(function(install) {
                 InstallManager.currentInstall[device.ip][install].status = InstallManager.status.FAILED;
             });
+    },
+
+    log(device, json, type = "INFO")
+    {
+        if (InstallManager.logs[type] === undefined)
+            InstallManager.logs[type] = [];
+
+        var msg = new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' JSON: ' + JSON.stringify(json);
+        InstallManager.logs[type].push(msg);
+
+        document.getElementsByClassName('textlogs')[0].textContent += '[' + type + '] ' + msg + '\n';
     },
 
     handleDisconnected: function(device)
@@ -121,11 +131,6 @@ var InstallManager =
 
     },
 
-    handleError: function(device, json)
-    {
-
-    },
-
     handleMessage: function(device, event)
     {
         var messages = {
@@ -139,13 +144,13 @@ var InstallManager =
             20: InstallManager.handleError
         };
 
-        InstallManager.logs.push(new Date().toLocaleString() + ' FROM: ' + device.websocket.url + ' MSG: ' + event.data);
+        InstallManager.log(device, {'MSG': event.data});
 
         try {
             var json = JSON.parse(event.data);
         }
         catch (e) {
-            InstallManager.errors.push(new Date().toLocaleString() + 'ERROR: ' + e + ' FROM: ' + device.websocket.url);
+            InstallManager.logError(device, {'ERROR': e});
         }
 
         if (device.isOnline() && messages[json.id] !== undefined)
@@ -223,7 +228,8 @@ var InstallManager =
             InstallManager.devices.forEach(function(dev) {
                 dev.websocket.onmessage = function(event){ console.log('RECEIVED MESSAGE: ' + event.data + ' FROM ' + dev.websocket.url); };
             });
-            InstallManager.progress.stop(InstallManager.errors.length === 0);
+            InstallManager.progress.stop(InstallManager.logs['ERROR'] === undefined);
+            document.getElementsByClassName('textlogs')[0].textContent += (InstallManager.logs['ERROR'] === undefined ? 'SUCCESS!' : 'ERROR!');
             InstallManager.installing = false;
         }
     },
@@ -258,9 +264,10 @@ var InstallManager =
         InstallManager.setDevices();
         InstallManager.setSoftwares();
         InstallManager.currentInstall = {};
-        InstallManager.logs = [];
-        InstallManager.errors = [];
+        InstallManager.logs = {};
         InstallManager.installing = true;
+
+        document.getElementsByClassName('textlogs')[0].textContent = '';
 
         InstallManager.devices.forEach(function(device) {
 
