@@ -46,24 +46,8 @@ a
     cursor: pointer;
 }
 
-.CreateBundleButton{
-    width: 20%;
-    display: block;
-    align-self: center;
-    margin: 0 auto;
-    padding: 20px 0 18px 0;
-    color: white;
-    font-size: 18px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    background: #D6E0F6;
-    border-radius: 10px;
-    transition: all 0.1s ease-in-out;
-    cursor: pointer;
-}
-
-.BundleModeButton{
+input[type="button"]
+{
     width: 20%;
     display: block;
     align-self: center;
@@ -78,6 +62,11 @@ a
     border-radius: 10px;
     transition: all 0.1s ease-in-out;
     cursor: pointer;
+}
+
+input[type="button"][disabled]
+{
+    opacity: 0.5;
 }
 
 .button_a
@@ -402,6 +391,9 @@ tr
     user-select: none;
 }
 
+.containerElement[online="false"] {
+    cursor: default;
+}
 .error
 {
     width: 25px;
@@ -434,6 +426,11 @@ tr
     margin-top: 0.1em;
 }
 
+.checkMark[online="false"]
+{
+    opacity: 0.5;
+}
+
 .checkMarkLogo
 {
     position: absolute;
@@ -448,10 +445,11 @@ tr
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkMark, .container:hover input ~ .checkMarkLogo, .containerElement:hover input ~ .checkMark, .containerElement:hover input ~ .checkMarkLogo
+/*.container:hover input ~ .checkMark, .container:hover input ~ .checkMarkLogo, .containerElement:hover input ~ .checkMark, .containerElement:hover input ~ .checkMarkLogo
 {
     background-color: #1f2023;
 }
+*/
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkMark, .container input:checked ~ .checkMarkLogo, .containerElement input:checked ~ .checkMark, .containerElement input:checked ~ .checkMarkLogo
@@ -501,20 +499,6 @@ tr
 }
 
 /* Machine's Details */
-
-#myProgress {
-    width: 100%;
-    background-color: grey;
-    border-radius: 10px;
-    margin-bottom: 4%;
-}
-
-#myBar {
-    width: 0%;
-    height: 30px;
-    background-color: #26bcb5;
-    border-radius: 10px;
-}
 
 .onclick-menu
 {
@@ -830,7 +814,14 @@ a.active {
     transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
 }
 
-.progress-button button:hover {
+.progress-button button:disabled {
+    opacity: 0.5;
+    border: 2px solid #868686;
+    background: #d6e0f6;
+    color: #868686;
+}
+
+.progress-button button:hover:enabled {
     background-color: #26BCB5;
     color: #fff;
 }
@@ -920,5 +911,9 @@ a.active {
 }
 
 button[disabled] {
+    cursor: default;
+}
+
+input[disabled] {
     cursor: default;
 }

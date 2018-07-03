@@ -97,10 +97,7 @@ var InstallManager =
         var currentInstall = InstallManager.currentInstall[device.ip][json.path];
 
         if (json.type === 'OK_CONFIGURATION')
-        {
             currentInstall.status = InstallManager.status.CONFIGURED;
-            //InstallManager.currentInstall[device.ip][json.path].finished = true;
-        }
         else
             InstallManager.logError(device, json, currentInstall);
     },
@@ -206,7 +203,6 @@ var InstallManager =
     {
         var progress = this.getProgress();
 
-        //if (InstallManager.isFinished())
         this.progress.setProgress(progress);
         if (progress >= 1.0)
         {
@@ -243,9 +239,6 @@ var InstallManager =
 
     install: function(progress)
     {
-        //var devices = this.getSelectedDevices();
-        //var softwares = this.getSelectedSoftwares();
-
         this.progress = progress;
         this.setDevices();
         this.setSoftwares();

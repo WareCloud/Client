@@ -1,27 +1,4 @@
 /*
- * Agent part
- */
-
-var agentTest = null;
-function connectAgent()
-{
-    agentTest = new Agent(0, '127.0.0.1', '8000');
-    agentTest.connect();
-}
-
-function installAgent()
-{
-    agentTest.install('FirefoxInstaller');
-}
-
-function downloadAgent()
-{
-    agentTest.download('https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe', 'FirefoxInstaller');
-}
-
-
-
-/*
  * API part
  */
 
@@ -236,6 +213,12 @@ function displayDevices()
         DeviceManager.addDevice(id, device);
         id++;
     });
+
+    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+        el.addEventListener('click', function() {
+            displayConfirmButton();
+        });
+    });
 }
 
 function saveBundles()
@@ -393,6 +376,7 @@ function displayConfigurations()
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
             displayCreateBundleButton();
+            displayConfirmButton();
             document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function(conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
             });
@@ -461,8 +445,35 @@ function setDeviceAvailability(id, status)
     if (deviceElement !== undefined)
     {
         deviceElement.setAttribute('online', status ? 'true' : 'false');
+        deviceElement.getElementsByClassName('containerElement')[0].setAttribute('online', status ? 'true' : 'false');
+        deviceElement.getElementsByTagName('input')[0].disabled = !status;
+        deviceElement.getElementsByTagName('input')[0].checked = deviceElement.getElementsByTagName('input')[0].checked && status;
+        deviceElement.getElementsByClassName('checkMark')[0].setAttribute('online', status ? 'true' : 'false');
         deviceElement.getElementsByClassName('deviceStatus')[0].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + (status ? 'lime' : 'red') + '" /></svg>';
     }
+
+    displayConfirmButton();
+}
+
+function displayConfirmButton()
+{
+    var install = document.getElementById('install');
+    var button = install.getElementsByTagName('button')[0];
+
+    var deviceSelected = false;
+    var softwareSelected = false;
+
+    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+        if (el.getAttribute('online') === 'true' && el.getElementsByTagName('input')[0].checked)
+            deviceSelected = true;
+    });
+
+    [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
+        if (el.getElementsByTagName('input')[0].checked)
+            softwareSelected = true;
+    });
+
+    button.disabled = (!deviceSelected || !softwareSelected);
 }
 
 function setDeviceAgentDetails(id, json)
@@ -493,7 +504,6 @@ function displayCreateBundleButton()
     }
     var button = document.getElementById('CreateBundleButton');
     button.disabled = (count <= 1);
-    button.style.background = (count > 1) ? '#26BCB5' : '#D6E0F6';
     button.style.display = 'block';
     document.getElementById('BundleName').style.display = 'none';
     document.getElementById('BundleSave').style.display = 'none';
