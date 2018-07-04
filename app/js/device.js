@@ -28,6 +28,11 @@ var DeviceManager =
                     var details = JSON.parse(evt.data);
                     device.details = details;
                     setDeviceAgentDetails(device.id, details);
+
+                    device.websocket.onmessage = function(event)
+                    {
+                        InstallManager.handleMessage(device, event);
+                    };
                 }
                 catch(e) {
                     console.log('ERROR PARSING JSON! ERROR: ' + e);

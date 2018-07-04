@@ -233,9 +233,11 @@ var InstallManager =
         InstallManager.progress.setProgress(progress);
         if (progress >= 1.0)
         {
+            /*
             InstallManager.devices.forEach(function(dev) {
                 dev.websocket.onmessage = function(event){ console.log('RECEIVED MESSAGE: ' + event.data + ' FROM ' + dev.websocket.url); };
             });
+            */
             InstallManager.progress.stop(InstallManager.logs['ERROR'] === undefined);
             document.getElementsByClassName('textlogs')[0].textContent += (InstallManager.logs['ERROR'] === undefined ? 'SUCCESS!' : 'ERROR!');
             InstallManager.installing = false;
@@ -281,11 +283,12 @@ var InstallManager =
 
             InstallManager.currentInstall[device.ip] = {};
 
+            /*
             device.websocket.onmessage = function(event)
             {
                 InstallManager.handleMessage(device, event);
             };
-
+            */
             Object.keys(InstallManager.softwares).forEach(function(software) {
                 var soft = InstallManager.softwares[software];
                 var softwareExe = software + '.exe';
