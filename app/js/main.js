@@ -192,6 +192,7 @@ function displayDevices()
         element.setAttribute('online', 'false');
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
+        containerElement.setAttribute('online', 'false');
         var deviceStatus = document.createElement('p');
         deviceStatus.className = 'deviceStatus';
         deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="'+ (deviceExists !== null && deviceExists.isOnline() ? 'lime' : 'orange') + '" /></svg>';
@@ -200,8 +201,10 @@ function displayDevices()
         elementName.textContent = device.ip;
         var input = document.createElement('input');
         input.type = 'checkbox';
+        input.disabled = true;
         var span = document.createElement('span');
         span.className = 'checkMark';
+        span.setAttribute('online', 'false');
         var menu = document.createElement('div');
         menu.tabIndex = 0;
         menu.className = 'onclick-menu';
