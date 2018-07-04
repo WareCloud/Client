@@ -159,22 +159,31 @@ function displaySoftwares()
     resetSoftwareDescription();
 }
 
-var displayInstallMode = true;
-function switchInstallMode()
+var displayUninstallMode = false;
+function switchInstallMode(disp = null, force = true)
 {
-    displayInstallMode = !displayInstallMode;
-    displayInstallMode ? displayInstall() : displayUninstall();
-    document.getElementById('InstallModeButton').value = (displayInstallMode ? 'Uninstall' : 'Install') + ' mode';
+    if (force)
+        switchBundleMode(true, false);
+
+    displayUninstallMode = (disp === null) ? !displayUninstallMode : disp;
+    displayUninstallMode ? displayUninstall() : displayInstall();
+    document.getElementById('install').style.display = displayUninstallMode ? 'none' : 'block';
+    document.getElementById('InstallModeButton').value = (displayUninstallMode ? 'Install' : 'Uninstall') + ' mode';
 }
 
-var displayBundleMode;
-function switchBundleMode(disp = null)
+var displayInstallMode;
+function switchBundleMode(disp = null, force = true)
 {
     if (disp !== null)
-        displayBundleMode = disp;
+        displayInstallMode = disp;
 
-    displayBundleMode ? displayDevices() : displayBundles();
-    document.getElementById('BundleModeButton').value = (displayBundleMode ? 'Normal' : 'Bundle') + ' mode';
+    if (force)
+        switchInstallMode(false, false);
+
+    document.getElementById('uninstallTable').innerHTML = '';
+    displayInstallMode ? displayDevices() : displayBundles();
+    document.getElementById('install').style.display = displayInstallMode ? 'none' : 'block';
+    document.getElementById('BundleModeButton').value = (displayInstallMode ? 'Normal' : 'Bundle') + ' mode';
 }
 
 var displayLogs = false;
@@ -224,7 +233,6 @@ function displayUninstallSoftwares()
     device.details.software.arraySoft.forEach(function(soft){
         var element = document.createElement('div');
         element.className = 'uninstallElement';
-        element.setAttribute('uninstall-id', i);
         var softName = document.createElement('label');
         softName.className = 'uninstall softname';
         softName.textContent = soft.name;
@@ -233,6 +241,7 @@ function displayUninstallSoftwares()
         softVersion.textContent = soft.version;
         var uninstallIcon = document.createElement('a');
         uninstallIcon.className = 'uninstall uninstallicon errorButton';
+        uninstallIcon.onclick = function() { InstallManager.uninstall(device.ip, soft.name); };
         var img = document.createElement('img');
         img.className = 'uninstallerror';
         img.src = 'assets/svg/error.svg';
@@ -250,7 +259,7 @@ function displayUninstallSoftwares()
 
 function displayDevices()
 {
-    displayBundleMode = 0;
+    displayInstallMode = 0;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
@@ -297,10 +306,25 @@ function displayDevices()
         id++;
     });
 
-    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+    [].forEach.call(document.getElementsByClassName('containerElement'), function(el) {
         el.addEventListener('click', function() {
+            event.preventDefault();
+
+            if (el.getAttribute('online') === 'true')
+                el.getElementsByTagName('input')[0].checked = !el.getElementsByTagName('input')[0].checked;
+
             displayConfirmButton();
-            displayUninstallSoftwares();
+
+            if (displayUninstallMode)
+            {
+                displayUninstallSoftwares();
+                [].forEach.call(document.getElementsByClassName('containerElement'), function(container){
+                    if (el === container)
+                        return;
+
+                    container.getElementsByTagName('input')[0].checked = false;
+                });
+            }
         });
     });
 }
@@ -324,7 +348,7 @@ function saveBundles()
 
 function displayBundles()
 {
-    displayBundleMode = 1;
+    displayInstallMode = 1;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 

@@ -292,5 +292,14 @@ var InstallManager =
                 setTimeout(function(){ device.send('follow ' + software + '.exe'); }, 1000);
             });
         });
+    },
+
+    uninstall: function(ip, software)
+    {
+        var device = DeviceManager.getDeviceByIp(ip);
+        if (!device)
+            return;
+
+        device.send('uninstall ' + software);
     }
 };
