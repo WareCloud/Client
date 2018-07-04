@@ -225,6 +225,9 @@ var InstallManager =
 
     displayProgress: function()
     {
+        if (!InstallManager.installing)
+            return;
+
         var progress = InstallManager.getProgress();
 
         InstallManager.progress.setProgress(progress);
