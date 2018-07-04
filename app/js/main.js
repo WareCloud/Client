@@ -1,27 +1,4 @@
 /*
- * Agent part
- */
-
-var agentTest = null;
-function connectAgent()
-{
-    agentTest = new Agent(0, '127.0.0.1', '8000');
-    agentTest.connect();
-}
-
-function installAgent()
-{
-    agentTest.install('FirefoxInstaller');
-}
-
-function downloadAgent()
-{
-    agentTest.download('https://stubdownloader.cdn.mozilla.net/builds/firefox-stub/fr/win/9705c66ad49acf77f0e875327f07d4ab65a4d7921dce9d41d6f421665a2b467b/Firefox%20Installer.exe', 'FirefoxInstaller');
-}
-
-
-
-/*
  * API part
  */
 
@@ -182,41 +159,133 @@ function displaySoftwares()
     resetSoftwareDescription();
 }
 
-var display;
-function switchBundleMode(disp = null)
+var displayUninstallMode = false;
+function switchInstallMode(disp = null, force = true)
+{
+    if (force)
+        switchBundleMode(true, false);
+
+    displayUninstallMode = (disp === null) ? !displayUninstallMode : disp;
+    displayUninstallMode ? displayUninstall() : displayInstall();
+    document.getElementById('install').style.display = displayUninstallMode ? 'none' : 'block';
+    document.getElementById('InstallModeButton').value = (displayUninstallMode ? 'Install' : 'Uninstall') + ' mode';
+}
+
+var displayInstallMode;
+function switchBundleMode(disp = null, force = true)
 {
     if (disp !== null)
-        display = disp;
+        displayInstallMode = disp;
 
-    display ? displayDevices() : displayBundles();
-    document.getElementById('BundleModeButton').value = (display ? 'Normal' : 'Bundle') + ' mode';
+    if (force)
+        switchInstallMode(false, false);
+
+    document.getElementById('uninstallTable').innerHTML = '';
+    displayInstallMode ? displayDevices() : displayBundles();
+    document.getElementById('install').style.display = displayInstallMode ? 'none' : 'block';
+    document.getElementById('BundleModeButton').value = (displayInstallMode ? 'Normal' : 'Bundle') + ' mode';
+}
+
+var displayLogs = false;
+function switchLogs()
+{
+    displayLogs = !displayLogs;
+    document.getElementById('displaylogs').text = (displayLogs ? 'Hide' : 'Display') + ' logs';
+    document.getElementById('logs').style.display = displayLogs ? 'block' : 'none';
+}
+
+function displayInstall()
+{
+    document.getElementById('softwareColumn').style.display = 'block';
+    document.getElementById('configColumn').style.display = 'block';
+    document.getElementById('uninstallColumn').style.display = 'none';
+}
+
+function displayUninstall()
+{
+    document.getElementById('softwareColumn').style.display = 'none';
+    document.getElementById('configColumn').style.display = 'none';
+    document.getElementById('uninstallColumn').style.display = 'block';
+}
+
+function displayUninstallSoftwares()
+{
+    var container = document.getElementById('uninstallTable');
+    container.innerHTML = '';
+
+    if (displayInstallMode)
+        return;
+
+    var deviceEl = null;
+    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+        if (el.getElementsByTagName('input')[0].checked)
+            deviceEl = el;
+    });
+
+    if (!deviceEl)
+        return;
+
+    var device = DeviceManager.getDeviceByIp(deviceEl.getAttribute('device-ip'));
+    if (!device || !device.details)
+        return;
+
+    var i = 0;
+    device.details.software.arraySoft.forEach(function(soft){
+        var element = document.createElement('div');
+        element.className = 'uninstallElement';
+        var softName = document.createElement('label');
+        softName.className = 'uninstall softname';
+        softName.textContent = soft.name;
+        var softVersion = document.createElement('label');
+        softVersion.className = 'uninstall softversion';
+        softVersion.textContent = soft.version;
+        var uninstallIcon = document.createElement('a');
+        uninstallIcon.className = 'uninstall uninstallicon errorButton';
+        uninstallIcon.onclick = function() { InstallManager.uninstall(device.ip, soft.name); };
+        var img = document.createElement('img');
+        img.className = 'uninstallerror';
+        img.src = 'assets/svg/error.svg';
+
+        uninstallIcon.appendChild(img);
+        element.appendChild(softName);
+        element.appendChild(softVersion);
+        element.appendChild(uninstallIcon);
+
+        container.appendChild(element);
+
+        i++;
+    });
 }
 
 function displayDevices()
 {
-    display = 0;
+    displayInstallMode = 0;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
     var id = 0;
     ARP.getDevices(true).forEach(function(device){
         var deviceExists = DeviceManager.getDeviceByIp(device.ip);
+        var online = (deviceExists !== null && deviceExists.isOnline());
         var element = document.createElement('div');
         element.className = 'deviceElement';
         element.setAttribute('device-ip', device.ip);
-        element.setAttribute('online', 'false');
+        element.setAttribute('online', online ? 'true' : 'false');
         var containerElement = document.createElement('label');
         containerElement.className = 'containerElement';
+        containerElement.setAttribute('online', online ? 'true' : 'false');
         var deviceStatus = document.createElement('p');
         deviceStatus.className = 'deviceStatus';
-        deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="'+ (deviceExists !== null && deviceExists.isOnline() ? 'lime' : 'orange') + '" /></svg>';
+        deviceStatus.innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="'+ (online ? 'lime' : 'orange') + '" /></svg>';
         var elementName = document.createElement('p');
         elementName.className = 'elementName';
         elementName.textContent = device.ip;
         var input = document.createElement('input');
         input.type = 'checkbox';
+        input.disabled = !online;
         var span = document.createElement('span');
         span.className = 'checkMark';
+        span.setAttribute('online', online ? 'true' : 'false');
         var menu = document.createElement('div');
         menu.tabIndex = 0;
         menu.className = 'onclick-menu';
@@ -235,6 +304,28 @@ function displayDevices()
 
         DeviceManager.addDevice(id, device);
         id++;
+    });
+
+    [].forEach.call(document.getElementsByClassName('containerElement'), function(el) {
+        el.addEventListener('click', function() {
+            event.preventDefault();
+
+            if (el.getAttribute('online') === 'true')
+                el.getElementsByTagName('input')[0].checked = !el.getElementsByTagName('input')[0].checked;
+
+            displayConfirmButton();
+
+            if (displayUninstallMode)
+            {
+                displayUninstallSoftwares();
+                [].forEach.call(document.getElementsByClassName('containerElement'), function(container){
+                    if (el === container)
+                        return;
+
+                    container.getElementsByTagName('input')[0].checked = false;
+                });
+            }
+        });
     });
 }
 
@@ -257,7 +348,7 @@ function saveBundles()
 
 function displayBundles()
 {
-    display = 1;
+    displayInstallMode = 1;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
@@ -393,7 +484,8 @@ function displayConfigurations()
     [].forEach.call(document.getElementsByClassName('container'), function(el) {
         el.addEventListener('click', function() {
             displayCreateBundleButton();
-            document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function (conf) {
+            displayConfirmButton();
+            document.getElementsByName('config-' + el.parentNode.getAttribute('soft-id')).forEach(function(conf) {
                 conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
             });
         });
@@ -418,7 +510,7 @@ function loadUser()
     var objectStore = transaction.objectStore('user');
     var request = objectStore.get(1);
 
-    request.onsuccess = function (event)
+    request.onsuccess = function(event)
     {
         if (request.result !== undefined)
         {
@@ -461,8 +553,38 @@ function setDeviceAvailability(id, status)
     if (deviceElement !== undefined)
     {
         deviceElement.setAttribute('online', status ? 'true' : 'false');
+        deviceElement.getElementsByClassName('containerElement')[0].setAttribute('online', status ? 'true' : 'false');
+        deviceElement.getElementsByTagName('input')[0].disabled = !status;
+        deviceElement.getElementsByTagName('input')[0].checked = deviceElement.getElementsByTagName('input')[0].checked && status;
+        deviceElement.getElementsByClassName('checkMark')[0].setAttribute('online', status ? 'true' : 'false');
         deviceElement.getElementsByClassName('deviceStatus')[0].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + (status ? 'lime' : 'red') + '" /></svg>';
     }
+
+    displayConfirmButton();
+}
+
+function displayConfirmButton()
+{
+    if (InstallManager.installing)
+        return;
+
+    var install = document.getElementById('install');
+    var button = install.getElementsByTagName('button')[0];
+
+    var deviceSelected = false;
+    var softwareSelected = false;
+
+    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+        if (el.getAttribute('online') === 'true' && el.getElementsByTagName('input')[0].checked)
+            deviceSelected = true;
+    });
+
+    [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
+        if (el.getElementsByTagName('input')[0].checked)
+            softwareSelected = true;
+    });
+
+    button.disabled = (!deviceSelected || !softwareSelected);
 }
 
 function setDeviceAgentDetails(id, json)
@@ -493,7 +615,6 @@ function displayCreateBundleButton()
     }
     var button = document.getElementById('CreateBundleButton');
     button.disabled = (count <= 1);
-    button.style.background = (count > 1) ? '#26BCB5' : '#D6E0F6';
     button.style.display = 'block';
     document.getElementById('BundleName').style.display = 'none';
     document.getElementById('BundleSave').style.display = 'none';

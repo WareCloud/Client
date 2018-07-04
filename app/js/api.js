@@ -40,7 +40,7 @@ var API =
 
     getRootURL: function()
     {
-        return (this.api_protocol + '://' + this.api_host + ':' + this.api_port + this.api_prefix);
+        return (this.api_protocol + '://' + this.api_host + (this.api_port !== '' ? (':' + this.api_port) : '') + this.api_prefix);
     },
 
     callAPI: function(action, token = null, param = null, data = null)

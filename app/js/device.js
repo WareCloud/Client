@@ -11,6 +11,7 @@ var DeviceManager =
             return;
         }
 
+        device.details = null;
         device.id = id;
         device.newWebsocket = function()
         {
@@ -21,15 +22,33 @@ var DeviceManager =
                 setDeviceAvailability(device.id, true);
             };
 
-            device.websocket.onmessage = function (evt)
+            device.websocket.onmessage = function(evt)
             {
-                setDeviceAgentDetails(device.id, JSON.parse(evt.data));
+                try {
+                    var details = JSON.parse(evt.data);
+                    device.details = details;
+                    setDeviceAgentDetails(device.id, details);
+
+                    device.websocket.onmessage = function(event)
+                    {
+                        InstallManager.handleMessage(device, event);
+                    };
+                }
+                catch(e) {
+                    console.log('ERROR PARSING JSON! ERROR: ' + e);
+                }
             };
 
             device.websocket.onclose = function(evt)
             {
                 console.log('DISCONNECTED FROM ' + device.websocket.url);
                 setDeviceAvailability(device.id, false);
+
+                if (InstallManager.installing)
+                    InstallManager.devices.forEach(function(dev) {
+                        if (device.ip === dev.ip)
+                            InstallManager.handleDisconnected(device);
+                    });
             };
 
             device.getStatus = function()
@@ -37,7 +56,7 @@ var DeviceManager =
                 return device.websocket.readyState;
             };
 
-            device.close = function ()
+            device.close = function()
             {
                 if (device.websocket.readyState !== device.websocket.OPEN)
                     device.websocket.close();
@@ -46,6 +65,12 @@ var DeviceManager =
             device.isOnline = function()
             {
                 return (device.websocket.readyState === device.websocket.OPEN)
+            };
+
+            device.send = function(msg)
+            {
+                if(device.isOnline())
+                    device.websocket.send(msg);
             };
 
             setTimeout(device.close, 3000);

@@ -27,7 +27,7 @@ var ConfigurationManager = {
         [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
             if (el.getElementsByTagName('input')[0].checked)
             {
-                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function (conf) {
+                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function(conf) {
                     conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
                 });
             }
@@ -36,7 +36,7 @@ var ConfigurationManager = {
 
     renameConfiguration: function(configurationId, name)
     {
-        if (name === "")
+        if (name === '')
             return;
 
         API.updateConfiguration(configurationId, name);
@@ -45,7 +45,7 @@ var ConfigurationManager = {
         [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
             if (el.getElementsByTagName('input')[0].checked)
             {
-                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function (conf) {
+                document.getElementsByName('config-' + el.getAttribute('soft-id')).forEach(function(conf) {
                     conf.style.display = el.getElementsByTagName('input')[0].checked ? 'block' : 'none';
                 });
             }

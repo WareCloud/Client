@@ -53,7 +53,7 @@ class Agent {
 
        };
 
-        this.ws.onmessage = function (evt){
+        this.ws.onmessage = function(evt){
                var received_msg = evt.data;
                console.log("ws.onmessage: " + received_msg)
                /* On s'envoit/ Recoit du JSON */
