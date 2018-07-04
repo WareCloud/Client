@@ -162,7 +162,7 @@ function displaySoftwares()
 var displayBundleMode;
 function switchBundleMode(disp = null)
 {
-    if (displayBundleMode !== null)
+    if (disp !== null)
         displayBundleMode = disp;
 
     displayBundleMode ? displayDevices() : displayBundles();
@@ -179,7 +179,7 @@ function switchLogs()
 
 function displayDevices()
 {
-    display = 0;
+    displayBundleMode = 0;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
@@ -251,7 +251,7 @@ function saveBundles()
 
 function displayBundles()
 {
-    display = 1;
+    displayBundleMode = 1;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
