@@ -934,3 +934,42 @@ input[disabled] {
     width: 95%;
     height: 100%;
 }
+
+.uninstall {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+    width: 100%;
+}
+
+
+.uninstall.softname
+{
+    width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.uninstall.softversion
+{
+    width: 20%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.uninstall.uninstallicon
+{
+    width: 7%;
+    margin-top: 0px;
+    position: inherit;
+}
+
+.uninstallerror
+{
+    width: 25px;
+    cursor: pointer;
+}

@@ -11,6 +11,7 @@ var DeviceManager =
             return;
         }
 
+        device.details = null;
         device.id = id;
         device.newWebsocket = function()
         {
@@ -23,7 +24,14 @@ var DeviceManager =
 
             device.websocket.onmessage = function(evt)
             {
-                setDeviceAgentDetails(device.id, JSON.parse(evt.data));
+                try {
+                    var details = JSON.parse(evt.data);
+                    device.details = details;
+                    setDeviceAgentDetails(device.id, details);
+                }
+                catch(e) {
+                    console.log('ERROR PARSING JSON! ERROR: ' + e);
+                }
             };
 
             device.websocket.onclose = function(evt)

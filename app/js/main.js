@@ -159,6 +159,14 @@ function displaySoftwares()
     resetSoftwareDescription();
 }
 
+var displayInstallMode = true;
+function switchInstallMode()
+{
+    displayInstallMode = !displayInstallMode;
+    displayInstallMode ? displayInstall() : displayUninstall();
+    document.getElementById('InstallModeButton').value = (displayInstallMode ? 'Uninstall' : 'Install') + ' mode';
+}
+
 var displayBundleMode;
 function switchBundleMode(disp = null)
 {
@@ -175,6 +183,69 @@ function switchLogs()
     displayLogs = !displayLogs;
     document.getElementById('displaylogs').text = (displayLogs ? 'Hide' : 'Display') + ' logs';
     document.getElementById('logs').style.display = displayLogs ? 'block' : 'none';
+}
+
+function displayInstall()
+{
+    document.getElementById('softwareColumn').style.display = 'block';
+    document.getElementById('configColumn').style.display = 'block';
+    document.getElementById('uninstallColumn').style.display = 'none';
+}
+
+function displayUninstall()
+{
+    document.getElementById('softwareColumn').style.display = 'none';
+    document.getElementById('configColumn').style.display = 'none';
+    document.getElementById('uninstallColumn').style.display = 'block';
+}
+
+function displayUninstallSoftwares()
+{
+    var container = document.getElementById('uninstallTable');
+    container.innerHTML = '';
+
+    if (displayInstallMode)
+        return;
+
+    var deviceEl = null;
+    [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
+        if (el.getElementsByTagName('input')[0].checked)
+            deviceEl = el;
+    });
+
+    if (!deviceEl)
+        return;
+
+    var device = DeviceManager.getDeviceByIp(deviceEl.getAttribute('device-ip'));
+    if (!device || !device.details)
+        return;
+
+    var i = 0;
+    device.details.software.arraySoft.forEach(function(soft){
+        var element = document.createElement('div');
+        element.className = 'uninstallElement';
+        element.setAttribute('uninstall-id', i);
+        var softName = document.createElement('label');
+        softName.className = 'uninstall softname';
+        softName.textContent = soft.name;
+        var softVersion = document.createElement('label');
+        softVersion.className = 'uninstall softversion';
+        softVersion.textContent = soft.version;
+        var uninstallIcon = document.createElement('a');
+        uninstallIcon.className = 'uninstall uninstallicon errorButton';
+        var img = document.createElement('img');
+        img.className = 'uninstallerror';
+        img.src = 'assets/svg/error.svg';
+
+        uninstallIcon.appendChild(img);
+        element.appendChild(softName);
+        element.appendChild(softVersion);
+        element.appendChild(uninstallIcon);
+
+        container.appendChild(element);
+
+        i++;
+    });
 }
 
 function displayDevices()
@@ -229,6 +300,7 @@ function displayDevices()
     [].forEach.call(document.getElementsByClassName('deviceElement'), function(el) {
         el.addEventListener('click', function() {
             displayConfirmButton();
+            displayUninstallSoftwares();
         });
     });
 }
