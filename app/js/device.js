@@ -27,6 +27,10 @@ var DeviceManager =
                 try {
                     var details = JSON.parse(evt.data);
                     device.details = details;
+                    if (device.details.software)
+                        device.details.software.arraySoft = device.details.software.arraySoft.sort((a, b) => a.name.localeCompare(b.name));
+
+                    device.details.so
                     setDeviceAgentDetails(device.id, details);
 
                     device.websocket.onmessage = function(event)
