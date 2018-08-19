@@ -1,11 +1,26 @@
+/*
+ * The Bundle class
+ * Manage the bundles
+ * Manage the calls to the API and the display
+ */
 var BundleManager = {
     bundles: [],
 
+    /*
+     * Store a bundle
+     * @param json bundle (the bundle's json object)
+     */
     addBundle: function(bundle)
     {
         this.bundles[bundle.id] = bundle;
     },
 
+    /*
+     * Get the the details of a specified bundle
+     * If the id parameter is not present, return all the bundles' details
+     * @param int id (the bundle's id)
+     * @return json
+     */
     getBundle: function(id = null)
     {
         if (id === null)
@@ -17,6 +32,12 @@ var BundleManager = {
         return null;
     },
 
+    /*
+     * Remove the specified bundle
+     * Send a delete request to the API
+     * Refresh the display
+     * @param int bundleId (the bundle's id)
+     */
     deleteBundle: function(bundleId)
     {
         delete this.bundles[bundleId];
@@ -25,11 +46,17 @@ var BundleManager = {
         switchBundleMode(0);
     },
 
+    /*
+     * Create a bundle
+     * Send a request to the API to create the bundle
+     * Display the newly created bundle
+     */
     createBundle: function()
     {
         var name = document.getElementById('BundleName').value;
         var bundles = [];
 
+        // Get all the softwares and configurations associated to the bundle
         [].forEach.call(document.getElementsByClassName('softwareElement'), function(software) {
             if (software.getElementsByTagName('input')[0].checked)
             {
@@ -43,18 +70,29 @@ var BundleManager = {
             }
         });
 
+        // Send a request to the API
         API.postBundle(name, bundles);
 
+        // Refresh the bundles' display
         saveBundles();
         switchBundleMode(0);
         displayCreateBundleButton();
     },
 
+    /*
+     * Rename a bundle
+     * Send a request to the API to rename the bundle
+     * Refresh the bundles' display
+     * @param int bundleId (the bundle's id)
+     * @param name (the new bundle name)
+     */
     renameBundle: function(bundleId, name)
     {
+        // Check that the new name is set
         if (name === '')
             return;
 
+        // Send a request to the API
         API.updateBundle(bundleId, name);
         saveBundles();
         switchBundleMode(0);

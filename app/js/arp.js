@@ -1,3 +1,7 @@
+/*
+ * The ARP class
+ * Detects devices on the internal network using the ARP protocol
+ */
 var ARP =
 {
     fs: require('fs'),
@@ -12,9 +16,13 @@ var ARP =
         return ret;
     },
 
+    /*
+     * Store the internal network's devices
+     */
     refreshDevices: function()
     {
         var devices = [];
+        // Check if the platform is Windows
         if (process.platform === 'win32')
         {
             const {execSync} = require('child_process');
@@ -30,6 +38,7 @@ var ARP =
                 });
             });
         }
+        // The platform is Unix
         else
         {
             var lines = this.fs.readFileSync('/proc/net/arp').toString().split('\n');
@@ -50,6 +59,12 @@ var ARP =
         this.devices.push({ip: 'localhost', mac:'00-00-00-00-00'});
     },
 
+    /*
+     * Get the internal network's devices
+     * If the refresh parameter is present, refresh the network's devices before the returning them
+     * @param boolean refresh (whether to refresh the devices)
+     * @return array
+     */
     getDevices: function(refresh = false)
     {
         if (refresh)

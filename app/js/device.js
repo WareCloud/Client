@@ -1,7 +1,17 @@
+/*
+ * The Device class
+ * Manage the devices
+ * Manage the devices' display
+ */
 var DeviceManager =
 {
     devices: [],
 
+    /*
+     * Store a device and establish communication with the device
+     * @param int id (the device's id)
+     * @param json device (the device's json object)
+     */
     addDevice: function(id, device)
     {
         deviceExists = this.getDeviceByIp(device.ip);
@@ -15,21 +25,28 @@ var DeviceManager =
         device.id = id;
         device.newWebsocket = function()
         {
+            // Try to establish a connection to the device
             device.websocket = new WebSocket('ws://' + device.ip + ':' + 8000);
+
+            // The device is available
             device.websocket.onopen = function(evt)
             {
                 console.log('CONNECTED TO ' + device.websocket.url);
+                // Display that the device is available
                 setDeviceAvailability(device.id, true);
             };
 
+            // The device sent a message
             device.websocket.onmessage = function(evt)
             {
+                // Get the device's informations and its installed softwares
                 try {
                     var details = JSON.parse(evt.data);
                     device.details = details;
                     if (device.details.software)
                         device.details.software.arraySoft = device.details.software.arraySoft.sort((a, b) => a.name.localeCompare(b.name));
 
+                    // Display the device informations
                     setDeviceAgentDetails(device.id, details);
 
                     device.websocket.onmessage = function(event)
@@ -42,9 +59,11 @@ var DeviceManager =
                 }
             };
 
+            // The device is not available anymore
             device.websocket.onclose = function(evt)
             {
                 console.log('DISCONNECTED FROM ' + device.websocket.url);
+                // Display that the device is unavailable
                 setDeviceAvailability(device.id, false);
 
                 if (InstallManager.installing)
@@ -54,22 +73,26 @@ var DeviceManager =
                     });
             };
 
+            // Return the device status
             device.getStatus = function()
             {
                 return device.websocket.readyState;
             };
 
+            // Close the communication with the device
             device.close = function()
             {
                 if (device.websocket.readyState !== device.websocket.OPEN)
                     device.websocket.close();
             };
 
+            // Check if the device is online
             device.isOnline = function()
             {
                 return (device.websocket.readyState === device.websocket.OPEN)
             };
 
+            // Send a message to the device
             device.send = function(msg)
             {
                 if(device.isOnline())
@@ -92,6 +115,11 @@ var DeviceManager =
         return this.devices;
     },
 
+    /*
+     * Get the the details of a specified device
+     * @param string ip (the device's ip)
+     * @return json
+     */
     getDeviceByIp: function(ip)
     {
         var device = null;
@@ -103,6 +131,10 @@ var DeviceManager =
         return device;
     },
 
+    /*
+     * Refresh the device status
+     * If the device is now online, display that the device is available
+     */
     refreshDevicesStatus: function()
     {
         this.devices.forEach(function(device){

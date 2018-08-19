@@ -1,3 +1,8 @@
+/*
+ * The InstallManager class
+ * Manage installations on devices
+ * Manage the devices' installation display
+ */
 var InstallManager =
 {
     status: {
@@ -50,6 +55,11 @@ var InstallManager =
         document.getElementsByClassName('textlogs')[0].textContent += '[' + type + '] ' + msg + '\n';
     },
 
+    /*
+     * The device is disconnected
+     * Refresh the progress display and display an error
+     * @param json device
+     */
     handleDisconnected: function(device)
     {
         json = {'error': 'DEVICE DISCONNECTED'};
@@ -62,6 +72,11 @@ var InstallManager =
 
     },
 
+    /*
+     * Handle the installation's status for a given device after receiving a message from it
+     * @param json device (the device's json object)
+     * @param json json (the message sent)
+     */
     handleInstall: function(device, json)
     {
         // TODO: FIX agent json.path/json.command
@@ -80,6 +95,11 @@ var InstallManager =
             InstallManager.logError(device, json, currentInstall);
     },
 
+    /*
+     * Follow the installation of a given device
+     * @param json device (the device's json object)
+     * @param json json (the message sent)
+     */
     handleFollow: function(device, json)
     {
         var currentInstall = InstallManager.currentInstall[device.ip][json.path];
@@ -99,6 +119,11 @@ var InstallManager =
             InstallManager.logError(device, json, currentInstall);
     },
 
+    /*
+     * Follow the download of a software for a given device
+     * @param json device (the device's json object)
+     * @param json json (the message sent)
+     */
     handleDownload: function(device, json)
     {
         var currentInstall = InstallManager.currentInstall[device.ip][json.path];
@@ -116,6 +141,11 @@ var InstallManager =
             InstallManager.logError(device, json, currentInstall);
     },
 
+    /*
+     * Handle the configuration of a software for a given device
+     * @param json device (the device's json object)
+     * @param json json (the message sent)
+     */
     handleConfigure: function(device, json)
     {
         var currentInstall = InstallManager.currentInstall[device.ip][json.path];
@@ -136,6 +166,11 @@ var InstallManager =
 
     },
 
+    /*
+     * Handle the message sent by a device
+     * @param json device (the device's json object)
+     * @param string event (the event)
+     */
     handleMessage: function(device, event)
     {
         var messages = {
@@ -164,6 +199,9 @@ var InstallManager =
         InstallManager.displayProgress();
     },
 
+    /*
+     * Store the selected devices
+     */
     setDevices: function()
     {
         var devices = [];
@@ -179,6 +217,11 @@ var InstallManager =
         InstallManager.devices = devices;
     },
 
+    /*
+     * Check if the specified software needs to be configured
+     * @param int softwareId (the software's id)
+     * @return boolean
+     */
     configurationIsSelected: function(softwareId)
     {
         var selected = false;
@@ -204,6 +247,10 @@ var InstallManager =
         return finished;
     },
 
+    /*
+     * Return the progress of the installation
+     * @return float
+     */
     getProgress: function()
     {
         var total = 0;
@@ -223,6 +270,9 @@ var InstallManager =
         return ((total - current) / total);
     },
 
+    /*
+     * Display the progress of the installation
+     */
     displayProgress: function()
     {
         if (!InstallManager.installing)
@@ -244,6 +294,9 @@ var InstallManager =
         }
     },
 
+    /*
+     * Set the softwares to install
+     */
     setSoftwares: function()
     {
         softwares = {};
@@ -260,6 +313,10 @@ var InstallManager =
         InstallManager.softwares = softwares;
     },
 
+    /*
+     * Return the softwares to isntall
+     * @return array
+     */
     getSoftwares: function(software = null)
     {
         if (InstallManager.softwares[software] !== undefined)
@@ -268,6 +325,9 @@ var InstallManager =
         return softwares;
     },
 
+    /*
+     * Install the selected softwares
+     */
     install: function(progress)
     {
         InstallManager.progress = progress;
@@ -300,6 +360,11 @@ var InstallManager =
         });
     },
 
+    /*
+     * Uninstall a software for a given device
+     * @param string ip (the device's ip)
+     * @param string software (the software to uninstall)
+     */
     uninstall: function(ip, software)
     {
         var device = DeviceManager.getDeviceByIp(ip);
