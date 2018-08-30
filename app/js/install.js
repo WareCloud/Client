@@ -85,11 +85,9 @@ var InstallManager =
         if (json.type === 'OK_INSTALL')
         {
             // TODO: fix agent bug (only one install name)
-            /*
             currentInstall.status = InstallManager.status.INSTALLED;
             if (InstallManager.getSoftwares(json.command.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
                 setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
-            */
         }
         else
             InstallManager.logError(device, json, currentInstall);
@@ -135,6 +133,7 @@ var InstallManager =
             {
                 currentInstall.status = InstallManager.status.DOWNLOADED;
                 device.send('install ' + json.path);
+                setTimeout(function(){ device.send('follow ' + json.path + '.exe'); }, 1000);
             }
         }
         else
@@ -353,9 +352,9 @@ var InstallManager =
                 var soft = InstallManager.softwares[software];
                 var softwareExe = software + '.exe';
                 InstallManager.currentInstall[device.ip][softwareExe] = {'id': soft.id, 'name': software, 'status': InstallManager.status.STARTED};
-                //device.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
-                device.send('install ' + software + '.exe');
-                setTimeout(function(){ device.send('follow ' + software + '.exe'); }, 1000);
+                device.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
+                //device.send('install ' + software + '.exe');
+                //setTimeout(function(){ device.send('follow ' + software + '.exe'); }, 1000);
             });
         });
     },
