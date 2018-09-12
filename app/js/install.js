@@ -21,6 +21,7 @@ var InstallManager =
         DOWNLOAD:   4,
         CONFIGURE:  5,
         UNINSTALL:  6,
+        DL_CONFIG:  7,
 
         ERROR:      20
     },
@@ -55,6 +56,23 @@ var InstallManager =
         document.getElementsByClassName('textlogs')[0].textContent += '[' + type + '] ' + msg + '\n';
     },
 
+    sendCommand(device, command, software, file = null, url = null, path = null, extension = null, timeout = 0)
+    {
+        var message = {
+            'command': command,
+            'software': {
+                'name': software,
+                'file': file,
+                'url': url,
+                'path': path,
+                'extension': extension
+            }
+        };
+        console.log(message);
+
+        setTimeout(device.send(JSON.stringify(message), timeout));
+    },
+
     /*
      * The device is disconnected
      * Refresh the progress display and display an error
@@ -62,7 +80,7 @@ var InstallManager =
      */
     handleDisconnected: function(device)
     {
-        json = {'error': 'DEVICE DISCONNECTED'};
+        var json = {'error': 'DEVICE DISCONNECTED'};
         InstallManager.logError(device, json);
         InstallManager.displayProgress();
     },
@@ -84,10 +102,17 @@ var InstallManager =
 
         if (json.type === 'OK_INSTALL')
         {
+            /*
             // TODO: fix agent bug (only one install name)
             currentInstall.status = InstallManager.status.INSTALLED;
             if (InstallManager.getSoftwares(json.command.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
-                setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
+            {
+                console.log(currentInstall.config);
+                if (currentInstall.config !== null)
+                    setTimeout(function() { device.send('download_cfg ' + API.getRootURL() + '/configs/' + currentInstall.config.filename + ' ' + currentInstall.config.filename); }, 1000);
+                //setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
+            }
+            */
         }
         else
             InstallManager.logError(device, json, currentInstall);
@@ -100,18 +125,25 @@ var InstallManager =
      */
     handleFollow: function(device, json)
     {
-        var currentInstall = InstallManager.currentInstall[device.ip][json.path];
+        var currentInstall = InstallManager.currentInstall[device.ip][json.name];
 
         if (json.type === 'F_RUNNING')
         {
             currentInstall.status = InstallManager.status.DOWNLOADED;
-            setTimeout(function(){ device.send('follow ' + json.path) }, 1000);
+            InstallManager.sendCommand(device, 'follow', json.name, json.name + '.exe', null, null, null, 1000);
+            //setTimeout(function(){ device.send('follow ' + json.path) }, 1000);
         }
         else if (json.type === 'F_FINISH')
         {
             currentInstall.status = InstallManager.status.INSTALLED;
-            if (InstallManager.getSoftwares(json.path.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
-                setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
+            var software = InstallManager.getSoftwares(json.name);
+            if (software.status === InstallManager.status.CONFIGURED)
+            {
+                if (software.config !== null)
+                    InstallManager.sendCommand(device, 'download_cfg', json.name, software.config.filename, API.getRootURL() + '/configs/' + software.config.filename, null, software.config.extension, null, 1000);
+                    //setTimeout(function() { device.send('download_cfg ' + API.getRootURL() + '/configs/' + software.config.filename + ' ' + software.config.filename); }, 1000);
+                    //setTimeout(function() { device.send('download_cfg ' + software.config.filename + ' ' + API.getRootURL() + '/configs/' + software.config.filename); }, 1000);
+            }
         }
         else
             InstallManager.logError(device, json, currentInstall);
@@ -124,21 +156,43 @@ var InstallManager =
      */
     handleDownload: function(device, json)
     {
-        var currentInstall = InstallManager.currentInstall[device.ip][json.path];
+        var currentInstall = InstallManager.currentInstall[device.ip][json.name];
 
-        if (json.type === 'F_RUNNING')
+        if (json.type === 'F_RUNNING' || json.type === 'F_FINISH')
         {
             //TODO: update progress
             if (json.command >= 100)
             {
                 currentInstall.status = InstallManager.status.DOWNLOADED;
-                device.send('install ' + json.path);
-                setTimeout(function(){ device.send('follow ' + json.path + '.exe'); }, 1000);
+                InstallManager.sendCommand(device, 'install', json.name, json.name + '.exe');
+                InstallManager.sendCommand(device, 'follow', json.name, json.name + '.exe', null, null, null, 1000);
+                //device.send('install ' + json.path);
+                //setTimeout(function(){ device.send('follow ' + json.path); }, 1000);
             }
         }
         else
             InstallManager.logError(device, json, currentInstall);
     },
+
+    /*
+     * Handle the the donwnload of a configuration for a given device
+     * @param json device (the device's json object)
+     * @param json json (the message sent)
+     */
+    handleDownloadConfiguration: function(device, json)
+    {
+        var currentInstall = InstallManager.currentInstall[device.ip][json.name];
+
+        var software = InstallManager.getSoftwares(json.name);
+        if (json.type === 'OK_CONFIGURATION')
+            currentInstall.status = InstallManager.status.CONFIGURED;
+        else if (json.type === 'F_FINISH')
+            InstallManager.sendCommand(device, 'configure', json.name, software.config.filename, null, software.config.path, software.config.extension);
+            //device.send('configure ' + json.path);
+        else if (json.type !== 'F_RUNNING')
+            InstallManager.logError(device, json, currentInstall);
+    },
+
 
     /*
      * Handle the configuration of a software for a given device
@@ -147,10 +201,16 @@ var InstallManager =
      */
     handleConfigure: function(device, json)
     {
-        var currentInstall = InstallManager.currentInstall[device.ip][json.path];
+        var currentInstall = InstallManager.currentInstall[device.ip][json.name];
+        var software = InstallManager.getSoftwares(json.name);
 
+        console.log('CONFIG');
+        console.log(currentInstall);
         if (json.type === 'OK_CONFIGURATION')
             currentInstall.status = InstallManager.status.CONFIGURED;
+        else if (json.type === 'F_FINISH')
+            InstallManager.sendCommand(device, 'configure', json.name, software.config.filename, null, software.config.path, software.config.extension);
+            //device.send('configure ' + json.path);
         else
             InstallManager.logError(device, json, currentInstall);
     },
@@ -179,6 +239,7 @@ var InstallManager =
             4: InstallManager.handleDownload,
             5: InstallManager.handleConfigure,
             6: InstallManager.handleUninstall,
+            7: InstallManager.handleDownloadConfiguration,
 
             20: InstallManager.handleError
         };
@@ -230,6 +291,25 @@ var InstallManager =
         });
 
         return selected;
+    },
+
+    /*
+     * Return the selected configuration for a given software
+     * @param int softwareId (the software's id)
+     * @return object
+     */
+    getSelectedConfiguration: function(softwareId)
+    {
+        var configId = null;
+        [].forEach.call(document.getElementsByName('config-' + softwareId), function(element) {
+            if (element.getElementsByTagName('input')[1].checked && element.style.display !== 'none')
+                configId = element.getAttribute('config-id');
+        });
+
+        if (configId === null)
+            return null;
+
+        return ConfigurationManager.getConfiguration(configId);
     },
 
     isFinished: function()
@@ -305,6 +385,7 @@ var InstallManager =
             {
                 var soft = SoftwareManager.getSoftware(element.getAttribute('soft-id'));
                 soft.status = InstallManager.configurationIsSelected(soft.id) ? InstallManager.status.CONFIGURED : InstallManager.status.INSTALLED;
+                soft.config = InstallManager.getSelectedConfiguration(soft.id);
                 softwares[soft.name] = soft;
             }
         });
@@ -350,9 +431,10 @@ var InstallManager =
             */
             Object.keys(InstallManager.softwares).forEach(function(software) {
                 var soft = InstallManager.softwares[software];
-                var softwareExe = software + '.exe';
-                InstallManager.currentInstall[device.ip][softwareExe] = {'id': soft.id, 'name': software, 'status': InstallManager.status.STARTED};
-                device.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
+                //var softwareExe = software + '.exe';
+                InstallManager.currentInstall[device.ip][software] = {'id': soft.id, 'name': software, 'status': InstallManager.status.STARTED};
+                InstallManager.sendCommand(device, 'download', software, software + '.exe', InstallManager.softwares[software].download_url);
+                //device.send('download ' + InstallManager.softwares[software].download_url + ' ' + softwareExe);
                 //device.send('install ' + software + '.exe');
                 //setTimeout(function(){ device.send('follow ' + software + '.exe'); }, 1000);
             });
@@ -370,6 +452,7 @@ var InstallManager =
         if (!device)
             return;
 
-        device.send('uninstall ' + software);
+        InstallManager.sendCommand(device, 'uninstall', software, software);
+        //device.send('uninstall ' + software);
     }
 };

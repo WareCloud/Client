@@ -95,6 +95,7 @@ var DeviceManager =
             // Send a message to the device
             device.send = function(msg)
             {
+                console.log('SEND => ' + msg);
                 if(device.isOnline())
                     device.websocket.send(msg);
             };

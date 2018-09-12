@@ -304,11 +304,13 @@ var API =
      * @param string name (the configuration's name)
      * @param int id (the software's id associated to the configuration)
      * @param string content (the configuration's content)
+     * @param string filename (the configuration's filename)
+     * @param string path (the configuration's path)
      * @return json (the API's response)
      */
-    postConfiguration: function(name, softwareId, content)
+    postConfiguration: function(name, softwareId, content, filename, path)
     {
-        var json = {'software_id': softwareId, 'name': name, 'content': content};
+        var json = {'software_id': softwareId, 'name': name, 'content': content, 'filename': filename, 'path': path};
         var result = this.getResult('post_config', true, 'CONFIGURATION', true, null, JSON.stringify(json));
         return result;
     },
@@ -322,6 +324,7 @@ var API =
      * @param string content (the configuration's content)
      * @return json (the API's response)
      */
+    /*
     updateConfiguration: function(id, name = null, content = null)
     {
         var json = {};
@@ -336,6 +339,7 @@ var API =
         var result = this.getResult('up_config', true, 'CONFIGURATION', true, id, JSON.stringify(json));
         return result;
     },
+    */
 
     /*
      * Send a request to the API to delete a specified configuration
