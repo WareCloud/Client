@@ -98,21 +98,28 @@ var InstallManager =
     handleInstall: function(device, json)
     {
         // TODO: FIX agent json.path/json.command
-        var currentInstall = InstallManager.currentInstall[device.ip][json.command];
+        var currentInstall = InstallManager.currentInstall[device.ip][json.name];
 
         if (json.type === 'OK_INSTALL')
         {
-            /*
-            // TODO: fix agent bug (only one install name)
+            //
             currentInstall.status = InstallManager.status.INSTALLED;
-            if (InstallManager.getSoftwares(json.command.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
-            {
-                console.log(currentInstall.config);
-                if (currentInstall.config !== null)
-                    setTimeout(function() { device.send('download_cfg ' + API.getRootURL() + '/configs/' + currentInstall.config.filename + ' ' + currentInstall.config.filename); }, 1000);
-                //setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
-            }
-            */
+            var software = InstallManager.getSoftwares(json.name);
+            if (software.status === InstallManager.status.CONFIGURED)
+                if (software.config !== null)
+                    InstallManager.sendCommand(device, 'download_cfg', json.name, software.config.filename, API.getRootURL() + '/configs/' + software.config.filename, null, software.config.extension, null, 1000);
+            //
+                /*
+                // TODO: fix agent bug (only one install name)
+                currentInstall.status = InstallManager.status.INSTALLED;
+                if (InstallManager.getSoftwares(json.command.replace('.exe', '')).status === InstallManager.status.CONFIGURED)
+                {
+                    console.log(currentInstall.config);
+                    if (currentInstall.config !== null)
+                        setTimeout(function() { device.send('download_cfg ' + API.getRootURL() + '/configs/' + currentInstall.config.filename + ' ' + currentInstall.config.filename); }, 1000);
+                    //setTimeout(function() { device.send('configure ' + currentInstall.name); }, 1000);
+                }
+                */
         }
         else
             InstallManager.logError(device, json, currentInstall);
@@ -135,6 +142,7 @@ var InstallManager =
         }
         else if (json.type === 'F_FINISH')
         {
+            /*
             currentInstall.status = InstallManager.status.INSTALLED;
             var software = InstallManager.getSoftwares(json.name);
             if (software.status === InstallManager.status.CONFIGURED)
@@ -144,6 +152,7 @@ var InstallManager =
                     //setTimeout(function() { device.send('download_cfg ' + API.getRootURL() + '/configs/' + software.config.filename + ' ' + software.config.filename); }, 1000);
                     //setTimeout(function() { device.send('download_cfg ' + software.config.filename + ' ' + API.getRootURL() + '/configs/' + software.config.filename); }, 1000);
             }
+            */
         }
         else
             InstallManager.logError(device, json, currentInstall);
