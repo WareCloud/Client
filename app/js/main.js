@@ -265,8 +265,8 @@ function displayDevices()
 
     var id = 0;
     ARP.getDevices(true).forEach(function(device){
-        var deviceExists = DeviceManager.getDeviceByIp(device.ip);
-        var online = (deviceExists !== null && deviceExists.isOnline());
+        device = DeviceManager.addDevice(id, device);
+        var online = device.isOnline();
         var element = document.createElement('div');
         element.className = 'deviceElement';
         element.setAttribute('device-ip', device.ip);
@@ -293,6 +293,7 @@ function displayDevices()
         menuContent.className = 'onclick-menu-content';
         menuContent.innerHTML = 'MAC address : ' + device.mac + '<br>' + 'IP : ' + device.ip;
 
+
         containerElement.appendChild(deviceStatus);
         containerElement.appendChild(elementName);
         containerElement.appendChild(input);
@@ -302,7 +303,9 @@ function displayDevices()
         element.appendChild(menu);
         container.appendChild(element);
 
-        DeviceManager.addDevice(id, device);
+        if (online)
+            setDeviceAvailability(device, true);
+
         id++;
     });
 
@@ -547,9 +550,9 @@ function deleteUser(logout = true)
     window.location = 'login.html';
 }
 
-function setDeviceAvailability(id, status)
+function setDeviceAvailability(device, status)
 {
-    var deviceElement = document.getElementsByClassName('deviceElement')[id];
+    var deviceElement = document.getElementsByClassName('deviceElement')[device.id];
     if (deviceElement !== undefined)
     {
         deviceElement.setAttribute('online', status ? 'true' : 'false');
@@ -558,6 +561,11 @@ function setDeviceAvailability(id, status)
         deviceElement.getElementsByTagName('input')[0].checked = deviceElement.getElementsByTagName('input')[0].checked && status;
         deviceElement.getElementsByClassName('checkMark')[0].setAttribute('online', status ? 'true' : 'false');
         deviceElement.getElementsByClassName('deviceStatus')[0].innerHTML = '<svg class="statusSVG"><circle cx="10" cy="10" r="8" fill="' + (status ? 'lime' : 'red') + '" /></svg>';
+        deviceElement.getElementsByClassName('onclick-menu-content')[0].innerHTML = 'MAC address : ' + device.mac + '<br>' + 'IP : ' + device.ip;
+        if (status)
+            deviceElement.getElementsByClassName('onclick-menu-content')[0].innerHTML += '<br>OS: ' + device.details.os + '<br>User: ' + device.details.user + '<br>Version: ' + device.details.version;
+
+        deviceElement.getElementsByClassName('elementName')[0].innerText = status ? device.details.user : device.ip;
     }
 
     displayConfirmButton();
@@ -585,11 +593,6 @@ function displayConfirmButton()
     });
 
     button.disabled = (!deviceSelected || !softwareSelected);
-}
-
-function setDeviceAgentDetails(id, json)
-{
-    document.getElementsByClassName('onclick-menu-content')[id].innerHTML = document.getElementsByClassName('onclick-menu-content')[id].innerHTML + '<br>' + 'OS: ' + json.os + '<br>User: ' + json.user + '<br>Version: ' + json.version;
 }
 
 function refreshDevicesAvailbility()

@@ -18,7 +18,7 @@ var DeviceManager =
         if (deviceExists !== null)
         {
             deviceExists.id = id;
-            return;
+            return deviceExists;
         }
 
         device.details = null;
@@ -32,8 +32,6 @@ var DeviceManager =
             device.websocket.onopen = function(evt)
             {
                 console.log('CONNECTED TO ' + device.websocket.url);
-                // Display that the device is available
-                setDeviceAvailability(device.id, true);
             };
 
             // The device sent a message
@@ -46,8 +44,8 @@ var DeviceManager =
                     if (device.details.software)
                         device.details.software.arraySoft = device.details.software.arraySoft.sort((a, b) => a.name.localeCompare(b.name));
 
-                    // Display the device informations
-                    setDeviceAgentDetails(device.id, details);
+                    // Display that the device is available
+                    setDeviceAvailability(device, true);
 
                     device.websocket.onmessage = function(event)
                     {
@@ -64,7 +62,7 @@ var DeviceManager =
             {
                 console.log('DISCONNECTED FROM ' + device.websocket.url);
                 // Display that the device is unavailable
-                setDeviceAvailability(device.id, false);
+                setDeviceAvailability(device, false);
 
                 if (InstallManager.installing)
                     InstallManager.devices.forEach(function(dev) {
@@ -106,6 +104,7 @@ var DeviceManager =
         device.newWebsocket();
 
         this.devices.push(device);
+        return device;
     },
 
     getDevices: function(id = null)
@@ -139,9 +138,7 @@ var DeviceManager =
     refreshDevicesStatus: function()
     {
         this.devices.forEach(function(device){
-            if (device.isOnline())
-                setDeviceAvailability(device.id, true);
-            else
+            if (!device.isOnline())
                 device.newWebsocket();
         });
     }
