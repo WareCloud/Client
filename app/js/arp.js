@@ -28,14 +28,16 @@ var ARP =
             const {execSync} = require('child_process');
             var result = execSync('arp -a').toString().split('\n');
             result.forEach(function(line){
-                if (line.indexOf('dynamique') === -1)
-                    return;
+                //if (line.indexOf('dynamique') === -1)
+                //    return;
 
                 var cols = line.replace(/ [ ]*/g, ' ').split(' ');
-                devices.push({
-                    ip: cols[1],
-                    mac: cols[2]
-                });
+                if (/\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b/.test(cols[1])
+                    && /(?:[0-9a-f]{2}-){5}[0-9a-f]{2}/.test(cols[2]) && cols[2] !== 'ff-ff-ff-ff-ff-ff')
+                    devices.push({
+                        ip: cols[1],
+                        mac: cols[2]
+                    });
             });
         }
         // The platform is Unix
@@ -55,8 +57,10 @@ var ARP =
                 }
             });
         }
-        this.devices = devices;
-        this.devices.push({ip: 'localhost', mac:'00-00-00-00-00'});
+        devices.push({ip: 'localhost', mac:'00-00-00-00-00'});
+        this.devices = devices.sort((a, b) => a.ip.localeCompare(b.ip)).filter((obj, pos, arr) => {
+            return arr.map(mapObj => mapObj['mac']).indexOf(obj['mac']) === pos;
+        });
     },
 
     /*
