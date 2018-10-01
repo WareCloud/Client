@@ -46,9 +46,8 @@
                     <div class="SoftwaresButtons" id="SoftwaresButtons" style="display: flex; justify-content: space-around;">
                         <input class="InstallModeButton" id="InstallModeButton" type="button" value="Uninstall mode" onclick="switchInstallMode()" style="margin-bottom: 4%;"/>
                         <input class="BundleModeButton" id="BundleModeButton" type="button" value="Bundle mode" onclick="switchBundleMode()" style="margin-bottom: 4%;"/>
-                        <input class="BundleName" id="BundleName" type="text" placeholder="Bundle name" style="margin-bottom: 4%;  width: 20%; color: black; display: none;"/>
-                        <a id="BundleSave" onclick="BundleManager.createBundle()" style="width: 3%; margin-top: 11px; height: 1%; cursor: pointer; display:none;">
-                            <img src="assets/svg/checked.svg">
+                        <input class="BundleName" id="BundleName" type="text" placeholder="Bundle name" style="margin: 0 0 4% auto; width: 20%; color: black; display: none;"/>
+                        <a id="BundleSave" onclick="BundleManager.createBundle()" style="width: 3%; margin-top: 11px; cursor: pointer; display: none; margin-right: 56px;">                            <img src="assets/svg/checked.svg">
                         </a>
                         <input class="CreateBundleButton" id="CreateBundleButton" type="button" value="Create a bundle" style="margin-bottom: 4%;" onclick="displayBundleName()" disabled/>
                     </div>
