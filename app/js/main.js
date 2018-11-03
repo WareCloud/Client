@@ -106,11 +106,12 @@ function getSoftware(id)
     return software;
 }
 
-function displaySoftwares()
+function displaySoftwares(softs = null)
 {
+    var softwares = softs !== null ? softs : SoftwareManager.getSoftware();
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
-    SoftwareManager.getSoftware().forEach(function(soft) {
+    softwares.forEach(function(soft) {
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
