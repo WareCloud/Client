@@ -111,7 +111,8 @@ function displaySoftwares(softs = null)
     var softwares = softs !== null ? softs : SoftwareManager.getSoftware();
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
-    softwares.forEach(function(soft) {
+    Array.prototype.forEach.call(softwares, soft => {
+        console.log(`${soft.name}`);
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
@@ -152,12 +153,20 @@ function displaySoftwares(softs = null)
         div.appendChild(infos);
         div.appendChild(adesc);
         container.appendChild(div);
-
         fontFitResize(fit, wrap);
     });
     initSoftwaresDescriptions();
     window.addEventListener('resize', function() { resetSoftwareDescription() });
     resetSoftwareDescription();
+}
+
+function searchSoftwares(str = null)
+{
+    if (!str || /^\s*$/.test(str))
+        displaySoftwares(null);
+    result = null;
+    result = SoftwareManager.searchSoftwares(str);
+    displaySoftwares(result);
 }
 
 var displayUninstallMode = false;

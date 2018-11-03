@@ -179,3 +179,8 @@ function initSoftwaresDescriptions()
         });
     });
 }
+
+function activateSearch(search = null)
+{
+    searchSoftwares(search);
+}

@@ -33,6 +33,18 @@ var SoftwareManager =
         return null;
     },
 
+    searchSoftwares: function(str = null)
+    {
+        var search_softs = [];
+        if (str === null)
+            return this.softwares;
+        this.softwares.forEach(soft => {
+            if (soft.name.search(str) !== -1 || soft.name.toLowerCase().search(str) !== -1 || soft.name.toUpperCase().search(str) !== -1)
+                search_softs[soft.id] = soft;
+        });
+        return search_softs;
+    },
+
     /*
      * Remove the specified software
      * @param json soft (software's json object)
