@@ -180,7 +180,12 @@ function initSoftwaresDescriptions()
     });
 }
 
-function activateSearch(search = null)
+function activateSoftSearch(search = null)
 {
     searchSoftwares(search);
+}
+
+function activateConfSearch(search = null)
+{
+    searchConfigurations(search);
 }

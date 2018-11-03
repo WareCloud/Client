@@ -32,6 +32,18 @@ var ConfigurationManager = {
         return null;
     },
 
+    searchConfigurations: function(str = null)
+    {
+        var search_confs = [];
+        if (str === null)
+            return this.configurations;
+        this.configurations.forEach(conf => {
+            if (conf.name.search(str) !== -1 || conf.name.toLowerCase().search(str) !== -1 || conf.name.toUpperCase().search(str) !== -1)
+                search_confs[conf.id] = conf;
+        });
+        return search_confs;
+    },
+
     /*
      * Remove the specified configuration
      * Send a delete request to the API

@@ -446,12 +446,13 @@ function saveConfigurations()
     }
 }
 
-function displayConfigurations()
+function displayConfigurations(confs = null)
 {
+    var configurations = confs !== null ? confs : ConfigurationManager.getConfiguration();
     var container = document.getElementById('configTable');
     container.innerHTML = '';
 
-    ConfigurationManager.getConfiguration().forEach(function(conf) {
+    Array.prototype.forEach.call(configurations, conf => {
         var element = document.createElement('div');
         element.className = 'configElement';
         element.setAttribute('name', 'config-' + conf.software.id);
@@ -515,6 +516,15 @@ function displayConfigurations()
             });
         });
     });
+}
+
+function searchConfigurations(str = null)
+{
+    if (!str || /^\s*$/.test(str))
+        displayConfigurations(null);
+    result = null;
+    result = ConfigurationManager.searchConfigurations(str);
+    displayConfigurations(result);
 }
 
 function loadUser()
