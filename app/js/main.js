@@ -112,7 +112,6 @@ function displaySoftwares(softs = null)
     var container = document.getElementById('softwareTable');
     container.innerHTML = '';
     Array.prototype.forEach.call(softwares, soft => {
-        console.log(`${soft.name}`);
         var div = document.createElement('div');
         div.className = 'softwareElement';
         div.setAttribute('soft-id', soft.id);
