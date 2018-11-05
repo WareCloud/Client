@@ -33,7 +33,8 @@ var ARP =
 
                 var cols = line.replace(/ [ ]*/g, ' ').split(' ');
                 if (/\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b/.test(cols[1])
-                    && /(?:[0-9a-f]{2}-){5}[0-9a-f]{2}/.test(cols[2]) && cols[2] !== 'ff-ff-ff-ff-ff-ff')
+                    && /(?:[0-9a-f]{2}-){5}[0-9a-f]{2}/.test(cols[2]) && cols[2] !== 'ff-ff-ff-ff-ff-ff' // Broadcast IPs
+                    && !cols[1].startsWith('224.0.0') && !cols[2].startsWith('01-00-5e')) // Multicast IPs
                     devices.push({
                         ip: cols[1],
                         mac: cols[2]
