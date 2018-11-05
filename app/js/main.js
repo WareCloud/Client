@@ -161,11 +161,12 @@ function displaySoftwares(softs = null)
 
 function searchSoftwares(str = null)
 {
-    if (!str || /^\s*$/.test(str))
-        displaySoftwares(null);
     result = null;
     result = SoftwareManager.searchSoftwares(str);
-    displaySoftwares(result);
+
+    [].forEach.call(document.getElementsByClassName('softwareElement'), function(el) {
+        el.style.display = result[el.getAttribute('soft-id')] === undefined ? 'none' : 'block';
+    });
 }
 
 var displayUninstallMode = false;
