@@ -520,11 +520,12 @@ function displayConfigurations(confs = null)
 
 function searchConfigurations(str = null)
 {
-    if (!str || /^\s*$/.test(str))
-        displayConfigurations(null);
     result = null;
     result = ConfigurationManager.searchConfigurations(str);
-    displayConfigurations(result);
+
+    [].forEach.call(document.getElementsByClassName('configElement'), function(el) {
+        el.style.display = result[el.getAttribute('config-id')] === undefined ? 'none' : 'block';
+    });
 }
 
 function loadUser()
