@@ -718,5 +718,5 @@ function addAnIp()
 {
     var ip = document.getElementById('ipRange').value;
     ARP.addDevice(ip);
-    displayDevice(false);
+    displayDevices(false);
 }

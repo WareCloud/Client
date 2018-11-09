@@ -9,8 +9,10 @@ var ARP =
 
     addDevice: function(ip)
     {
-        devices.push({ip: ip, mac: '00-00-00-00-00'})
-    }
+	var devices = [];
+	console.log(this.devices);
+        this.devices.push({ip: ip, mac: '00-00-00-00-00'})
+    },
     
     displayDevices: function(devices)
     {
