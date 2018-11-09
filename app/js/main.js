@@ -267,14 +267,14 @@ function displayUninstallSoftwares()
     });
 }
 
-function displayDevices()
+function displayDevices(refresh = true)
 {
     displayInstallMode = 0;
     var container = document.getElementById('deviceTable');
     container.innerHTML = '';
 
     var id = 0;
-    ARP.getDevices(true).forEach(function(device){
+    ARP.getDevices(refresh).forEach(function(device){
         device = DeviceManager.addDevice(id, device);
         var online = device.isOnline();
         var element = document.createElement('div');
@@ -712,4 +712,11 @@ function submitBugReport()
         message.className = 'alert alert-danger';
         message.innerHTML = '<strong>Error ! </strong>' + error;
     }
+}
+
+function addAnIp()
+{
+    var ip = document.getElementById('ipRange').value;
+    ARP.addDevice(ip);
+    displayDevice(false);
 }

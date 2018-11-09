@@ -7,6 +7,11 @@ var ARP =
     fs: require('fs'),
     devices: [],
 
+    addDevice: function(ip)
+    {
+        devices.push({ip: ip, mac: '00-00-00-00-00'})
+    }
+    
     displayDevices: function(devices)
     {
         var ret = '';
